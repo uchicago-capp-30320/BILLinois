@@ -12,9 +12,10 @@ This project uses uv to manage dependencies.
 To install and use uv, please take the following steps:
 
 1. Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
-2. Run `uv install tool ruff` to install the [Ruff](https://github.com/astral-sh/ruff) linter
-3. Run `uv sync` to create a virtual environment (in hidden directory .venv) and install the appropriate dependencies.
-
+2. Run `uv sync` to sync your local `.venv` with the requirements in `pyprojects.toml`
+3. Run `uv install tool ruff` to install the [Ruff](https://github.com/astral-sh/ruff) linter
+4. Run `uv add --dev pytest` to get setup with testing (this is a development package not included in the requirements)
+5. Before pushing commits, run `ruff format` and `ruff check` to ensure you don't get shamed by Ruff
 
 ## Repository Layout
 
