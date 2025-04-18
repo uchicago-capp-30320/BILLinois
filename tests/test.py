@@ -4,7 +4,7 @@ def main():
         "A project by Livia Mucciolo, Echo Nattinger, Joaquin Pinto , "
         "Caitlin Pratt , David Steffen, Suchi Tailor, and Karen Yi"
     )
-    print('badly formatted string' )  
+    print('badly formatted string' )   
 
 
 if __name__ == "__main__":
