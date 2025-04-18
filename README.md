@@ -19,6 +19,10 @@ To install and use uv, please take the following steps:
 
 ## Repository Layout
 
+* `project`: includes main app script (frontend and backend)
+* `data`: contains data files used in project
+* `tests`: contains all tests related to the project
+
 
 ## Development
 
