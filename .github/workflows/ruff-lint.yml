@@ -19,8 +19,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install ruff
       # Update output format to enable automatic inline annotations.
-      - name: Run Ruff
-        run: ruff check --fix --output-format=github .
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Run Ruff format
+        run: ruff format
+      - name: Run Ruff check
+        run: ruff check
+      - name: Commit Ruff fixes
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Apply Ruff fixes
