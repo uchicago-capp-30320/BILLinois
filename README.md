@@ -9,13 +9,18 @@ BILLinois's initial focus is on the Illinois General Assembly, but a long-term g
 
 This project uses uv to manage dependencies.
 
-To install and use uv, please take the following steps:
+### Setup
 
 1. Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
 2. Run `uv sync` to sync your local `.venv` with the requirements in `pyprojects.toml`
 3. Run `uv tool install ruff` to install the [Ruff](https://github.com/astral-sh/ruff) linter
 4. Run `uv add --dev pytest` to get setup with testing (this is a development package not included in the requirements)
 5. Before pushing commits, run `ruff format` and `ruff check` to ensure you don't get shamed by Ruff
+    6. Currently GitHub Actions will automatically run this step for you, pending advice from James
+  
+### Before each work session
+
+1. If using command line, run `git pull` and `git merge main`. If using GitHub Desktop, press `Ctrl + Shift + U` to update your branch with the most recent changes from main.
 
 ## Repository Layout
 
