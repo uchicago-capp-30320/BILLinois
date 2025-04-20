@@ -18,9 +18,16 @@ This project uses uv to manage dependencies.
 5. Before pushing commits, run `ruff format` and `ruff check` to ensure you don't get shamed by Ruff
     6. Currently GitHub Actions will automatically run this step for you, pending advice from James
   
+### Creating your own branch
+
+After cloning the repository:
+
+1. `git switch frontend` or `git switch backend` to make a feature branch from one of these branches
+2. `git switch` to your feature branch
+  
 ### Before each work session
 
-1. If using command line, run `git pull` and `git merge main`. If using GitHub Desktop, press `Ctrl + Shift + U` to update your branch with the most recent changes from main.
+1. If using command line, run `git pull` and `git merge PARENT_BRANCH`. For example, if your feature branch is branched from `frontend`, run `git merge frontend`. This will pull all the most recent changes from `frontend` to your sub-branch.
 
 ## Repository Layout
 
