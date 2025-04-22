@@ -76,3 +76,11 @@ repos:
         args:
           - --target-version=py311
           - --line-length=80
+
+  - repo: local
+    hooks:
+      - id: ruff-format
+        name: ruff-format
+        entry: ruff format
+        language: system
+        types: [python]
