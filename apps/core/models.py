@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class actions_mock_django(models.Model):
+class ActionsMockDjango(models.Model):
     """
     A mock model for the actions table.
     Meant to store mock data for actions taken on legislation.
@@ -16,7 +16,7 @@ class actions_mock_django(models.Model):
         db_table = "actions_mock_django"  # Specify table name
 
 
-class bills_mock_django(models.Model):
+class BillsMockDjango(models.Model):
     """
     A mock model for the bills table.
     Meant to store mock data for bills.
@@ -32,7 +32,7 @@ class bills_mock_django(models.Model):
         db_table = "bills_mock_django"
 
 
-class favorites_mock_django(models.Model):
+class FavoritesMockDjango(models.Model):
     """
     A mock model for the favorites table.
     Meant to store mock data for user favorites.
@@ -45,7 +45,7 @@ class favorites_mock_django(models.Model):
         db_table = "favorites_mock_django"
 
 
-class sponsors_mock_django(models.Model):
+class SponsorsMockDjango(models.Model):
     """
     A mock model for the sponsors table.
     Meant to store mock data for bill sponsors.
@@ -60,7 +60,7 @@ class sponsors_mock_django(models.Model):
         db_table = "sponsors_mock_django"
 
 
-class topics_mock_django(models.Model):
+class TopicsMockDjango(models.Model):
     """
     A mock model for the topics table.
     Meant to store mock data for bill topics.
@@ -73,7 +73,7 @@ class topics_mock_django(models.Model):
         db_table = "topics_mock_django"
 
 
-class users_mock_django(models.Model):
+class UsersMockDjango(models.Model):
     """
     A mock model for the users table.
     Meant to store mock data for users.
