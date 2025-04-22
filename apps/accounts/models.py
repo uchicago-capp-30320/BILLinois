@@ -33,9 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     username_validator = UnicodeUsernameValidator()
 
-    email = models.EmailField(
-        _("email address"), unique=EMAIL_REQUIRED, default=""
-    )
+    email = models.EmailField(_("email address"), unique=EMAIL_REQUIRED, default="")
     username = models.CharField(
         max_length=255,
         unique=True,
@@ -46,9 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,
-        help_text=_(
-            "Designates whether the user can log into this admin site."
-        ),
+        help_text=_("Designates whether the user can log into this admin site."),
     )
     is_active = models.BooleanField(
         _("active"),
