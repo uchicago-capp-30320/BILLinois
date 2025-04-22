@@ -32,9 +32,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "last_login",
-                    models.DateTimeField(
-                        blank=True, null=True, verbose_name="last login"
-                    ),
+                    models.DateTimeField(blank=True, null=True, verbose_name="last login"),
                 ),
                 (
                     "is_superuser",
@@ -59,9 +57,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "full_name",
-                    models.CharField(
-                        blank=True, max_length=150, verbose_name="full name"
-                    ),
+                    models.CharField(blank=True, max_length=150, verbose_name="full name"),
                 ),
                 (
                     "is_staff",

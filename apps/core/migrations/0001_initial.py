@@ -15,9 +15,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "bill_id",
-                    models.CharField(
-                        primary_key=True, serialize=False, unique=True
-                    ),
+                    models.CharField(primary_key=True, serialize=False, unique=True),
                 ),
                 ("number", models.CharField()),
                 ("title", models.CharField()),
@@ -30,9 +28,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "user_id",
-                    models.CharField(
-                        primary_key=True, serialize=False, unique=True
-                    ),
+                    models.CharField(primary_key=True, serialize=False, unique=True),
                 ),
                 ("password", models.CharField()),
                 ("phone", models.CharField()),
@@ -44,9 +40,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "action_id",
-                    models.CharField(
-                        primary_key=True, serialize=False, unique=True
-                    ),
+                    models.CharField(primary_key=True, serialize=False, unique=True),
                 ),
                 ("description", models.CharField()),
                 ("date", models.DateTimeField()),
@@ -64,9 +58,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "id",
-                    models.CharField(
-                        primary_key=True, serialize=False, unique=True
-                    ),
+                    models.CharField(primary_key=True, serialize=False, unique=True),
                 ),
                 ("sponsor_id", models.CharField()),
                 ("sponsor_name", models.CharField()),
