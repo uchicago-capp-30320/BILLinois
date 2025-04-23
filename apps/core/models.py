@@ -7,13 +7,13 @@ class ActionsMockDjango(models.Model):
     Meant to store mock data for actions taken on legislation.
     """
 
-    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE)
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
     action_id = models.CharField(unique=True, primary_key=True)
     description = models.CharField()
     date = models.DateTimeField()
 
     class Meta:
-        db_table = "actions_mock_django"  # Specify table name
+        db_table = "actions_mock"  # Specify table name
 
 
 class BillsMockDjango(models.Model):
@@ -29,7 +29,7 @@ class BillsMockDjango(models.Model):
     status = models.CharField()
 
     class Meta:
-        db_table = "bills_mock_django"
+        db_table = "bills_mock"
 
 
 class FavoritesMockDjango(models.Model):
@@ -38,11 +38,11 @@ class FavoritesMockDjango(models.Model):
     Meant to store mock data for user favorites.
     """
 
-    user_id = models.ForeignKey("UsersMockDjango", on_delete=models.CASCADE)
-    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("UsersMockDjango", on_delete=models.CASCADE, db_column="user_id")
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
 
     class Meta:
-        db_table = "favorites_mock_django"
+        db_table = "favorites_mock"
         unique_together = ("user_id", "bill_id")
 
 
@@ -53,12 +53,12 @@ class SponsorsMockDjango(models.Model):
     """
 
     id = models.CharField(unique=True, primary_key=True)
-    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE)
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
     sponsor_id = models.CharField()
     sponsor_name = models.CharField()
 
     class Meta:
-        db_table = "sponsors_mock_django"
+        db_table = "sponsors_mock"
 
 
 class TopicsMockDjango(models.Model):
@@ -67,11 +67,11 @@ class TopicsMockDjango(models.Model):
     Meant to store mock data for bill topics.
     """
 
-    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE)
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
     topic = models.CharField()
 
     class Meta:
-        db_table = "topics_mock_django"
+        db_table = "topics_mock"
 
 
 class UsersMockDjango(models.Model):
@@ -86,4 +86,4 @@ class UsersMockDjango(models.Model):
     zip = models.CharField()
 
     class Meta:
-        db_table = "users_mock_django"
+        db_table = "users_mock"
