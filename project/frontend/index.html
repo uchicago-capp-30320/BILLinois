@@ -10,55 +10,60 @@
   <body>
     <section class="section">
       <div class="container">
-        <div class="columns">
-          <div class="column">
-            <div class="is-flex is-align-items-center is-justify-content-space-between">
+        <div class="columns is-vcentered">
+          <!-- Title Column -->
+          <div class="column" style="padding-left: 0;">
               <h1 class="title is-1">BILLinois</h1>
-              <!-- Search Bar -->
-              <div class="field has-addons">
-                <div class="control">
-                  <input class="input" type="text" placeholder="Find a bill or topic">
-                </div>
-                <div class="control">
-                  <button class="button is-info">
-                    Search
-                  </button>
-                </div>
-              </div>
-              <!-- Home | Sign in -->
-              <span class="icon-text has-text-info ml-4">
-                <span class="icon">
-                  <i class="fas fa-home"></i>
+          </div>
+          <!-- Search Column -->
+          <div class="column">
+            <!-- Search Bar -->
+            <div class="container is-max-tablet">
+              <p class="control has-icons-left">
+                <input class="input" type="topic" placeholder="Search bills by name or topic..." />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-search"></i>
                 </span>
-                <span>Home | Sign in</span>
+              </p>
+            </div>
+          </div>
+          <!-- Menu Column -->
+          <div class="column has-text-right">
+            <!-- Home | Sign in -->
+            <span class="icon-text has-text-info ml-4">
+              <span class="icon">
+                <i class="fas fa-home"></i>
               </span>
-            </div>
-              <br>
-              <div class="box mt-4" style='display: inline-block;'>
-                <div class="subtitle is-4"><strong>HB123</strong> — Bill name here (box size depends on length of name)</div>
-              </div>
-              <br>
-              <p class="is-size-6 mt-3"><i>Bill summary will live here.</i></p>
-              <div class="subtitle mt-5"><strong>Bill Tracker</strong></div>
-                <p>Bill tracker will live here.</p>
-                <br>
-                <p><i>Click <a href="https://www.aclu-il.org/sites/default/files/how_a_bill_becomes_a_law_one_pager.pdf">here</a> for a more detailed flow chart on how a bill becomes law in Illinois.</i></p>
-              <div class="subtitle mt-5"><strong>Sponsor</strong></div>
-                <p>Sponsor information will live here.</p>
-              <div class="subtitle mt-5"><strong>Topics</strong></div>
-                <div class="buttons are-small">
-                <button class="button is-link is-rounded">Topic 1</button>
-                <button class="button is-info is-rounded">Topic 2</button>
-                <button class="button is-success is-rounded">Topic 3</button>
-                <button class="button is-warning is-rounded">Topic 4</button>
-                <button class="button is-danger is-rounded">Topic 5</button>
-                </div>
-              <br>
-              <p><i>Page last updated 4/20/25</i></p>
-            </div>
+              <span>Home | Sign in</span>
+            </span>
           </div>
         </div>
       </div>
     </section>
+    <section class="section">
+        <div class="box" style='display: inline-block;'>
+          <div class="subtitle is-4"><strong>HB123</strong> — Bill name here (box size depends on length of name)</div>
+        </div>
+        <br>
+        <p class="is-size-6 mt-3"><i>Bill summary will live here.</i></p>
+        <div class="subtitle mt-5"><strong>Bill Tracker</strong></div>
+          <p>Bill tracker will live here.</p>
+          <br>
+          <p><i>Click <a href="https://www.aclu-il.org/sites/default/files/how_a_bill_becomes_a_law_one_pager.pdf">here</a> for a more detailed flow chart on how a bill becomes law in Illinois.</i></p>
+        <div class="subtitle mt-5"><strong>Sponsor</strong></div>
+          <p>Sponsor information will live here.</p>
+        <div class="subtitle mt-5"><strong>Topics</strong></div>
+          <div class="buttons are-small">
+          <button class="button is-link is-rounded">Topic 1</button>
+          <button class="button is-info is-rounded">Topic 2</button>
+          <button class="button is-success is-rounded">Topic 3</button>
+          <button class="button is-warning is-rounded">Topic 4</button>
+          <button class="button is-danger is-rounded">Topic 5</button>
+          </div>
+        <br>
+        <p><i>Page last updated 4/20/25</i></p>
+        </div>
+      </div>
+      <section class="section">
   </body>
 </html>
