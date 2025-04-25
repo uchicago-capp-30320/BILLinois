@@ -101,6 +101,7 @@ _logs
 
 # Env
 .venv
+.env
 
 # Python-generated files
 __pycache__/

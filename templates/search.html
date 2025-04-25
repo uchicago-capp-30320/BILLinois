@@ -1,0 +1,28 @@
+<h1>Billinois</h1>
+<form method="GET" action="/search/">
+    <input type="text" name="query" placeholder="Search Bill Summary">
+    <input type="submit" value="Search">
+</form>
+<!-- {% if query %}
+    <h2>Search Results for "{{ query }}"</h2>
+    <p>Results will be displayed here.</p>
+{% else %}
+    <p>Please enter a search term.</p>
+{% endif %} -->
+
+{% if results %}
+    <h2>Search Results for "{{ query }}"</h2>
+    {% if results %}
+        <ul>
+            {% for bill in results %}
+                <li>
+                    {{ bill.title }} - {{ bill.summary }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+{% else %}
+    <p>Please enter a search term.</p>
+{% endif %}
