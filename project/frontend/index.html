@@ -12,15 +12,27 @@
       <div class="container">
         <div class="columns">
           <div class="column">
-            <div class="is-flex is-align-items-center">
+            <div class="is-flex is-align-items-center is-justify-content-space-between">
               <h1 class="title is-1">BILLinois</h1>
-              <span class="icon-text has-text-info ml-auto">
+              <!-- Search Bar -->
+              <div class="field has-addons">
+                <div class="control">
+                  <input class="input" type="text" placeholder="Find a bill or topic">
+                </div>
+                <div class="control">
+                  <button class="button is-info">
+                    Search
+                  </button>
+                </div>
+              </div>
+              <!-- Home | Sign in -->
+              <span class="icon-text has-text-info ml-4">
                 <span class="icon">
                   <i class="fas fa-home"></i>
                 </span>
                 <span>Home | Sign in</span>
               </span>
-              </div>
+            </div>
               <br>
               <div class="box mt-4" style='display: inline-block;'>
                 <div class="subtitle is-4"><strong>HB123</strong> — Bill name here (box size depends on length of name)</div>
