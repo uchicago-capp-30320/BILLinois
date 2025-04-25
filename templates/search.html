@@ -11,18 +11,32 @@
 {% endif %} -->
 
 {% if results %}
-    <h2>Search Results for "{{ query }}"</h2>
-    {% if results %}
-        <ul>
-            {% for bill in results %}
-                <li>
-                    {{ bill.title }} - {{ bill.summary }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No results found.</p>
-    {% endif %}
+<h2>Search Results for {{ query }}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Number</th>
+            <th>Status</th>
+            <th>Topics</th>
+            <th>Summary</th>
+            <th>Favorite</th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bill in results %}
+        <tr>
+            <td>{{ bill.title}}</td>
+            <td>{{ bill.number }}</td>
+            <td>{{ bill.status }}</td>
+            <td>TO BE IMPLEMENTED</td>
+            <td>{{ bill.summary }}</td>
+            <td>TO BE IMPLEMENTED</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% else %}
     <p>Please enter a search term.</p>
 {% endif %}
