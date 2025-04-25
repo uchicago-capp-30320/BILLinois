@@ -10,6 +10,7 @@ def home(request):
     """
     return render(request, "home.html")
 
+
 def search(request):
     """
     Handle search requests.
@@ -21,10 +22,13 @@ def search(request):
     if query:
         search_vector = SearchVector("title", "summary", config="english")
         search_query = SearchQuery(query, search_type="websearch", config="english")
-        results = BillsMock.objects.annotate(search=search_vector)\
-            .filter(search=search_query)\
-                .annotate(rank=SearchRank(search_vector, search_query))\
-                    .order_by("-rank")
-    
+        results = (
+            BillsMock.objects.annotate(search=search_vector)
+            .filter(search=search_query)
+            .annotate(rank=SearchRank(search_vector, search_query))
+            .order_by("-rank")
+        )
 
-    return render(request, "search.html", {"query": request.GET.get("query", ""), "results": results})
+    return render(
+        request, "search.html", {"query": request.GET.get("query", ""), "results": results}
+    )
