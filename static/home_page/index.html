@@ -5,18 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello Bulma!</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   </head>
   <body>
+    <section class = "section">
+        <div class = "container">
+            <span class="icon-text is-pulled-right">
+                <span class="icon">
+                  <i class="fas fa-user"></i>
+                </span>
+                <span>Log In</span>
+              </span>
+        </div>
+    </section>
   <section class="section">
     <div class="container">
-      <h1 class="title">
-        Hello World
+      <h1 class="title has-text-centered">
+        BILLinois
       </h1>
-      <p class="subtitle">
-        My first website with <strong>Bulma</strong>!
+      <p class="subtitle has-text-centered">
+        Get started by picking a bill topic below. 
       </p>
     </div>
   </section>
+  <section class = "section">
+    <div class="container is-max-tablet mt-3 mb-3">
+        <p class="control has-icons-left">
+          <input class="input" type="topic" placeholder="Search bills by topic..." />
+          <span class="icon is-small is-left">
+            <i class="fas fa-magnifying-glass"></i>
+          </span>
+        </p>
+      </div>
+    <div class = "container is-max-tablet">
+        <div class="grid buttons is-column-gap-7">
+            <button class="cell button is-medium is-primary ">Education</button>
+            <button class="cell button is-medium is-link">Energy</button>
+            <button class="cell button is-medium is-info is-row-start-2">Elections</button>
+            <button class="cell button is-medium is-success is-row-start-2">Health</button>
+            <button class="cell button is-medium is-warning is-row-start-3">Housing</button>
+            <button class="cell button is-medium is-danger is-row-start-3">LGBTQIA</button>
+            <button class="cell button is-medium is-white is-row-start-4">Policing</button>
+            <button class="cell button is-medium is-black is-row-start-4">Transportation</button>
+        </div>
+    </div>
+
+</section>
   </body>
 </html>
 <!-- 
