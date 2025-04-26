@@ -9,14 +9,14 @@
   </head>
   <body>
     <section class="section">
-      <div class="container">
-        <div class="columns is-vcentered">
+      <div class="container" style="max-width: 100%;">
+        <div class="columns is-vcentered is-mobile" style="margin: 0;">
           <!-- Title Column -->
-          <div class="column" style="padding-left: 0;">
+          <div class="column is-narrow" style="padding-left: 0; flex-grow: 0;">
               <h1 class="title is-1">BILLinois</h1>
           </div>
           <!-- Search Column -->
-          <div class="column">
+          <div class="column" style="flex-grow: 1;">
             <!-- Search Bar -->
             <div class="container is-max-tablet">
               <p class="control has-icons-left">
@@ -28,7 +28,7 @@
             </div>
           </div>
           <!-- Menu Column -->
-          <div class="column has-text-right">
+          <div class="column is-narrow has-text-right" style="flex-grow:0;">
             <!-- Home | Sign in -->
             <span class="icon-text has-text-link ml-4">
               <span class="icon">
@@ -41,9 +41,26 @@
       </div>
     </section>
     <section class="section" style="max-width: 1150px;">
-        <div class="box" style='display: inline-block;'>
+      <div style="position: relative; display: inline-block;">
+        <div class="box" style="display: inline-block;">
           <div class="subtitle is-4"><strong>SB 1331</strong> — SCHOLARSHIP ACCESSIBILITY ACT</div>
         </div>
+        <span class="icon-text" style="
+          position: absolute;
+          top: 50%;
+          right: -220px;
+          transform: translateY(-90%);
+          pointer-events: auto;
+          display: flex;
+          align-items: center;
+          gap: 15px;">
+          <span class="icon has-text-warning">
+          <i class="fa-regular fa-star fa-2x"></i>
+        </span>
+        <span class="has-text-grey">
+          <em>Add bill to favorites</em>
+        </span>
+      </div>
         <br>
         <div class="pl-5">
         <p class="is-size-6 mt-3">Creates the Scholarship Accessibility Act. 
