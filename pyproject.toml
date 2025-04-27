@@ -1,40 +1,12 @@
 [project]
 name = "billinois"
 version = "0.1.0"
-description = "A friendly civic engagement tool that notifies users about their favorite bills."
+description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "django>=5.2,<6",
-    "django-allauth[mfa]>=65.7.0",
-    "django-debug-toolbar>=5.1.0",
-    "django-environ>=0.12.0,<1",
-    "django-structlog>=9.1.0,<10",
-    "django-typer>=3.1.0,<4",
-    "pre-commit>=4.2.0",
-    "psycopg>=3.2.6",
-    "psycopg2>=2.9.10",
-    "pytest-django>=4.11.1,<5",
-    "rich>=14.0.0",
-    "ruff>=0.11.4",
-    "whitenoise>=6.9.0,<7",
-]
+dependencies = []
 
-[tool.ruff]
-line-length = 100
-exclude = ["migrations"]
-
-[tool.ruff.lint]
-select = [
-  "E", # pycodestyle errors - handles basic Python style
-  "W", # pycodestyle warnings - handles whitespace issues
-  "F", # pyflakes - handles unused imports and variables
-  "N", # pep8-naming - handles naming conventions
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
 ]
-ignore = [
-  "F401", # allow unused imports (useful for assignments)
-  "N818",
-]
-
-[tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "config.settings"
