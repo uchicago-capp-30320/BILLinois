@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+        <section class="section">
+            <div class="container" style="max-width: 100%;">
+              <div class="columns is-vcentered is-mobile" style="margin: 0;">
+                <!-- Title Column -->
+                <div class="column is-narrow" style="padding-left: 0; flex-grow: 0;">
+                    <h1 class="title is-1">BILLinois</h1>
+                </div>
+                <!-- Search Column -->
+                <div class="column" style="flex-grow: 1;">
+                  <!-- Search Bar -->
+                  <div class="container is-max-tablet">
+                    <p class="control has-icons-left">
+                      <input class="input" type="topic" placeholder="Search bills by name or topic...">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-search"></i>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <!-- Menu Column -->
+                <div class="column is-narrow has-text-right" style="flex-grow:0;">
+                  <!-- Home | Sign in -->
+                  <span class="icon-text has-text-link ml-4">
+                    <span class="icon">
+                      <i class="fas fa-home"></i>
+                    </span>
+                    <span>Home | Sign in</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+        <div class = "container grid skeleton-block">
+          <!-- User Information -->
+            <div class = "cell skeleton-block">
+              <div class = "container skeleton-block">
+                <h1 class = "title is-4 has-text-centered">Regular Arko</h1>
+                <span class="icon-text has-text-link ml-4">
+                  <span class="icon">
+                    <i class="fas fa-location-dot"></i>
+                  </span>
+                  <span class = "subtitle is-6"> Chicago, IL</span>
+                </span>
+              </div>
+            </div>
+          <!-- User Favorites -->
+            <div class = "cell skeleton-block is-col-span-2">
+              <div class = "container skeleton-block has-text-centered">
+                <h1 class = "title is-4 has-text-centered">My Favorite Bills</h1>
+              </div>
+            </div>
+        </div>
+    </div>
+  </section>
+  </body>
+</html>
