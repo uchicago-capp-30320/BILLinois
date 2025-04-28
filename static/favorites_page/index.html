@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="light">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,21 +42,40 @@
               </div>
             </div>
           </section>
-        <div class = "container grid skeleton-block" style="padding-left: 0; flex-grow: 0;">
+        <div class = "container grid" style="max-width: 100%;">
           <!-- User Information -->
-            <div class = "cell skeleton-block">
-              <div class = "container skeleton-block">
+            <div class = "cell">
+              <div class = "container">
                 <h1 class = "title is-4" >Regular Arko</h1>
+                <p class = "subtitle is-6"><strong> Location: </strong></p>
                 <span class="icon-text has-text-link ml-4">
                   <span class="icon">
                     <i class="fas fa-location-dot"></i>
                   </span>
                   <span class = "subtitle is-6"> Chicago, IL</span>
                 </span>
+                <p class = "subtitle is-6"><strong>You are being alerted...</strong></p>
+                <div class="dropdown">
+                  <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                      <span></span>
+                      <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+                    <div class="dropdown-content">
+                      <a href="#" class="dropdown-item"> Daily </a>
+                      <a href="#" class="dropdown-item"> Weekly </a>
+                      <a href="#" class="dropdown-item"> Biweekly </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           <!-- User Favorites -->
-            <div class = "cell skeleton-block is-col-span-2">
+            <div class = "cell is-col-span-2">
               <h1 class = "title is-4">Favorites</h1>
               <div class = "card m-2">
                 <div class = "card-content">
