@@ -17,7 +17,7 @@ When Django starts, it checks for an .env file and sets its configuration based 
 
 ## Create the _logs folder
 
-You will also need to create an empty _logs folder, and a flat file within that:
+You will also need to create an empty _logs folder in the parent directory of the project, and a flat file within that:
 
 ```
 mkdir _logs
