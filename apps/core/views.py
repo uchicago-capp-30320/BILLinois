@@ -1,19 +1,41 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from .models import BillsMockDjango
 
 
-def home(request):
+def home(request: HttpRequest) -> HttpResponse:
     """
     Render the home page.
+
+    Args: 
+        request (HttpRequest): An HTTP request object:
+
+    Returns:
+        HttpResponse: The rendered home page.
     """
     return render(request, "home.html")
 
 
-def search(request):
+def search(request: HttpRequest) -> HttpResponse:
     """
     Handle search requests.
+
+    Args:
+        request (HttpRequest): An HTTP request object.
+    
+    Returns:
+        HttpResponse: The rendered search results page.
+        Results: Search results returned by the database. 
+            This is an object containing the following fields, corresponding
+            to the columns in the database's bills table:
+                bill_id: The unique identifier for the bill
+                number: The bill number
+                title: The bill title
+                summary: The bill summary
+                status: The bill status
+                topics: TO BE IMPLEMENTED
+                favorite: TO BE IMPLEMENTED
     """
     query = request.GET.get("query", "")
 
