@@ -1,0 +1,4 @@
+th.status-column, td.status-column {
+    width: 190px; 
+    white-space: wrap; /* text wrapping */
+}
