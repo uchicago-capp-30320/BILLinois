@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "django_typer",
     "apps.accounts",
     "apps.core",
+    "django.contrib.postgres",
 ]
 
 MIDDLEWARE = [
