@@ -21,11 +21,16 @@
           <div class="column" style="flex-grow: 1;">
             <!-- Search Bar -->
             <div class="container is-max-tablet">
-              <p class="control has-icons-left">
-                <input class="input" type="topic" placeholder="Search bills by name or topic..." />
-                <span class="icon is-small is-left">
-                  <i class="fas fa-search"></i>
-                </span>
+              <form method="GET" action="/search">
+                <div class="field">
+                  <p class="control has-icons-left">
+                  <input class="input" type="text" name="query" placeholder="Search bills by name or topic..." />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-search"></i>
+                  </span>
+                  <input type="submit" value="Search" class="button is-hidden">
+                </div>
+                </form>
               </p>
             </div>
           </div>
@@ -42,28 +47,30 @@
         </div>
       </div>
     </section>
+    {% if results %}
     <section class="section">
-        <div class="title is-4 mb-6">Search results for "keyword"</div>
-        <table class="table">
+        <div class="title is-4 mb-6">Search results for "{{ query }}"</div>
+        <table class="table is-hoverable">
             <thead>
                 <tr>
-                <th class="is-size-5">Bill Title</th>
-                <th class="is-size-5 has-text-centered">Bill Number</th>
+                <th class="is-size-5">Bill Number</th>
+                <th class="is-size-5 has-text-centered">Bill Title</th>
                 <th class="is-size-5 has-text-centered">Latest Status</th>
                 <th class="is-size-5 has-text-centered">Topics</th>
                 <th class="is-size-5 has-text-centered">Favorite</th>
                 </tr>
             </thead>
             <tbody>
+              {% for bill in results %}
                 <tr>
-                  <td class="py-5">SCHOLARSHIP ACCESSIBILITY ACT</td>
-                  <td class= "has-text-centered py-5">SB 1331</td>
-                  <td class="has-text-centered py-5 status-column">Assigned to Higher Education Committee</td>
+                  <td class="py-5">{{ bill.number }}</td>
+                  <td class= "has-text-centered py-5">{{ bill.title}}</td>
+                  <td class="has-text-centered py-5 status-column">{{ bill.status }}</td>
                   <td class="has-text-centered py-5">
                     <!-- Add multiple tags here -->
-                    <span class="tag is-success">Higher Education</span>
-                    <span class="tag is-info">Public Education</span>
-                    <span class="tag is-warning">Scholarships</span>
+                     <div class="grid">
+                    <span class="tag is-link">Example topic</span> 
+                  </div>
                   </td>
                   <td class="has-text-centered py-5">
                     <span class="icon has-text-warning">
@@ -71,35 +78,28 @@
                     </span>
                   </td>
                 </tr>
-                <tr>
-                    <td class="py-5">PSYCHIATRIC RESIDENTIAL FACILY</td>
-                    <td class="has-text-centered py-5">SB 2421</td>
-                    <td class="has-text-centered py-5 status-column">Assigned to Appropriations-Health and Human Services Committee</td>
-                    <td class="has-text-centered py-5">
-                        <!-- Add multiple tags here -->
-                        <span class="tag is-success">Health and Human Services</span>
-                        <span class="tag is-info">Health Facilities and Regulation</span>
-                    </td>
-                    <td class="has-text-centered py-5">
-                        <span class="icon has-text-warning">
-                        <i class="fa-regular fa-star fa-lg"></i>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="py-5">COUNTIES CD-RECALL OFFICIALS</td>
-                    <td class="has-text-centered py-5">SB 1954</td>
-                    <td class="has-text-centered py-5 status-column">Assigned to Ethics and Elections</td>
-                    <td class="has-text-centered py-5">
-                        <!-- Add multiple tags here -->
-                        <span class="tag is-success">Counties</span>
-                        <span class="tag is-info">Elections and Referendums</span>
-                    </td>
-                    <td class="has-text-centered py-5">
-                        <span class="icon has-text-warning">
-                        <i class="fa-regular fa-star fa-lg"></i>
-                        </span>
-                    </td>
-                </tr>
+                {% endfor %}
               </tbody>
         </table>
+        {% else %}
+            <p class="has-text-centered">Please enter a search term.</p>
+        {% endif %}
+
+
+
+<!--      <tr>
+  <td class="py-5">COUNTIES CD-RECALL OFFICIALS</td>
+  <td class="has-text-centered py-5">SB 1954</td>
+  <td class="has-text-centered py-5 status-column">Assigned to Ethics and Elections</td>
+  <td class="has-text-centered py-5">
+
+      <span class="tag is-success">Counties</span>
+      <span class="tag is-info">Elections and Referendums</span>
+  </td>
+  <td class="has-text-centered py-5">
+      <span class="icon has-text-warning">
+      <i class="fa-regular fa-star fa-lg"></i>
+      </span>
+  </td>
+</tr>
+-->
