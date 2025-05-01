@@ -20,14 +20,14 @@ This project uses uv to manage dependencies.
 4. Run `uv add --dev pytest` to get setup with testing (this is a development package not included in the requirements)
 5. Before pushing commits, run `ruff format` and `ruff check` to ensure you don't get shamed by Ruff
     6. Currently GitHub Actions will automatically run this step for you, pending advice from James
-
+  
 ### Creating your own branch
 
 After cloning the repository:
 
 1. `git switch frontend` or `git switch backend` to make a feature branch from one of these branches
 2. `git switch` to your feature branch
-
+  
 ### Before each work session
 
 1. If using command line, run `git pull` and `git merge PARENT_BRANCH`. For example, if your feature branch is branched from `frontend`, run `git merge frontend`. This will pull all the most recent changes from `frontend` to your sub-branch.
@@ -46,15 +46,15 @@ This project was created by University of Chicago MSCAPP students as a class pro
 Development Team
 
     Livia Mucciolo
-
-    Echo Nattinger
-
-    Joaquin Pinto
-
-    Caitlin Pratt
-
+    
+    Echo Nattinger 
+    
+    Joaquin Pinto 
+    
+    Caitlin Pratt 
+    
     David Steffen
-
+    
     Suchi Tailor
-
+    
     Karen Yi
