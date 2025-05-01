@@ -23,7 +23,7 @@ class ActionsTable(models.Model):
     bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
     description = models.CharField()
     date = models.DateTimeField()
-    category = models.CharField()
+    category = models.CharField(null=True)
 
     class Meta:
         db_table = "actions_table"
@@ -103,8 +103,10 @@ class SponsorsTable(models.Model):
 
     id = models.CharField(unique=True, primary_key=True)
     bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
-    sponsor_id = models.CharField()
+    sponsor_id = models.CharField(null=True)
     sponsor_name = models.CharField()
+    position = models.CharField(null=True)
+    party = models.CharField(null=True)
 
     class Meta:
         db_table = "sponsors_table"

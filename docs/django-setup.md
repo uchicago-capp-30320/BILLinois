@@ -1,20 +1,32 @@
-# Launching Django
+# Getting Set Up With Django
 
 ## Create an env file to put Django in debug mode
 In the parent directory of the django project, create a .env file. Make sure that it gets picked up by .gitignore!
 
-In the .env file, put the following:
+Contact the backend team for the text of this .env file, which includes database authentication credentials.
+
+You'll see that what they give you contains this line:
 
 ```
 DEBUG=True
 ALLOWED_HOSTS=127.0.0.1,localhost
 ```
+When we're ready to launch our production-level product, we will turn DEBUG off. This is for development purposes.
 
 When Django starts, it checks for an .env file and sets its configuration based on the variables set in the .env file. 
 
-When we're ready to launch our production-level product, we will turn DEBUG off. This is for development purposes.
+## Create the _logs folder
+
+You will also need to create an empty _logs folder in the parent directory of the project, and a flat file within that:
+
+```
+mkdir _logs
+touch _logs/flat.log
+```
 
 ## Launch Django:
+Once you have saved your .env file and created the logs folder, you should be able to launch Django with:
+
 `uv run python manage.py runserver`
 
 You should get a message that says something like this:
