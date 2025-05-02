@@ -4,6 +4,9 @@ A friendly civic engagement tool that notifies users about their favorite bills.
 
 BILLinois's initial focus is on the Illinois General Assembly, but a long-term goal of the project is to expand either to additional states or to additional levels of government.
 
+![Landing page](docs/frontend1)
+
+![Bills page](docs/frontend2)
 
 ## Contributing
 
