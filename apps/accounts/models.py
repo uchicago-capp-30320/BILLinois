@@ -34,6 +34,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
 
     email = models.EmailField(_("email address"), unique=EMAIL_REQUIRED, default="")
+    phone = models.CharField(
+        _("phone number"),
+        max_length=20,
+        blank=True,
+    )
     username = models.CharField(
         max_length=255,
         unique=True,

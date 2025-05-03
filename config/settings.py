@@ -181,10 +181,21 @@ if DJOK_USER_TYPE in ("email", "email+username"):
     ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
     if DJOK_USER_TYPE == "email":
         ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-        ACCOUNT_SIGNUP_FIELDS = ["email*"] + _PASSWORDS
+        ACCOUNT_SIGNUP_FIELDS = ["email*", "phone*"] + _PASSWORDS
     else:
         ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
         ACCOUNT_SIGNUP_FIELDS = ["email*", "username"] + _PASSWORDS
+
+# Email settings
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": env.str("MAILGUN_API_KEY"),
+    "MAILGUN_SENDER_DOMAIN": env.str("MAILGUN_SENDER_DOMAIN"),
+}
+
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL")
+
 
 # Uncomment for Webauthnn
 # MFA_SUPPORTED_TYPES = ["webauthn"]
