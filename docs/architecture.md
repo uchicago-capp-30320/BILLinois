@@ -9,15 +9,15 @@ Start here for an overview of the applications we use to support BILLinois.
 * **Database**: [PostgreSQL](https://www.postgresql.org/)
   * Postgres can be less expensive than alternatives like AWS for our use case.
 * **Backend**: [Django](https://docs.djangoproject.com/en/5.2/)
-  * Django uses the model-view-controller paradigm, which helps for moderately complicated u
+  * Django uses the model-view-controller paradigm, which helps for moderately complicated variable views. 
 * **Authentication**: [Django](https://docs.djangoproject.com/en/5.2/topics/auth/default/)
-  * Django has built-in flows for authentication, with the option to 
+  * Django has built-in flows for authentication
 * **Frontend**: [Bulma](https://bulma.io/)
   * We use a CSS framework to simplify and standardize design.
 * **Scheduling**: [cron](https://en.wikipedia.org/wiki/Cron) (a builtin Linux feature)
   * Runs scripts once a day to:
-    * ingest updates to legislation from the API
-    * notify users of any updates to their saved bills
+    * Ingest updates to legislation from the API
+    * Notify users of any updates to their saved bills
 
 ![image-20250501112854222](image-20250501112854222.png)
 
