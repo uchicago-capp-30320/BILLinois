@@ -1,14 +1,15 @@
-from django.http import HttpResponse, HttpRequest
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-from .models import BillsMockDjango
+
+from .models import BillsMockDjango, BillsTable
 
 
 def home(request: HttpRequest) -> HttpResponse:
     """
     Render the home page.
 
-    Args: 
+    Args:
         request (HttpRequest): An HTTP request object:
 
     Returns:
@@ -23,10 +24,10 @@ def search(request: HttpRequest) -> HttpResponse:
 
     Args:
         request (HttpRequest): An HTTP request object.
-    
+
     Returns:
         HttpResponse: The rendered search results page.
-        Results: Search results returned by the database. 
+        Results: Search results returned by the database.
             This is an object containing the following fields, corresponding
             to the columns in the database's bills table:
                 bill_id: The unique identifier for the bill
@@ -52,5 +53,67 @@ def search(request: HttpRequest) -> HttpResponse:
         )
 
     return render(
-        request, "search.html", {"query": request.GET.get("query", ""), "results": results}
+        request,
+        "search.html",
+        {"query": request.GET.get("query", ""), "results": results},
     )
+
+
+def bill_page(request: HttpRequest, bill_number: str) -> JsonResponse:
+    """
+    Return data from bill, including the status, sponsors, name and tagged topic
+
+    Args:
+        request (HttpRequest): An HTTP request object.
+        bill_number (str): The number of the bill you want to view (i.e. SB 2253)
+
+    Returns:
+    JsonResponse: A JSON file with the data from the query.
+    Results: JSON contains the following columns from database's table:
+            bill_id: The unique identifier for the bill
+            number: The bill number
+            title: The bill title
+            summary: The bill summary
+            status: The bill status
+                includes: current and all previous statuses
+                          dates: date of change of status
+                          description: a description of the change of status
+            topics: A tagged topic from the summary
+            sponsors: any registered sponsor for the bill
+                includes: name of sponsor
+                          party: the political party they represent
+                          position: their role in the legislature
+                          sponsor_id: unique number for sponsor
+    """
+    try:
+        bill = BillsTable.objects.get(number=bill_number)
+    except BillsTable.DoesNotExist as err:
+        raise Http404("Bill not found.") from err
+
+    data = {
+        "bill_id": bill.bill_id,
+        "number": bill.number,
+        "title": bill.title,
+        "summary": bill.summary,
+        "status": bill.status,
+        "sponsors": [
+            {
+                "sponsor_id": s.sponsor_id,
+                "sponsor_name": s.sponsor_name,
+                "party": s.party,
+                "position": s.position,
+            }
+            for s in bill.sponsorstable_set.all()
+        ],
+        "topics": [{"topic": t.topic} for t in bill.topicstable_set.all()],
+        "actions": [
+            {
+                "date": a.date.isoformat(),
+                "status": a.category,
+                "status_desc": a.description,
+            }
+            for a in bill.actionstable_set.all().order_by("date")
+        ],
+    }
+
+    return JsonResponse(data)

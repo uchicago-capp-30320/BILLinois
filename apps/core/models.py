@@ -15,10 +15,12 @@ class ActionsMockDjango(models.Model):
     class Meta:
         db_table = "actions_mock"  # Specify table name
 
+
 class ActionsTable(models.Model):
     """
     The full actions table.
     """
+
     action_id = models.CharField(unique=True, primary_key=True)
     bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
     description = models.CharField()
@@ -27,6 +29,7 @@ class ActionsTable(models.Model):
 
     class Meta:
         db_table = "actions_table"
+
 
 class BillsMockDjango(models.Model):
     """
@@ -43,8 +46,9 @@ class BillsMockDjango(models.Model):
     class Meta:
         db_table = "bills_mock"
 
+
 class BillsTable(models.Model):
-    """"
+    """ "
     The full bills table.
     """
 
@@ -56,6 +60,7 @@ class BillsTable(models.Model):
 
     class Meta:
         db_table = "bills_table"
+
 
 class FavoritesMockDjango(models.Model):
     """
@@ -70,6 +75,7 @@ class FavoritesMockDjango(models.Model):
         db_table = "favorites_mock"
         unique_together = ("user_id", "bill_id")
 
+
 class FavoritesTable(models.Model):
     """
     The full favorites table.
@@ -81,6 +87,7 @@ class FavoritesTable(models.Model):
     class Meta:
         db_table = "favorites_table"
         unique_together = ("user_id", "bill_id")
+
 
 class SponsorsMockDjango(models.Model):
     """
@@ -96,8 +103,9 @@ class SponsorsMockDjango(models.Model):
     class Meta:
         db_table = "sponsors_mock"
 
+
 class SponsorsTable(models.Model):
-    """"
+    """ "
     The full sponsors table.
     """
 
@@ -111,6 +119,7 @@ class SponsorsTable(models.Model):
     class Meta:
         db_table = "sponsors_table"
 
+
 class TopicsMockDjango(models.Model):
     """
     A mock model for the topics table.
@@ -123,6 +132,7 @@ class TopicsMockDjango(models.Model):
     class Meta:
         db_table = "topics_mock"
 
+
 class TopicsTable(models.Model):
     """
     The full topics table.
@@ -133,6 +143,7 @@ class TopicsTable(models.Model):
 
     class Meta:
         db_table = "topics_table"
+
 
 class UsersMockDjango(models.Model):
     """
@@ -147,6 +158,7 @@ class UsersMockDjango(models.Model):
 
     class Meta:
         db_table = "users_mock"
+
 
 class UsersTable(models.Model):
     """
