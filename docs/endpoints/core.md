@@ -30,9 +30,11 @@ Response:
   ]
   ```
 
-  
+* Results upon successful search query
 
-* results upon successful search query
+Example:
+
+`http://127.0.0.1:8000/search/?query=environment`
 
 ## /bill/{bill_id}
 
@@ -50,8 +52,6 @@ Response:
 ```json
 {"bill_id": '123', "number": "HB-001", "title": "Test Bill", "summary": "Tests a bill.", "status": "Submitted", "topics": ['Environment', 'Education'], "sponsors": ['Rep. Patel', 'Rep. Wilks']}
 ```
-
-
 
 ## /favorites/
 
