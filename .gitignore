@@ -95,5 +95,23 @@ target/
 # IPython
 profile_default/
 ipython_config.py
-_logs/log.json
+
+# Logs
+_logs
+
+# Env
+.venv
 .env
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# project files
+_staticfiles/
+_logs/
+db.sqlite3
