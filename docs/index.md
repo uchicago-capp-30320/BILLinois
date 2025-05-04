@@ -15,9 +15,9 @@ For new contributors to get familiarized with the repository.
 ▒   +---endpoints # API endpoints
 +---project # to remove
 ▒   +---data # move to top level directory
-▒   ▒   +---samples
+▒   ▒   +---samples # test data for development
 ▒   +---frontend # move to templates
-+---static
++---static # non-variable frontend files (CSS, images)
 ▒   +---bill_page # move to templates
 ▒   +---css
 ▒   +---home_page # move to templates
