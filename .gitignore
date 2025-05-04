@@ -115,3 +115,4 @@ wheels/
 _staticfiles/
 _logs/
 db.sqlite3
+.env
