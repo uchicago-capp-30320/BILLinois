@@ -42,3 +42,40 @@ def test_search_empty(page: Page, search_term, expected_results):
 
     # expect page to have search results
     expect(page.get_by_text(expected_results)).to_be_visible()
+
+def test_bill_page(page: Page):
+    """
+    Test navigating to a specific bill page.
+    TODO: finish
+    """
+
+    page.goto("http://127.0.0.1:8000/search/?query=environment")
+
+    page.get_by_role("link",name="HR 191").click()
+
+def test_favorite_bill(page: Page):
+    """
+    Test favoriting a bill. 
+    TODO: finish
+    TODO: if not signed in, prompt to sign in
+    """
+
+    page.goto("http://127.0.0.1:8000/search/?query=environment")
+
+    page.get_by_role("link",name="Favorite").click()
+
+    # expect star to be filled
+    expect(page.get_by_role("link",name="Favorite")).to_have_class(re.compile("fa-star-fill"))
+
+def test_sign_in(page: Page):
+    """
+    Test signing in from the home page.
+    TODO: finish
+    """
+
+    page.goto("http://127.0.0.1:8000/")
+
+    page.get_by_role("link",name="Sign in").click()
+
+    # expect page to have search results
+    expect(page.get_by_text("Sign in")).to_be_visible()
