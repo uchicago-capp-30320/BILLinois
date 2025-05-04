@@ -8,7 +8,7 @@ def home(request: HttpRequest) -> HttpResponse:
     """
     Render the home page.
 
-    Args: 
+    Args:
         request (HttpRequest): An HTTP request object:
 
     Returns:
@@ -23,10 +23,10 @@ def search(request: HttpRequest) -> HttpResponse:
 
     Args:
         request (HttpRequest): An HTTP request object.
-    
+
     Returns:
         HttpResponse: The rendered search results page.
-        Results: Search results returned by the database. 
+        Results: Search results returned by the database.
             This is an object containing the following fields, corresponding
             to the columns in the database's bills table:
                 bill_id: The unique identifier for the bill
@@ -52,5 +52,7 @@ def search(request: HttpRequest) -> HttpResponse:
         )
 
     return render(
-        request, "search.html", {"query": request.GET.get("query", ""), "results": results}
+        request,
+        "search.html",
+        {"query": request.GET.get("query", ""), "results": results},
     )
