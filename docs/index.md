@@ -16,11 +16,11 @@ For new contributors to get familiarized with the repository.
 +---project # to remove
 ▒   +---data # move to top level directory
 ▒   ▒   +---samples
-▒   +---frontend # to remove, move to templates
-+---static # to remove? move to templates
-▒   +---bill_page
+▒   +---frontend # move to templates
++---static
+▒   +---bill_page # move to templates
 ▒   +---css
-▒   +---home_page
+▒   +---home_page # move to templates
 ▒   +---root
 +---templates # HTML pages
 ▒   +---account
