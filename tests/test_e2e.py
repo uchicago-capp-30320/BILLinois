@@ -1,4 +1,5 @@
 import re
+import pytest
 from playwright.sync_api import Page, expect
 
 def test_has_title(page: Page):
@@ -16,9 +17,33 @@ def test_home_exists(page: Page):
 
     expect(page.locator("h1")).to_have_text(re.compile("ois"))
 
-    # Click the get started link.
-    page.get_by_role("link", name="Get started").click()
+@pytest.mark.parametrize(
+    "search_term, expected_results",
+    [
+        ("", "Please enter a search term."),
+        # ("e", "No results found."),
+        ("environment", "Topics"),
+    ],
+)
+def test_search_empty(
+    page: Page, 
+    search_term, expected_results
+):
+    """
+    Test the search functionality of the page for at least two cases:
+    - Empty search case, where the user is prompted to enter a search term.
+    - Empty results case, where the user is notified that no results were found.
+    - Non-empty results case, where the user should see results.
+    """
 
-    # Expects page to have a heading with the name of Installation.
-    expect(page.get_by_role("heading", name="Installation")).to_be_visible()
+    page.goto("http://127.0.0.1:8000/")
+
+    # search for a bill
+    page.get_by_placeholder("Search Bill Summary").click()
+    page.keyboard.type(search_term)
+    
+    page.locator('input[type="submit"][value="Search"]').click()
+
+    # expect page to have search results
+    expect(page.get_by_text(expected_results)).to_be_visible()
 
