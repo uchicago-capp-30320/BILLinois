@@ -161,9 +161,7 @@ DJOK_USER_TYPE = "email"
 #  2 - Password box with confirmation.
 DJOK_PASSWORD_PROMPTS = 0
 
-_PASSWORDS = {0: [], 1: ["password1*"], 2: ["password1*", "password2*"]}[
-    DJOK_PASSWORD_PROMPTS
-]
+_PASSWORDS = {0: [], 1: ["password1*"], 2: ["password1*", "password2*"]}[DJOK_PASSWORD_PROMPTS]
 
 ACCOUNT_EMAIL_UNKNOWN_ACCOUNTS = False
 ACCOUNT_PRESERVE_USERNAME_CASING = False
