@@ -7,9 +7,7 @@ class ActionsMockDjango(models.Model):
     Meant to store mock data for actions taken on legislation.
     """
 
-    bill_id = models.ForeignKey(
-        "BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id"
-    )
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
     action_id = models.CharField(unique=True, primary_key=True)
     description = models.CharField()
     date = models.DateTimeField()
@@ -24,9 +22,7 @@ class ActionsTable(models.Model):
     """
 
     action_id = models.CharField(unique=True, primary_key=True)
-    bill_id = models.ForeignKey(
-        "BillsTable", on_delete=models.CASCADE, db_column="bill_id"
-    )
+    bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
     description = models.CharField()
     date = models.DateTimeField()
     category = models.CharField(null=True)
@@ -72,12 +68,8 @@ class FavoritesMockDjango(models.Model):
     Meant to store mock data for user favorites.
     """
 
-    user_id = models.ForeignKey(
-        "UsersMockDjango", on_delete=models.CASCADE, db_column="user_id"
-    )
-    bill_id = models.ForeignKey(
-        "BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id"
-    )
+    user_id = models.ForeignKey("UsersMockDjango", on_delete=models.CASCADE, db_column="user_id")
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
 
     class Meta:
         db_table = "favorites_mock"
@@ -89,12 +81,8 @@ class FavoritesTable(models.Model):
     The full favorites table.
     """
 
-    user_id = models.ForeignKey(
-        "UsersTable", on_delete=models.CASCADE, db_column="user_id"
-    )
-    bill_id = models.ForeignKey(
-        "BillsTable", on_delete=models.CASCADE, db_column="bill_id"
-    )
+    user_id = models.ForeignKey("UsersTable", on_delete=models.CASCADE, db_column="user_id")
+    bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
 
     class Meta:
         db_table = "favorites_table"
@@ -108,9 +96,7 @@ class SponsorsMockDjango(models.Model):
     """
 
     id = models.CharField(unique=True, primary_key=True)
-    bill_id = models.ForeignKey(
-        "BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id"
-    )
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
     sponsor_id = models.CharField()
     sponsor_name = models.CharField()
 
@@ -124,9 +110,7 @@ class SponsorsTable(models.Model):
     """
 
     id = models.CharField(unique=True, primary_key=True)
-    bill_id = models.ForeignKey(
-        "BillsTable", on_delete=models.CASCADE, db_column="bill_id"
-    )
+    bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
     sponsor_id = models.CharField(null=True)
     sponsor_name = models.CharField()
     position = models.CharField(null=True)
@@ -142,9 +126,7 @@ class TopicsMockDjango(models.Model):
     Meant to store mock data for bill topics.
     """
 
-    bill_id = models.ForeignKey(
-        "BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id"
-    )
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
     topic = models.CharField()
 
     class Meta:
@@ -156,9 +138,7 @@ class TopicsTable(models.Model):
     The full topics table.
     """
 
-    bill_id = models.ForeignKey(
-        "BillsTable", on_delete=models.CASCADE, db_column="bill_id"
-    )
+    bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
     topic = models.CharField()
 
     class Meta:
