@@ -22,11 +22,18 @@ For new contributors to get familiarized with the repository.
 ▒   +---css
 ▒   +---home_page # move to templates
 ▒   +---root
+▒       +---robots.txt # defines policies for web scrapers
 +---templates # HTML pages
 ▒   +---account
-▒       +---email
-▒       +---messages
-▒       +---snippets
+▒       +---email # emails sent to users
+▒       +---messages # popups ?
+▒       +---snippets # partial pages
 +---tests # scripts to test app
 +---_logs # output related to debugging
+.pre-commit-config.yaml # automated hooks such as linting and formatting
+manage.py # runs django server
+pyproject.toml # uv dependencies and requirements
+README.md
+LICENSE.md
+Justfile
 ```
