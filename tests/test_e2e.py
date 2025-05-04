@@ -8,14 +8,13 @@ def test_playwright_working(page: Page):
     # Expect a title "to contain" a substring.
     expect(page).to_have_title(re.compile("Playwright"))
 
+
 def test_home_exists(page: Page):
-    
     page.goto("http://127.0.0.1:8000/")
 
-    # expect title to contain "BILL"
-    # expect(page).to_have_title(re.compile("ois"))
-
+    # expect heading with billinois to exist"
     expect(page.locator("h1")).to_have_text(re.compile("ois"))
+
 
 @pytest.mark.parametrize(
     "search_term, expected_results",
@@ -25,10 +24,7 @@ def test_home_exists(page: Page):
         ("environment", "Topics"),
     ],
 )
-def test_search_empty(
-    page: Page, 
-    search_term, expected_results
-):
+def test_search_empty(page: Page, search_term, expected_results):
     """
     Test the search functionality of the page for at least two cases:
     - Empty search case, where the user is prompted to enter a search term.
@@ -41,9 +37,8 @@ def test_search_empty(
     # search for a bill
     page.get_by_placeholder("Search Bill Summary").click()
     page.keyboard.type(search_term)
-    
+
     page.locator('input[type="submit"][value="Search"]').click()
 
     # expect page to have search results
     expect(page.get_by_text(expected_results)).to_be_visible()
-
