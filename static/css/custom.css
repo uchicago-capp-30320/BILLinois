@@ -1,4 +1,32 @@
+/* status column in the table returned by search results */
 th.status-column, td.status-column {
     width: 190px; 
     white-space: wrap; /* text wrapping */
+}
+/* color palette */
+/* background color for webpages */
+.bg-light {
+    background-color: #F5F5F5;
+}
+/* text color for webpages */
+.text-dark {
+    background-color: #3D474A;
+}
+.custom-green {
+    background-color: #4BAB68;
+}
+.custom-red {
+    background-color: #C73223;
+}
+.custom-pink {
+    background-color: #ECC6E3;
+}
+.custom-blue {
+    background-color: #4269D0;
+}
+.custom-yellow {
+    background-color: #FFAB0D;
+}
+.custom-purple {
+    background-color: #A12FA7;
 }
