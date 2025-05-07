@@ -159,7 +159,7 @@ DJOK_USER_TYPE = "email"
 #  0 - Email/Token based login.
 #  1 - Single password box.
 #  2 - Password box with confirmation.
-DJOK_PASSWORD_PROMPTS = 0
+DJOK_PASSWORD_PROMPTS = 1
 
 _PASSWORDS = {0: [], 1: ["password1*"], 2: ["password1*", "password2*"]}[DJOK_PASSWORD_PROMPTS]
 
@@ -169,10 +169,16 @@ ACCOUNT_LOGIN_BY_CODE_ENABLED = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_SIGNUP_FORM_HONEYPOT_FIELD = "user_name"  # underscore is fake one
 ACCOUNT_USERNAME_BLACKLIST = ["admin"]
+ACCOUNT_ADAPTER = "apps.accounts.adapters.CustomAccountAdapter"
+ACCOUNT_UNIQUE_IDENTIFIER = "email"
+LOGIN_REDIRECT_URL = "/"
 # ACCOUNT_SIGNUP_FORM_CLASS = ""
 # ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Site] "
 # ACCOUNT_LOGIN_BY_CODE_REQUIRED = False
 # ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+
+
+ACCOUNT_FORMS = {'signup': 'apps.accounts.forms.CustomSignupForm'}
 
 if DJOK_USER_TYPE in ("email", "email+username"):
     ACCOUNT_LOGIN_METHODS = {"email"}
