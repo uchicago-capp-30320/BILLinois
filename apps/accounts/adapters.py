@@ -1,15 +1,24 @@
 import os
 import random
+import logging
 
 from allauth.account.adapter import DefaultAccountAdapter
 from twilio.rest import Client
 from apps.accounts.models import PhoneVerification
-from django.core.exceptions import ValidationError
 from datetime import timedelta
 from django.utils import timezone
 
+logger = logging.getLogger("phone_verification")
+
 class CustomAccountAdapter(DefaultAccountAdapter):
-    def save_user(self, request, user, form, commit=True):
+    """
+    Overrides for the default account adapter to allow for phone verification
+    """
+
+    def save_user(self, request, user, form, commit=True) -> object:
+        """
+        Saves a user to the database and sets the phone number.
+        """
         user = super().save_user(request, user, form, commit=False)
 
         user.phone = form.cleaned_data.get("phone")
@@ -20,17 +29,22 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         return user
 
     def set_phone(self, request, user, phone) -> None:
+        """
+        Sets the phone number for the user.
+        """
         if not isinstance(user, str):
             user.phone = phone
 
-    def set_phone_verified(self, request, user, phone) -> None:
-        if not isinstance(user, str):
-            user.phone_verified = True
-
     def get_phone(self, user) -> tuple:
+        """
+        Returns the phone number for the user.
+        """
         return (getattr(user, "phone", ""), False)
     
     def send_verification_code_sms(self, user, code, phone) -> None:
+        """
+        Send a verification code to the user's phone number.
+        """
         API_KEY = os.environ.get("TWILIO_API_KEY")
         AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
         FROM_NUMBER = os.environ.get("TWILIO_FROM_NUMBER")
@@ -40,8 +54,9 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             code=code
         )
 
+        # Access SMS code without sending it via text
         if os.environ.get("PHONE_DEBUG") == "True":
-            print(f"Debug: Verification code for {phone} is {code}")
+            logger.debug(f"Debug: Verification code for {phone} is {code}")
             return
         
         else:
@@ -59,6 +74,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
     def set_phone_verified(self, user, code) -> None:
         cutoff_time = timezone.now()
 
+        # Check if code is valid and not expired
         verified = PhoneVerification.objects.filter(
             user = user,
             code = code,
@@ -67,6 +83,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
 
         if verified:
             verified.delete()
+            user.phone_verified = True
+            user.save()
+            return True
 
-        user.phone_verified = True
-        user.save()
+        return False

@@ -14,16 +14,10 @@ def create_user(username: str, email: str, password: str) -> User:
     Returns:
         Bool: True if the user was created successfully, False otherwise.
     """
-
-    try: 
-        user = User.objects.create_user(username=username, email=email, password=password)
-        user.save()
-        return True
     
-    #TODO: Handle specific exceptions
-    except Exception as e:
-        print(f"Error creating user: {e}")
-        return False
+    user = User.objects.create_user(username=username, email=email, password=password)
+    user.save()
+    return True
 
 def make_account_page(request: HttpRequest) -> HttpResponse:
     """

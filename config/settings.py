@@ -251,12 +251,23 @@ LOGGING = {
             "filename": "_logs/flat.log",
             "formatter": "key_value",
         },
+
+        "phone_verification": {
+            "class": "logging.handlers.WatchedFileHandler",
+            "filename": "_logs/phone_verification.log",
+            "formatter": "key_value",
+        }
     },
     "loggers": {
         "django_structlog": {
             "handlers": ["console", "flat_line_file", "json_file"],
             "level": "INFO",
         },
+        "phone_verification": {
+            "handlers": ["phone_verification"],
+            "level": "DEBUG",
+            "propagate": False,
+        }
         # Modify this to match the name of your application.
         # to configure different logging for your app vs. Django's
         # internals.

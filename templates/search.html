@@ -1,3 +1,10 @@
+<nav>
+    <a href="/accounts/signup/">Sign Up</a>
+    <a href="/accounts/login/">Login</a>
+    {% if user.is_authenticated %}
+        <a href="/accounts/logout/">Logout</a>
+    {% endif %}
+</nav>
 <h1>Billinois</h1>
 <form method="GET" action="/search/">
     <input type="text" name="query" placeholder="Search Bill Summary">
