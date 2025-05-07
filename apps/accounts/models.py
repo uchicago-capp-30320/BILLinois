@@ -96,7 +96,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
-    
+
+
 class PhoneVerification(models.Model):
     """
     A table storing phone verfification codes for users.

@@ -178,7 +178,7 @@ LOGIN_REDIRECT_URL = "/"
 # ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 
 
-ACCOUNT_FORMS = {'signup': 'apps.accounts.forms.CustomSignupForm'}
+ACCOUNT_FORMS = {"signup": "apps.accounts.forms.CustomSignupForm"}
 
 if DJOK_USER_TYPE in ("email", "email+username"):
     ACCOUNT_LOGIN_METHODS = {"email"}
@@ -251,12 +251,11 @@ LOGGING = {
             "filename": "_logs/flat.log",
             "formatter": "key_value",
         },
-
         "phone_verification": {
             "class": "logging.handlers.WatchedFileHandler",
             "filename": "_logs/phone_verification.log",
             "formatter": "key_value",
-        }
+        },
     },
     "loggers": {
         "django_structlog": {
@@ -267,7 +266,7 @@ LOGGING = {
             "handlers": ["phone_verification"],
             "level": "DEBUG",
             "propagate": False,
-        }
+        },
         # Modify this to match the name of your application.
         # to configure different logging for your app vs. Django's
         # internals.
