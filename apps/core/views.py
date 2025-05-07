@@ -52,5 +52,7 @@ def search(request: HttpRequest) -> HttpResponse:
         )
 
     return render(
-        request, "search.html", {"query": request.GET.get("query", ""), "results": results}
+        request,
+        "search.html",
+        {"query": request.GET.get("query", ""), "results": results},
     )
