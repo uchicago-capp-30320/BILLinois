@@ -8,25 +8,50 @@ th.status-column, td.status-column {
 .bg-light {
     background-color: #F5F5F5;
 }
-/* text color for webpages */
-.text-dark {
-    background-color: #3D474A;
+/* text colors*/
+.custom-text-dark {
+    color: #3D474A;
 }
 .custom-green {
-    background-color: #4BAB68;
+    color: #4BAB68;
 }
 .custom-red {
-    background-color: #C73223;
+    color: #C73223;
 }
 .custom-pink {
-    background-color: #ECC6E3;
+    color: #ECC6E3;
 }
 .custom-blue {
-    background-color: #4269D0;
+    color: #4269D0;
 }
 .custom-yellow {
-    background-color: #FFAB0D;
+    color: #FFAB0D;
 }
 .custom-purple {
+    color: #A12FA7;
+}
+/* button colors */
+.button-green {
+    background-color: #4BAB68;
+    color: #F5F5F5;
+}
+.button-blue {
+    background-color: #4269D0;
+    color: #F5F5F5;
+}
+.button-purple {
     background-color: #A12FA7;
+    color: #F5F5F5;
+}
+.button-pink {
+    background-color: #ECC6E3;
+    color: #3D474A;
+}
+.button-yellow {
+    background-color: #FFAB0D;
+    color: #3D474A;
+}
+.button-red {
+    background-color: #C73223;
+    color: #F5F5F5;
 }
