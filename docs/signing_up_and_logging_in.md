@@ -1,5 +1,8 @@
 # Signing Up and Logging In
 
+## To start the server:
+`uv run python manage.py runserver`
+
 ## Currently In Progress:
 We are currently awaiting our Twilio campaign to be approved in order to send text messages without running into spam filters.
 In the meantime, authentication codes for phone authorization will be sent to `_logs/phone_verification.log`
