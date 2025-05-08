@@ -6,10 +6,10 @@ import os
 import psycopg2
 
 conn = psycopg2.connect(
-    database='billinois',
-    host = os.environ['billinois-db-host'],
-    user= os.environ['billinois-db-user'],
-    password=os.environ['billinois-db-password']
+    database="billinois",
+    host=os.environ["billinois-db-host"],
+    user=os.environ["billinois-db-user"],
+    password=os.environ["billinois-db-password"],
 )
 
 # Set up cursor, and clear updates_table
@@ -19,13 +19,13 @@ cur.execute("DELETE FROM updates_table;")
 # Setting up date, total pages, and number of inserts
 today_date = date.today()
 yesterday_date = str(today_date - timedelta(days=1))
-total_pages_updated = pull_page(yesterday_date)["pagination"]
+_, total_pages_updated = pull_page(1, yesterday_date)
 num_updated_inserts = 0
 
 # Iterate through each page, deleting outdated records if needed,
 # inserting updated data, and populating updates table
 for p in range(1, total_pages_updated + 1):
-    page_updated_bills = pull_page(p, yesterday_date)["results"]
+    page_updated_bills, _ = pull_page(p, yesterday_date)
     if not page_updated_bills:
         print("No updates to bills")
         break

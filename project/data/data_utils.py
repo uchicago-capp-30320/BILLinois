@@ -8,7 +8,7 @@ per_page_val = 20  # Highest it can go
 
 
 # Old method
-def pull_page(page_num: int = 1, date: str = None):
+def pull_page(page_num, date=None):
     """
     Single function for performing either all bills or bills with actions
     since a given date. If page number is not specified, the first page is returned.
@@ -31,7 +31,9 @@ def pull_page(page_num: int = 1, date: str = None):
     response = requests.get(base_url, params)
 
     raw_results_json = response.json()
-    return raw_results_json
+    results = raw_results_json["results"]
+    max_pages = raw_results_json["pagination"]["max_page"]
+    return results, max_pages
 
 
 def insert_bills(series_of_bills):
