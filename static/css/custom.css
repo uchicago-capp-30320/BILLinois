@@ -1,4 +1,57 @@
+/* status column in the table returned by search results */
 th.status-column, td.status-column {
     width: 190px; 
     white-space: wrap; /* text wrapping */
+}
+/* color palette */
+/* background color for webpages */
+.bg-light {
+    background-color: #F5F5F5;
+}
+/* text colors*/
+.custom-text-dark {
+    color: #3D474A;
+}
+.custom-green {
+    color: #4BAB68;
+}
+.custom-red {
+    color: #C73223;
+}
+.custom-pink {
+    color: #ECC6E3;
+}
+.custom-blue {
+    color: #4269D0;
+}
+.custom-yellow {
+    color: #FFAB0D;
+}
+.custom-purple {
+    color: #A12FA7;
+}
+/* button colors */
+.button-green {
+    background-color: #4BAB68;
+    color: #F5F5F5;
+}
+.button-blue {
+    background-color: #4269D0;
+    color: #F5F5F5;
+}
+.button-purple {
+    background-color: #A12FA7;
+    color: #F5F5F5;
+}
+.button-pink {
+    background-color: #ECC6E3;
+    color: #3D474A;
+}
+.button-yellow {
+    background-color: #FFAB0D;
+    color: #3D474A;
+}
+.button-red {
+    background-color: #C73223;
+    color: #F5F5F5;
 }
