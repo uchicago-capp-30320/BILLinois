@@ -116,3 +116,4 @@ _staticfiles/
 _logs/
 db.sqlite3
 .env
+.vscode/settings.json

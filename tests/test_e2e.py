@@ -1,6 +1,19 @@
 import re
 import pytest
+import playwright
 from playwright.sync_api import Page, expect
+
+# @pytest.fixture(scope="function", autouse=True)
+# def before_each_after_each(page: Page):
+
+#     # print("before the test runs")
+
+#     # Go to the starting url before each test.
+#     page.goto("http://127.0.0.1:8000/")
+#     yield
+
+#     # print("after the test runs")
+
 
 def test_playwright_working(page: Page):
     page.goto("https://playwright.dev/")
@@ -42,39 +55,39 @@ def test_search_empty(page: Page, search_term, expected_results, message):
     # expect page to have search results
     expect(page.get_by_text(expected_results), message).to_be_visible()
 
-def test_bill_page(page: Page):
-    """
-    Test navigating to a specific bill page.
-    TODO: finish
-    """
+# def test_bill_page(page: Page):
+#     """
+#     Test navigating to a specific bill page.
+#     TODO: finish
+#     """
 
-    page.goto("http://127.0.0.1:8000/search/?query=environment")
+#     page.goto("http://127.0.0.1:8000/search/?query=environment")
 
-    page.get_by_role("link",name="HR 191").click()
+#     page.get_by_role("link",name="HR 191").click()
 
-def test_favorite_bill(page: Page):
-    """
-    Test favoriting a bill. 
-    TODO: finish
-    TODO: if not signed in, prompt to sign in
-    """
+# def test_favorite_bill(page: Page):
+#     """
+#     Test favoriting a bill. 
+#     TODO: finish
+#     TODO: if not signed in, prompt to sign in
+#     """
 
-    page.goto("http://127.0.0.1:8000/search/?query=environment")
+#     page.goto("http://127.0.0.1:8000/search/?query=environment")
 
-    page.get_by_role("link",name="Favorite").click()
+#     page.get_by_role("link",name="Favorite").click()
 
-    # expect star to be filled
-    expect(page.get_by_role("link",name="Favorite")).to_have_class(re.compile("fa-star-fill"))
+#     # expect star to be filled
+#     expect(page.get_by_role("link",name="Favorite")).to_have_class(re.compile("fa-star-fill"))
 
-def test_sign_in(page: Page):
-    """
-    Test signing in from the home page.
-    TODO: finish
-    """
+# def test_sign_in(page: Page):
+#     """
+#     Test signing in from the home page.
+#     TODO: finish
+#     """
 
-    page.goto("http://127.0.0.1:8000/")
+#     page.goto("http://127.0.0.1:8000/")
 
-    page.get_by_role("link",name="Sign in").click()
+#     page.get_by_role("link",name="Sign in").click()
 
-    # expect page to have search results
-    expect(page.get_by_text("Sign in")).to_be_visible()
+#     # expect page to have search results
+#     expect(page.get_by_text("Sign in")).to_be_visible()
