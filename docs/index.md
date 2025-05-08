@@ -10,9 +10,9 @@ For new contributors to get familiarized with the repository.
 ▒   ▒   +---migrations # django databases
 ▒   +---core # django app, including models and views
 ▒   ▒   +---migrations # django databases
-+---config # setup and (local-only!) passwords
++---config # setup and read in .env
 +---docs # documentation on API, databases, and architecture
-▒   +---endpoints # API endpoints
+▒   +---endpoints # API endpoint documentation
 +---project # to remove
 ▒   +---data # move to top level directory
 ▒   ▒   +---samples # test data for development
@@ -31,6 +31,7 @@ For new contributors to get familiarized with the repository.
 +---tests # scripts to test app
 +---_logs # output related to debugging
 .pre-commit-config.yaml # automated hooks such as linting and formatting
+.env (local-only!) passwords
 manage.py # runs django server
 pyproject.toml # uv dependencies and requirements
 README.md
