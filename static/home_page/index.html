@@ -3,40 +3,63 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>Homepage</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   </head>
   <body>
+    <section class = "section">
+        <div class = "container">
+          <a href = "#" class="icon-text is-pulled-right has-text-link">
+            <span class="icon">
+                <i class="fas fa-user"></i>
+            </span>
+            <span>Sign In</span>
+          </a>
+          <span class = "is-pulled-right mx-2" > | </span>
+          <a href = "#" class="icon-text is-pulled-right has-text-link">
+              <span class="icon">
+                <i class="fas fa-home"></i>
+              </span>
+              <span>Home</span>
+          </a>
+        </div>
+    </section>
   <section class="section">
     <div class="container">
-      <h1 class="title">
-        Hello World
+      <h1 class="title is-1 has-text-centered">
+        BILLinois
       </h1>
-      <p class="subtitle">
-        My first website with <strong>Bulma</strong>!
+      <p class="subtitle has-text-centered">
+       Civic Engagement, Made Simple.
       </p>
     </div>
   </section>
+  <section class = "section">
+    <div class="container is-max-tablet mt-3 mb-3">
+        <p class = "mt-3 mb-3 has-text-centered"> Get started by searching a custom bill topic or clicking on a bill category below. </p>
+        <p class="control has-icons-left">
+          <input class="input" type="topic" placeholder="Search bills by topic..." />
+          <span class="icon is-small is-left">
+            <i class="fas fa-magnifying-glass"></i>
+          </span>
+        </p>
+      </div>
+      <br>
+      <br>
+    <div class = "container is-max-tablet">
+        <div class="grid buttons is-column-gap-7">
+            <button class="cell button is-medium is-primary ">Education</button>
+            <button class="cell button is-medium is-link">Energy</button>
+            <button class="cell button is-medium is-info is-row-start-2">Elections</button>
+            <button class="cell button is-medium is-success is-row-start-2">Health</button>
+            <button class="cell button is-medium is-warning is-row-start-3">Housing</button>
+            <button class="cell button is-medium is-danger is-row-start-3">LGBTQIA</button>
+            <button class="cell button is-medium is-row-start-4">Policing</button>
+            <button class="cell button is-medium is-black is-row-start-4">Transportation</button>
+        </div>
+    </div>
+
+</section>
   </body>
 </html>
-<!-- 
-<div>
-    <section class = container>
-        <h1 class="title">Bulma Grid Example</h1>
-            <h2 class="subtitle">A simple example of a grid layout using Bulma</h2>
-                <p class="content">
-                    This example demonstrates how to create a grid layout using Bulma's grid system. The grid is responsive and adjusts to different screen sizes.
-                </p>
-    </section>
-    <section class = container>
-    <div class="grid is-col-min-8">
-        <button class="cell button is-large is-primary">Button</button>
-        <button class="cell button is-large is-link">Button</button>
-        <button class="cell button is-large is-info is-row-start-2">Button</button>
-        <button class="cell button is-large is-success is-row-start-2">Button</button>
-        <button class="cell button is-large is-warning is-row-start-3">Button</button>
-        <button class="cell button is-large is-primary is-row-start-3">Button</button>
-    </div>
-    </section>
-</div> -->
-
