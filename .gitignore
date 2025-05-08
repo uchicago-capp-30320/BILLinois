@@ -116,3 +116,5 @@ _staticfiles/
 _logs/
 db.sqlite3
 .env
+.DS_Store
+.DS_Store
