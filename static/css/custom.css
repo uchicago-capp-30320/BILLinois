@@ -1,7 +1,15 @@
 /* status column in the table returned by search results */
 th.status-column, td.status-column {
-    width: 190px; 
+    width: 290px; 
     white-space: wrap; /* text wrapping */
+}
+body {
+    overflow-x: auto; /* Adds a horizontal scroll bar if content overflows */
+    background-color: #F5F5F5;
+}
+/* Ensure the background color extends to the full page */
+html, body {
+    height: 100%; /* Make the html and body elements fill the viewport height */
 }
 /* color palette */
 /* background color for webpages */
