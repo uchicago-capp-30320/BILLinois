@@ -59,7 +59,7 @@ def search(request: HttpRequest) -> HttpResponse:
     )
 
 
-def bill_page(request: HttpRequest, bill_number: str) -> JsonResponse:
+def bill_page(request: HttpRequest, bill_number: str) -> HttpResponse:
     """
     Return data from bill, including the status, sponsors, name and tagged topic
 
@@ -68,8 +68,8 @@ def bill_page(request: HttpRequest, bill_number: str) -> JsonResponse:
         bill_number (str): The number of the bill you want to view (i.e. SB 2253)
 
     Returns:
-    JsonResponse: A JSON file with the data from the query.
-    Results: JSON contains the following columns from database's table:
+    HttpResponse: A Django context variable with the data from the query.
+    Results: contains the following columns from database's table:
             bill_id: The unique identifier for the bill
             number: The bill number
             title: The bill title
@@ -95,7 +95,6 @@ def bill_page(request: HttpRequest, bill_number: str) -> JsonResponse:
         "number": bill.number,
         "title": bill.title,
         "summary": bill.summary,
-        "status": bill.status,
         "sponsors": [
             {
                 "sponsor_id": s.sponsor_id,
@@ -103,17 +102,17 @@ def bill_page(request: HttpRequest, bill_number: str) -> JsonResponse:
                 "party": s.party,
                 "position": s.position,
             }
-            for s in bill.sponsorstable_set.all()
+            for s in bill.sponsorstable_set.exclude(sponsor_id=None)
         ],
         "topics": [{"topic": t.topic} for t in bill.topicstable_set.all()],
-        "actions": [
+        "status": [
             {
                 "date": a.date.isoformat(),
                 "status": a.category,
                 "status_desc": a.description,
             }
-            for a in bill.actionstable_set.all().order_by("date")
+            for a in bill.actionstable_set.exclude(category=None).order_by("date")
         ],
     }
 
-    return JsonResponse(data)
+    return render(request, "bill.html", {"bill_data": data})
