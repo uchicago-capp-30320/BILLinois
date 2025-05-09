@@ -25,8 +25,9 @@ class CustomUserManager(BaseUserManager):
             return False
 
         user = User.objects.create_user(
-            username=username, email=email, password=password, phone=phone)
-        
+            username=username, email=email, password=password, phone=phone
+        )
+
         user.save()
         return True
 
