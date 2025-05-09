@@ -19,6 +19,7 @@ dependencies = [
     "rich>=14.0.0",
     "ruff>=0.11.4",
     "whitenoise>=6.9.0,<7",
+    "pytest-playwright>=0.7.0",
 ]
 
 [tool.ruff]
