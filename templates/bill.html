@@ -2,63 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bill Details</title>
-    <script>
-        // Function to fetch bill data
-        async function fetchBillData() {
-            const billNumber = '{{ bill_number }}';  // Django variable for the bill number
-            const response = await fetch(`/bill/${billNumber}/`);
-            const data = await response.json();
-
-            if (data.bill_id) {
-                document.getElementById('title').textContent = data.title;
-                document.getElementById('summary').textContent = data.summary;
-                document.getElementById('status').textContent = data.status;
-
-                let sponsorsHTML = '';
-                data.sponsors.forEach(sponsor => {
-                    sponsorsHTML += `<li>${sponsor.sponsor_name} (${sponsor.party} - ${sponsor.position})</li>`;
-                });
-                document.getElementById('sponsors').innerHTML = sponsorsHTML;
-
-                let topicsHTML = '';
-                data.topics.forEach(topic => {
-                    topicsHTML += `<li>${topic.topic}</li>`;
-                });
-                document.getElementById('topics').innerHTML = topicsHTML;
-
-                let actionsHTML = '';
-                data.actions.forEach(action => {
-                    actionsHTML += `<li>${action.date} - ${action.status_desc}</li>`;
-                });
-                document.getElementById('actions').innerHTML = actionsHTML;
-            } else {
-                document.getElementById('error').textContent = "Bill not found.";
-            }
-        }
-
-        window.onload = fetchBillData;
-    </script>
+    <title>{{ bill_data.number }} – {{ bill_data.title }}</title>
 </head>
 <body>
-    <h1>Bill Details</h1>
+    <h1>{{ bill_data.number }} – {{ bill_data.title }}</h1>
 
-    <h2 id="title"></h2>
-    <p><strong>Summary:</strong> <span id="summary"></span></p>
-    <p><strong>Status:</strong> <span id="status"></span></p>
+    <h2>Summary</h2>
+    <p>{{ bill_data.summary }}</p>
 
-    <h3>Sponsors:</h3>
-    <ul id="sponsors"></ul>
+    <h2>Topics</h2>
+    <ul>
+        {% for topic in bill_data.topics %}
+            <li>{{ topic.topic }}</li>
+        {% empty %}
+            <li>No topics available.</li>
+        {% endfor %}
+    </ul>
 
-    <h3>Topics:</h3>
-    <ul id="topics"></ul>
+    <h2>Sponsors</h2>
+    <ul>
+        {% for sponsor in bill_data.sponsors %}
+            <li>
+                {{ sponsor.sponsor_name }} ({{ sponsor.party }}) – {{ sponsor.position }}<br>
+                ID: {{ sponsor.sponsor_id }}
+            </li>
+        {% empty %}
+            <li>No sponsors available.</li>
+        {% endfor %}
+    </ul>
 
-    <h3>Actions:</h3>
-    <ul id="actions"></ul>
-
-    <p id="error" style="color: red;"></p>
-
-    <p><a href="/">Go back to homepage</a></p>
+    <h2>Status</h2>
+    <ul>
+        {% for status in bill_data.status %}
+            <li>
+                <strong>{{ status.date }}</strong>: {{ status.status }}<br>
+                <em>{{ status.status_desc }}</em>
+            </li>
+        {% empty %}
+            <li>No actions recorded.</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
