@@ -36,6 +36,7 @@ var/
 wheels/
 share/python-wheels/
 *.egg-info/
+.DS_STORE
 .installed.cfg
 *.egg
 MANIFEST
@@ -115,3 +116,5 @@ wheels/
 _staticfiles/
 _logs/
 db.sqlite3
+.env
+*/.DS_Store

@@ -34,6 +34,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
 
     email = models.EmailField(_("email address"), unique=EMAIL_REQUIRED, default="")
+    phone = models.CharField(
+        _("phone number"),
+        max_length=20,
+        blank=True,
+        unique=True,
+    )
+
+    phone_verified = models.BooleanField(
+        _("phone verified"),
+        default=False,
+        help_text=_("Designates whether this user's phone number is verified."),
+    )
+
     username = models.CharField(
         max_length=255,
         unique=True,
@@ -83,3 +96,21 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+class PhoneVerification(models.Model):
+    """
+    A table storing phone verfification codes for users.
+    """
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    code = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_expired(self):
+        """
+        Check if the verification code is expired
+        """
+
+        # For security reasons, we set expiration time to 10 minutes
+        return timezone.now() - self.created_at > timezone.timedelta(minutes=10)

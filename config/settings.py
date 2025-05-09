@@ -159,7 +159,7 @@ DJOK_USER_TYPE = "email"
 #  0 - Email/Token based login.
 #  1 - Single password box.
 #  2 - Password box with confirmation.
-DJOK_PASSWORD_PROMPTS = 0
+DJOK_PASSWORD_PROMPTS = 1
 
 _PASSWORDS = {0: [], 1: ["password1*"], 2: ["password1*", "password2*"]}[DJOK_PASSWORD_PROMPTS]
 
@@ -169,10 +169,16 @@ ACCOUNT_LOGIN_BY_CODE_ENABLED = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_SIGNUP_FORM_HONEYPOT_FIELD = "user_name"  # underscore is fake one
 ACCOUNT_USERNAME_BLACKLIST = ["admin"]
+ACCOUNT_ADAPTER = "apps.accounts.adapters.CustomAccountAdapter"
+ACCOUNT_UNIQUE_IDENTIFIER = "email"
+LOGIN_REDIRECT_URL = "/"
 # ACCOUNT_SIGNUP_FORM_CLASS = ""
 # ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Site] "
 # ACCOUNT_LOGIN_BY_CODE_REQUIRED = False
 # ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+
+
+ACCOUNT_FORMS = {"signup": "apps.accounts.forms.CustomSignupForm"}
 
 if DJOK_USER_TYPE in ("email", "email+username"):
     ACCOUNT_LOGIN_METHODS = {"email"}
@@ -181,10 +187,21 @@ if DJOK_USER_TYPE in ("email", "email+username"):
     ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
     if DJOK_USER_TYPE == "email":
         ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-        ACCOUNT_SIGNUP_FIELDS = ["email*"] + _PASSWORDS
+        ACCOUNT_SIGNUP_FIELDS = ["email*", "phone*"] + _PASSWORDS
     else:
         ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
         ACCOUNT_SIGNUP_FIELDS = ["email*", "username"] + _PASSWORDS
+
+# Email settings
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": env.str("MAILGUN_API_KEY"),
+    "MAILGUN_SENDER_DOMAIN": env.str("MAILGUN_SENDER_DOMAIN"),
+}
+
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL")
+
 
 # Uncomment for Webauthnn
 # MFA_SUPPORTED_TYPES = ["webauthn"]
@@ -234,11 +251,21 @@ LOGGING = {
             "filename": "_logs/flat.log",
             "formatter": "key_value",
         },
+        "phone_verification": {
+            "class": "logging.handlers.WatchedFileHandler",
+            "filename": "_logs/phone_verification.log",
+            "formatter": "key_value",
+        },
     },
     "loggers": {
         "django_structlog": {
             "handlers": ["console", "flat_line_file", "json_file"],
             "level": "INFO",
+        },
+        "phone_verification": {
+            "handlers": ["phone_verification"],
+            "level": "DEBUG",
+            "propagate": False,
         },
         # Modify this to match the name of your application.
         # to configure different logging for your app vs. Django's
