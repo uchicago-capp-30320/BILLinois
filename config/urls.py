@@ -10,6 +10,7 @@ urlpatterns = [
     path("", include("apps.core.urls")),
     path("search/", include("apps.core.urls")),
     path("bill/", include("apps.core.urls")),
+    path("accounts/", include("apps.accounts.urls")),
 ]
 
 if settings.DEBUG and not settings.IS_TESTING:

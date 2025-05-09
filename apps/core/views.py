@@ -1,8 +1,8 @@
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render
-
 from .models import BillsMockDjango, BillsTable
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -46,7 +46,7 @@ def search(request: HttpRequest) -> HttpResponse:
         search_vector = SearchVector("title", "summary", config="english")
         search_query = SearchQuery(query, search_type="websearch", config="english")
         results = (
-            BillsMockDjango.objects.annotate(search=search_vector)
+            BillsTable.objects.annotate(search=search_vector)
             .filter(search=search_query)
             .annotate(rank=SearchRank(search_vector, search_query))
             .order_by("-rank")
