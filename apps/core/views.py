@@ -115,4 +115,4 @@ def bill_page(request: HttpRequest, bill_number: str) -> HttpResponse:
         ],
     }
 
-    return render(request, "bill.html", {"bill_data": data})
+    return render(request, "bill_page.html", {"bill_data": data})
