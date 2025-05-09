@@ -10,12 +10,21 @@
   <body>
     <section class = "section">
         <div class = "container">
-          <a href = "/accounts/login" class="icon-text is-pulled-right has-text-link">
-            <span class="icon">
-                <i class="fa-solid fa-circle-user"></i>
-            </span>
-            <span>Sign In</span>
-          </a>
+            {% if user.is_authenticated %}
+            <a href = "/accounts/logout" class="icon-text is-pulled-right has-text-link">
+                <span class="icon">
+                    <i class="fa-solid fa-circle-user"></i>
+                </span>
+                <span>Sign Out</span>
+              </a>
+            {% else %}
+            <a href = "/accounts/login" class="icon-text is-pulled-right has-text-link">
+                <span class="icon">
+                    <i class="fa-solid fa-circle-user"></i>
+                </span>
+                <span>Sign In</span>
+            </a>
+            {% endif %}
           <span class = "is-pulled-right mx-2" > | </span>
           <a href = "/" class="icon-text is-pulled-right has-text-link">
               <span class="icon">
