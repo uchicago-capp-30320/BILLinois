@@ -7,7 +7,7 @@ vars_to_include = ["sponsorships", "abstracts", "actions"]
 per_page_val = 20  # Highest it can go
 
 
-# Old method
+# Single function for all API calls
 def pull_page(page_num, date=None):
     """
     Single function for performing either all bills or bills with actions

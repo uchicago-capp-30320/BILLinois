@@ -21,7 +21,7 @@ cur = conn.cursor()
 max_pages = pull_page(1)["pagination"]
 
 num_inserts = 0
-for i in range(220, max_pages + 1):
+for i in range(1, max_pages + 1):
     print(f"Pulling bills from page {i}")
 
     # Helper function runs query to get all bill info from current page
