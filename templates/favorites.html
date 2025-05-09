@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+          <div class="container" style="max-width: 100%;">
+            <div class="columns is-vcentered is-mobile" style="margin: 0;">
+              <!-- Title Column -->
+              <div class="column is-narrow" style="padding-left: 0; flex-grow: 0;">
+                  <h1 class="title is-1">BILLinois</h1>
+              </div>
+              <!-- Search Column -->
+              <div class="column" style="flex-grow: 1;">
+                <!-- Search Bar -->
+                <!-- <div class="container is-max-tablet">
+                  <p class="control has-icons-left">
+                    <input class="input" type="topic" placeholder="Search bills by name or topic...">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-search"></i>
+                    </span>
+                  </p>
+                </div>
+              </div> -->
+              <!-- Menu Column -->
+                <!-- Menu Column -->
+                <div class="column is-narrow has-text-right" style="flex-grow:0;">
+                  <!-- Home Link -->
+                  <a href="/home" class="icon-text has-text-link ml-4 is-clickable hover-link">
+                    <span class="icon">
+                      <i class="fas fa-home"></i>
+                    </span>
+                    <span>Home</span>
+                  </a>
+                  <!-- Separator -->
+                  <span class="mx-1">|</span>
+                  <!-- Sign In Link -->
+                  <a href="/signin" class=" icon-text has-text-link is-clickable hover-link">
+                    <span class="icon">
+                      <i class="fa-solid fa-circle-user"></i>
+                    </span>
+                    <span>Sign in</span>
+                  </a>
+                </div>
+            </div>
+          </div>
+        <section>
+        <br>
+        <br>
+        <section>
+        <div class = "container grid" style="max-width: 100%;">
+          <!-- User Information -->
+            <div class = "cell">
+              <div class = "card">
+                <div class = "card-content ">
+                  <h2 class = "title is-4 m-2" >Regular Arko</h1>
+                  <p class = "subtitle is-6 m-2"> arkoreg@internet.com </p>
+                  <br>
+                  <p class = "subtitle is-6 m-2"><strong>You are being alerted...</strong></p>
+                  <div class="dropdown">
+                    <div class="dropdown-trigger">
+                      <button class="button is-small m-2" aria-haspopup="true" aria-controls="dropdown-menu3">
+                        <span> Frequency </span>
+                        <span class="icon is-small">
+                          <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+                      <div class="dropdown-content">
+                        <a href="#" class="dropdown-item"> Daily </a>
+                        <a href="#" class="dropdown-item"> Weekly </a>
+                        <a href="#" class="dropdown-item"> Biweekly </a>
+                        <a href="#" class="dropdown-item"> Custom </a>
+                        <a href="#" class="dropdown-item"> Never </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            </div>
+          <!-- User Favorites -->
+            <div class = "cell is-col-span-3">
+              <div class = "card pb-2">
+                <h1 class = "card-content title is-4">Favorites</h1>
+                <!-- <div class = "container"> -->
+                  <div class = "card m-2">
+                    <div class = "card-content">
+                      <div class = "columns is-vcentered">
+                        <div class = "column is-narrow">
+                          <h2 class = "title is-size-6"> HB 1642 </h1>
+                        </div>
+                        <div class = "column">
+                          <h3 class = "title is-size-6 has-text-link"> Clean Transportation Standard Act</h1>
+                        </div>
+                        <div class = "column is-narrow">
+                          <span class="tag is-rounded is-success">Energy</span>
+                          <span class="tag is-rounded is-link">Transportation</span>
+                        </div>
+                        <div class = "column is-narrow">
+                          <span class="icon has-text-warning">
+                            <i class="fa-solid fa-star"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div> 
+                <div class = "card m-2">
+                  <div class = "card-content">
+                    <div class = "columns is-vcentered">
+                      <div class = "column is-narrow">
+                        <h2 class = "title is-size-6"> HB 1642 </h1>
+                      </div>
+                      <div class = "column">
+                        <h3 class = "title is-size-6 has-text-link"> Illinois Appliance Standards Act</h1>
+                      </div>
+                      <div class = "column is-narrow">
+                        <span class="tag is-rounded is-success">Energy</span>
+                        <span class="tag is-rounded is-info">Housing</span>
+                      </div>
+                      <div class = "column is-narrow">
+                        <span class="icon has-text-warning">
+                          <i class="fa-solid fa-star"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+                <div class = "card m-2">
+                  <div class = "card-content">
+                    <div class = "columns is-vcentered">
+                      <div class = "column is-narrow">
+                        <h2 class = "title is-size-6"> HB 1234 </h1>
+                      </div>
+                      <div class = "column">
+                        <h3 class = "title is-size-6 has-text-link"> Accidentally Favorited Act </h1>
+                      </div>
+                      <div class = "column is-narrow">
+                      </div>
+                      <div class = "column is-narrow">
+                        <span class="icon has-text-warning">
+                          <i class="fa-regular fa-star"></i>
+                        </span>
+                      </div>
+                    </div>
+                </div>
+              </div> 
+            <!-- </div> -->
+            </div>
+            </div>
+          </div>
+        </section>
+    </div>
+  </section>
+  </body>
+</html>
