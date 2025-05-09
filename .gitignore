@@ -36,6 +36,7 @@ var/
 wheels/
 share/python-wheels/
 *.egg-info/
+.DS_STORE
 .installed.cfg
 *.egg
 MANIFEST
