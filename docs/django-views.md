@@ -30,7 +30,7 @@ Results is an array, containing objects with the following fields, corresponding
 `summary`: The bill summary
 `status`: The bill status
 `topics`: TO BE IMPLEMENTED
-`favorite`: TO BE IMPLEMENTED
+`favorite`: If the bill has been favorited by the user
 
 ### Favorites: `toggle_favorite/<path:bill_id>/`
 Hitting this endpoint with a `POST` request will trigger a toggle function that either creates a favorite for a user in the favorites table, or deletes that favorite if the user has already favorited the bill.
