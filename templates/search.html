@@ -46,16 +46,21 @@
                   <!-- Separator -->
                   <span class="mx-1">|</span>
                   <!-- Sign In Link -->
-                   {% if user.is_authenticated %}
-                  <a href="/accounts/logout" class=" icon-text has-text-link is-clickable hover-link">
-                    {% else %}
-                   <a href="/accounts/signin" class=" icon-text has-text-link is-clickable hover-link">
-                    {% endif %}
-                    <span class="icon">
-                      <i class="fa-solid fa-circle-user"></i>
-                    </span>
-                    <span>Sign in</span>
+                  {% if user.is_authenticated %}
+                  <a href = "/accounts/logout" class="icon-text is-pulled-right has-text-link">
+                      <span class="icon">
+                          <i class="fa-solid fa-circle-user"></i>
+                      </span>
+                      <span>Sign Out</span>
+                    </a>
+                  {% else %}
+                  <a href = "/accounts/login" class="icon-text is-pulled-right has-text-link">
+                      <span class="icon">
+                          <i class="fa-solid fa-circle-user"></i>
+                      </span>
+                      <span>Sign In</span>
                   </a>
+                  {% endif %}
                 </div>
               </div>
             </div>
