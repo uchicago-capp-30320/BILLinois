@@ -10,19 +10,19 @@ Whenever a Django view is created or updated, the documentation for that view sh
 
 ## Current Views and Functions:
 
-### Home
+### Home: `/`
 Renders `templates/home.html` at the default endpoint – `""`
 
-### Search
+### Search: `/search/`
 Search does two things:
 
 1. Renders `templates/search.html` at the `/search/` endpoint.
 2. Handles search requests from search form submissions. Queries the database, and then returns the `results` object.
 
-#### The Results Object:
+#### The Results Array:
 Search results returned by the database. 
 
-This is an object containing the following fields, corresponding to the columns in the database's bills table:
+Results is an array, containing objects with the following fields, corresponding to the columns in the database's bills table:
 
 `bill_id`: The unique identifier for the bill
 `number`: The bill number
@@ -31,3 +31,6 @@ This is an object containing the following fields, corresponding to the columns 
 `status`: The bill status
 `topics`: TO BE IMPLEMENTED
 `favorite`: TO BE IMPLEMENTED
+
+### Favorites: `toggle_favorite/<path:bill_id>/`
+Hitting this endpoint with a `POST` request will trigger a toggle function that either creates a favorite for a user in the favorites table, or deletes that favorite if the user has already favorited the bill.

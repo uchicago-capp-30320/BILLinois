@@ -46,7 +46,11 @@
                   <!-- Separator -->
                   <span class="mx-1">|</span>
                   <!-- Sign In Link -->
-                  <a href="/accounts/login" class=" icon-text has-text-link is-clickable hover-link">
+                   {% if user.is_authenticated %}
+                  <a href="/accounts/logout" class=" icon-text has-text-link is-clickable hover-link">
+                    {% else %}
+                   <a href="/accounts/signin" class=" icon-text has-text-link is-clickable hover-link">
+                    {% endif %}
                     <span class="icon">
                       <i class="fa-solid fa-circle-user"></i>
                     </span>
@@ -87,9 +91,16 @@
                   </div>
                   </td>
                   <td class="has-text-centered py-5">
-                    <span class="icon custom-yellow">
-                      <i class="fa-regular fa-star fa-xl"></i>
-                    </span>
+                    <form method = "POST" action = "{% url 'toggle_favorite' bill.bill_id|urlencode %}">
+                      {% csrf_token %}
+                      <button type="submit" class="icon custom-yellow">
+                        {% if bill.favorite %}
+                          <i class="fa-solid fa-star fa-xl"></i>
+                          {% else %}
+                          <i class="fa-regular fa-star fa-xl"></i>
+                          {% endif %}
+                      </button>
+                    </form>
                   </td>
                 </tr>
                 {% endfor %}
