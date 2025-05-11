@@ -1,10 +1,17 @@
 # Postgres Tables
 
+```mermaid
+erDiagram
+    USERS 1 to zero or more FAVORITES : has
+    FAVORITES zero or more optionally to 1 BILLS : marks    
+    SPONSORS one or more optionally to one or more BILLS : introduces
+	BILLS 1 to zero or more ACTIONS : has    
+	BILLS one or more to one or more TOPICS : has
+```
+
 ## Users
 
-Stores each app user.
-
-This table is used in authentication views, as well as the bill updates notification system.
+::: apps.core.models.UsersTable
 
 ### Has Connections From:
 
@@ -20,9 +27,7 @@ This table is used in authentication views, as well as the bill updates notifica
 
 ## Actions
 
-Stores each distinct action taken on a bill, e.g., ("First Reading"). Represented by a one-to-many relationship between bill and actions.
-
-This table is queried by frontend views that show bill information, such as most recent action. Additionally, it will be queried by the notification system, which updates users about favorited bills that have had a significant action associated with them in the past 24 hours.
+::: apps.core.models.ActionsTable
 
 ### Connects to:
 
@@ -38,9 +43,7 @@ This table is queried by frontend views that show bill information, such as most
 
 ## Bills
 
-Stores data for each bill.
-
-This table is queried by frontend views that show bill information, such as the search view, and individual bill pages.
+::: apps.core.models.BillsTable
 
 ### Has Connections From:
 
@@ -59,9 +62,7 @@ This table is queried by frontend views that show bill information, such as the 
 
 ## Favorites
 
-Stores data for user favorites of bills. Represents a many-to-many relationship: one user can like many bills, one bill can be associated with many users.
-
-This table will be queried by frontend views that show users which bills they have favorited. Additionally, this table will be used for the automatic notification system that notifies users about updates from bills they have favorited.
+::: apps.core.models.FavoritesTable
 
 ### Connects to: 
 
@@ -76,9 +77,7 @@ This table will be queried by frontend views that show users which bills they ha
 
 ## Sponsors
 
-Stores data for sponsors of bills. Represents a one-to-many relationship: one bill may have many sponsors.
-
-This table is queried by frontend views that show bill information, including sponsor information.
+::: apps.core.models.SponsorsTable
 
 ### Connects to:
 
@@ -95,9 +94,7 @@ This table is queried by frontend views that show bill information, including sp
 
 ## Topics
 
-Stores data for topics associated with each bill. Represents a many-to-many relationship: one bill may have many topics, one topic may have many bills associated with it.
-
-This table is queried by frontend views that show bill information, including topic information.
+::: apps.core.models.TopicsTable
 
 ### Connects to:
 
