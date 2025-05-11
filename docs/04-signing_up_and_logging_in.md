@@ -11,7 +11,7 @@ In the meantime, authentication codes for phone authorization will be sent to `_
 To sign up, you will need to provide three things:
 
 * Email Address
-* Phone Number
+* Phone Number (must comply with format: `+{AREA CODE}{PHONE NUMBER}`, for example `+1234567890`)
 * Password
 
 After entering this, you will be instructed to authorize the phone number. Enter the authorization code sent to your phone, or to `_logs/phone_verification.log`.

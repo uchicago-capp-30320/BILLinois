@@ -6,6 +6,7 @@ Parameters:
 
 * email: `str`
 * phone number: `str`
+* password: `str`
 
 Response: HTML sign-up page, success message upon successful registration, failure message upon failed registration
 
@@ -14,6 +15,22 @@ Response: HTML sign-up page, success message upon successful registration, failu
 Parameters:
 
 * code: `str` a confirmation code sent to the users email to confirm signup
+
+Response: HTML confirmation page
+
+## /accounts/confirm-email/
+
+Parameters:
+
+* code: `str` a confirmation code sent to the user's email to confirm signup
+
+Response: HTML confirmation page
+
+## /accounts/confirm-phone/
+
+Parameters:
+
+* code: `str` a confirmation code sent to the user's phone to confirm signup
 
 Response: HTML confirmation page
 
@@ -33,6 +50,12 @@ Parameters:
 * code: `str`
 
 Response: Redirect to home page `/` after successful confirmation, failure message upon failed confirmation.
+
+## /accounts/logout
+
+Parameters:
+
+Response: Redirect to home page `/` after successful logout.
 
 ## /accounts/password/reset/
 
