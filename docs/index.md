@@ -18,9 +18,7 @@ For new contributors to get familiarized with the repository.
 ▒   ▒   +---samples # test data for development
 ▒   +---frontend # move to templates
 +---static # non-variable frontend files (CSS, images)
-▒   +---bill_page # move to templates
 ▒   +---css
-▒   +---home_page # move to templates
 ▒   +---root
 ▒       +---robots.txt # defines policies for web scrapers
 +---templates # HTML pages
@@ -34,6 +32,7 @@ For new contributors to get familiarized with the repository.
 .env # (local-only!) passwords
 manage.py # runs django server
 pyproject.toml # uv dependencies and requirements
+mkdocs.yml # configurations for documentation generator
 README.md
 LICENSE.md
 Justfile
