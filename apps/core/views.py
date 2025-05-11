@@ -13,7 +13,7 @@ def home(request: HttpRequest) -> HttpResponse:
         request (HttpRequest): An HTTP request object:
 
     Returns:
-        HttpResponse: The rendered home page.
+        HttpResponse: The rendered HTML home page, redirect to `/search/` page upon search submission.
     """
     return render(request, "home.html")
 
@@ -26,17 +26,34 @@ def search(request: HttpRequest) -> HttpResponse:
         request (HttpRequest): An HTTP request object.
 
     Returns:
-        HttpResponse: The rendered search results page.
-        Results: Search results returned by the database.
-            This is an object containing the following fields, corresponding
+        HttpResponse: The rendered search results page listing all bills matching a search query.
+        Results: An array of JSON objects from the Postgres database, containing bill information about searched bills.
+            The fields correspond
             to the columns in the database's bills table:
-                bill_id: The unique identifier for the bill
-                number: The bill number
-                title: The bill title
-                summary: The bill summary
-                status: The bill status
-                topics: TO BE IMPLEMENTED
-                favorite: TO BE IMPLEMENTED
+
+            - bill_id: The unique identifier for the bill<br />
+            - number: The bill number\n
+            - title: The bill title
+            - summary: The bill summary
+            - status: The bill status
+            - topics: TO BE IMPLEMENTED
+            - favorite: TO BE IMPLEMENTED
+
+    Example:
+
+    `http://127.0.0.1:8000/search/?query=environment`
+
+    ```json
+    [{
+        "bill_id": '123', 
+        "number": "HB-001", 
+        "title": "Test Bill", 
+        "summary": "Tests a bill.", 
+        "status": "Submitted", 
+        "topics": ['Environment', 'Education'], 
+        "sponsors": ['Rep. Patel', 'Rep. Wilks']
+    }]
+    ```
     """
     query = request.GET.get("query", "")
 
@@ -61,29 +78,35 @@ def search(request: HttpRequest) -> HttpResponse:
 
 def bill_page(request: HttpRequest, bill_number: str) -> HttpResponse:
     """
-    Return data from bill, including the status, sponsors, name and tagged topic
+    Return data from a single bill, including the status, sponsors, name and tagged topic
 
     Args:
         request (HttpRequest): An HTTP request object.
-        bill_number (str): The number of the bill you want to view (i.e. SB 2253)
+        bill_number (str): The `bill_id` from the Postgres bills model for the bill you want to view (i.e. SB 2253)
 
     Returns:
-    HttpResponse: A Django context variable with the data from the query.
-    Results: contains the following columns from database's table:
-            bill_id: The unique identifier for the bill
+        HttpResponse: A Django context variable with the data from the query. Renders HTML bill page if bill exists, otherwise, an error
+        Results: A JSON object containing the following columns from database's table:
+
+            - bill_id: The unique identifier for the bill
             number: The bill number
-            title: The bill title
+            - title: The bill title
             summary: The bill summary
-            status: The bill status
-                includes: current and all previous statuses
-                          dates: date of change of status
-                          description: a description of the change of status
-            topics: A tagged topic from the summary
-            sponsors: any registered sponsor for the bill
-                includes: name of sponsor
-                          party: the political party they represent
-                          position: their role in the legislature
-                          sponsor_id: unique number for sponsor
+            - status: The bill status
+                - includes: current and all previous statuses
+                    - dates: date of change of status
+                    - description: a description of the change of status
+            - topics: A tagged topic from the summary
+            - sponsors: any registered sponsor for the bill
+                - includes: name of sponsor
+                    - party: the political party they represent
+                    position: their role in the legislature
+                    - sponsor_id: unique number for sponsor
+
+    Example: 
+    ```json
+    {"bill_id": '123', "number": "HB-001", "title": "Test Bill", "summary": "Tests a bill.", "status": "Submitted", "topics": ['Environment', 'Education'], "sponsors": ['Rep. Patel', 'Rep. Wilks']}
+    ```
     """
     try:
         bill = BillsTable.objects.get(number=bill_number)

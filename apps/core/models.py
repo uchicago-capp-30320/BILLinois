@@ -106,7 +106,7 @@ class SponsorsMockDjango(models.Model):
 
 
 class SponsorsTable(models.Model):
-    """ "
+    """
     The full sponsors table.
     """
 

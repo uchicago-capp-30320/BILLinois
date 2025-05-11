@@ -2,58 +2,19 @@
 
 ## /
 
-The home page.
-
-Parameters:
-
-* query: `str`
-
-Response: HTML home page, redirect to `/search/` page upon search submission.
+::: apps.core.views.home
 
 ## /search?query='{query}'
 
-A search page listing all bills matching a search query.
-
-Parameters
-
-* query: `str`
-
-Response: 
-
-* HTML search page
-
-* An array of JSON objects from the Postgres database, containing bill information about searched bills:
-
-  ```json
-  [
-  {"bill_id": '123', "number": "HB-001", "title": "Test Bill", "summary": "Tests a bill.", "status": "Submitted", "topics": ['Environment', 'Education'], "sponsors": ['Rep. Patel', 'Rep. Wilks']}
-  ]
-  ```
-
-* Results upon successful search query
-
-Example:
-
-`http://127.0.0.1:8000/search/?query=environment`
+::: apps.core.views.search
 
 ## /bill/{bill_id}
 
-A detail page for a single bill.
-
-Parameters:
-
-* bill_id: `str`: The `bill_id` from the Postgres bills model.
-
-Response: 
-
-* HTML bill page if bill exists, otherwise, an error
-* A JSON object containing bill information:
-
-```json
-{"bill_id": '123', "number": "HB-001", "title": "Test Bill", "summary": "Tests a bill.", "status": "Submitted", "topics": ['Environment', 'Education'], "sponsors": ['Rep. Patel', 'Rep. Wilks']}
-```
+::: apps.core.views.bill_page
 
 ## /favorites/
+
+<!-- ::: apps.core.views.favorites -->
 
 A list of favorited bills for the logged in user.
 
@@ -67,8 +28,8 @@ Response:
 
 * An array of JSON objects from the Postgres database, containing bill information about favorited bills:
 
-  ```json
-  [
-  {"bill_id": '123', "number": "HB-001", "title": "Test Bill", "summary": "Tests a bill.", "status": "Submitted", "topics": ['Environment', 'Education'], "sponsors": ['Rep. Patel', 'Rep. Wilks']}
-  ]
-  ```
+```json
+[
+{"bill_id": '123', "number": "HB-001", "title": "Test Bill", "summary": "Tests a bill.", "status": "Submitted", "topics": ['Environment', 'Education'], "sponsors": ['Rep. Patel', 'Rep. Wilks']}
+]
+```
