@@ -26,6 +26,7 @@ class ActionsTable(models.Model):
     description = models.CharField()
     date = models.DateTimeField()
     category = models.CharField(null=True)
+    chamber = models.CharField(null=True, default=None)
 
     class Meta:
         db_table = "actions_table"
