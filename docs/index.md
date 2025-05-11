@@ -1,5 +1,7 @@
 # BILLinois Documentation
 
+To view these docs in the local server, run `mkdocs serve localhost:8080`
+
 ## Directory structure
 
 For new contributors to get familiarized with the repository.
