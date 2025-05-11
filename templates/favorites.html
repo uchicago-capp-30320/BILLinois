@@ -29,26 +29,31 @@
                   </p>
                 </div>
               </div> -->
-              <!-- Menu Column -->
-                <!-- Menu Column -->
-                <div class="column is-narrow has-text-right" style="flex-grow:0;">
-                  <!-- Home Link -->
-                  <a href="/home" class="icon-text has-text-link ml-4 is-clickable hover-link">
-                    <span class="icon">
-                      <i class="fas fa-home"></i>
-                    </span>
-                    <span>Home</span>
-                  </a>
-                  <!-- Separator -->
-                  <span class="mx-1">|</span>
-                  <!-- Sign In Link -->
-                  <a href="/signin" class=" icon-text has-text-link is-clickable hover-link">
-                    <span class="icon">
-                      <i class="fa-solid fa-circle-user"></i>
-                    </span>
-                    <span>Sign in</span>
-                  </a>
+          <!-- Dropdown Menu -->
+          <nav class="navbar" role="navigation" aria-label="dropdown navigation">
+            <div id="navbarMenu" class="navbar-menu">
+              <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                  Menu
+                </a>
+                <div class="navbar-dropdown is-right is-boxed">
+                  <a href="/" class="navbar-item">Home</a>
+                  {% if user.is_authenticated %}
+                  <a href="/accounts/logout" class="navbar-item">Sign Out</a>
+                  {% else %}
+                  <a href="/accounts/login" class="navbar-item">Log In</a>
+                  <a href="/accounts/signup/" class="navbar-item">Sign Up</a> 
+                  {% endif %}
                 </div>
+              </div>
+            </div>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </nav> 
             </div>
           </div>
         <section>
@@ -159,5 +164,25 @@
         </section>
     </div>
   </section>
+    <!--JS for burger menu -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+  
+        // Add a click event on each of them
+        $navbarBurgers.forEach(el => {
+          el.addEventListener('click', () => {
+            // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+  
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
+          });
+        });
+      });
+    </script>
   </body>
 </html>

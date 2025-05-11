@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <!-- Link to custom CSS -->
-    <link rel="stylesheet" href="../static/css/custom.css">
+    <link rel="stylesheet" href="./static/css/custom.css">
   </head>
   <body class="bg-light">
     <section class="section">
@@ -30,25 +30,31 @@
               </p>
             </div>
           </div>
-          <!-- Menu Column -->
-          <div class="column is-narrow has-text-right" style="flex-grow:0;">
-            <!-- Home Link -->
-            <a href="/" class="icon-text ml-4 is-clickable hover-link no-bg">
-              <span class="icon">
-                <i class="fas fa-home custom-blue"></i>
-              </span>
-              <span class="custom-blue">Home</span>
+          <!-- Dropdown Menu -->
+          <nav class="navbar" role="navigation" aria-label="dropdown navigation">
+            <div id="navbarMenu" class="navbar-menu">
+              <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                  Menu
+                </a>
+                <div class="navbar-dropdown is-right is-boxed">
+                  <a href="/" class="navbar-item">Home</a>
+                  {% if user.is_authenticated %}
+                  <a href="/accounts/logout" class="navbar-item">Sign Out</a>
+                  {% else %}
+                  <a href="/accounts/login" class="navbar-item">Log In</a>
+                  <a href="/accounts/signup/" class="navbar-item">Sign Up</a> 
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
             </a>
-            <!-- Separator -->
-            <span class="mx-1">|</span>
-            <!-- Sign In Link -->
-            <a href="/signin" class="icon-text is-clickable">
-              <span class="icon">
-                <i class="fa-solid fa-circle-user custom-blue"></i>
-              </span>
-              <span class="custom-blue">Sign in</span>
-            </a>
-          </div>
+          </nav> 
         </div>
       </div>
     </section>
@@ -144,6 +150,25 @@
         <p><i>Page last updated 5/07/25</i></p>
         </div>
       </div>
-      <section class="section">
+      <!--JS for burger menu -->
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          // Get all "navbar-burger" elements
+          const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    
+          // Add a click event on each of them
+          $navbarBurgers.forEach(el => {
+            el.addEventListener('click', () => {
+              // Get the target from the "data-target" attribute
+              const target = el.dataset.target;
+              const $target = document.getElementById(target);
+    
+              // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+              el.classList.toggle('is-active');
+              $target.classList.toggle('is-active');
+            });
+          });
+        });
+      </script>
   </body>
 </html>
