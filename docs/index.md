@@ -31,7 +31,7 @@ For new contributors to get familiarized with the repository.
 +---tests # scripts to test app
 +---_logs # output related to debugging
 .pre-commit-config.yaml # automated hooks such as linting and formatting
-.env (local-only!) passwords
+.env # (local-only!) passwords
 manage.py # runs django server
 pyproject.toml # uv dependencies and requirements
 README.md
