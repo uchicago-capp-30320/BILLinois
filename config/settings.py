@@ -187,11 +187,13 @@ if DJOK_USER_TYPE in ("email", "email+username"):
     ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
     if DJOK_USER_TYPE == "email":
         ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-        ACCOUNT_SIGNUP_FIELDS = ["email*", "phone*"] + _PASSWORDS
+        ACCOUNT_SIGNUP_FIELDS = ["email*", "phone", "full_name"] + _PASSWORDS
     else:
         ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
         ACCOUNT_SIGNUP_FIELDS = ["email*", "username"] + _PASSWORDS
 
+# Phone verification
+ACCOUNT_PHONE_VERIFICATION_ENABLED = False
 # Email settings
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 
