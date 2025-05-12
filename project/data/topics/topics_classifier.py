@@ -1,11 +1,19 @@
 import re
 
+from apps.core.models import BillsTable
+
 from .keywords import TOPIC_KEYWORDS
 
 
-def get_topics_from_bill(bill) -> list:
+def get_topics_from_bill(bill: BillsTable) -> list[str]:
     """
-    Accepts a Django Bill model instance and returns relevant topics based on its title and summary.
+    Determine relevant topics for a given bill based on keyword matches in its title and summary.
+
+    Args:
+        bill (BillsTable): A Django model instance representing a bill.
+
+    Returns:
+        list[str]: A list of topic names matched based on predefined keyword sets.
     """
     title = bill.title or ""
     summary = bill.summary or ""
