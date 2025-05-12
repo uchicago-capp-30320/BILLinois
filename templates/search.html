@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
      <!-- Link to custom CSS -->
-     <link rel="stylesheet" href="file:///Users/livia/Documents/spring-25/se/BILLinois/static/css/custom.css">
+     <link rel="stylesheet" href="../static/css/custom.css">
   </head>
   <body>
     <section class="section">
@@ -15,7 +15,7 @@
         <div class="columns is-vcentered is-mobile" style="margin: 0;">
           <!-- Title Column -->
           <div class="column is-narrow" style="padding-left: 0; flex-grow: 0;">
-              <h1 class="title is-1">BILLinois</h1>
+              <h1 class="title is-1 custom-text-dark">BILLinois</h1>
           </div>
           <!-- Search Column -->
           <div class="column" style="flex-grow: 1;">
@@ -37,7 +37,7 @@
                 <!-- Menu Column -->
                 <div class="column is-narrow has-text-right" style="flex-grow:0;">
                   <!-- Home Link -->
-                  <a href="/home" class="icon-text has-text-link ml-4 is-clickable hover-link">
+                  <a href="/" class="icon-text has-text-link ml-4 is-clickable hover-link">
                     <span class="icon">
                       <i class="fas fa-home"></i>
                     </span>
@@ -46,12 +46,21 @@
                   <!-- Separator -->
                   <span class="mx-1">|</span>
                   <!-- Sign In Link -->
-                  <a href="/signin" class=" icon-text has-text-link is-clickable hover-link">
-                    <span class="icon">
-                      <i class="fa-solid fa-circle-user"></i>
-                    </span>
-                    <span>Sign in</span>
+                  {% if user.is_authenticated %}
+                  <a href = "/accounts/logout" class="icon-text is-pulled-right has-text-link">
+                      <span class="icon">
+                          <i class="fa-solid fa-circle-user"></i>
+                      </span>
+                      <span>Sign Out</span>
+                    </a>
+                  {% else %}
+                  <a href = "/accounts/login" class="icon-text is-pulled-right has-text-link">
+                      <span class="icon">
+                          <i class="fa-solid fa-circle-user"></i>
+                      </span>
+                      <span>Sign In</span>
                   </a>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -61,32 +70,34 @@
     </section>
     {% if results %}
     <section class="section">
-        <div class="title is-4 mb-6">Search results for "{{ query }}"</div>
-        <table class="table is-hoverable">
+        <div class="title is-4 mb-6 custom-text-dark">Search results for "{{ query }}"</div>
+        <table class="table bg-light is-hoverable">
             <thead>
                 <tr>
-                <th class="is-size-5">Bill Number</th>
-                <th class="is-size-5 has-text-centered">Bill Title</th>
-                <th class="is-size-5 has-text-centered">Latest Status</th>
-                <th class="is-size-5 has-text-centered">Topics</th>
-                <th class="is-size-5 has-text-centered">Favorite</th>
+                <th class="is-size-5 custom-text-dark">Bill Number</th>
+                <th class="is-size-5 has-text-centered custom-text-dark">Bill Title</th>
+                <th class="is-size-5 has-text-centered custom-text-dark">Latest Status</th>
+                <th class="is-size-5 has-text-centered custom-text-dark">Topics</th>
+                <th class="is-size-5 has-text-centered custom-text-dark">Favorite</th>
                 </tr>
             </thead>
             <tbody>
               {% for bill in results %}
                 <tr>
-                  <td class="py-5">{{ bill.number }}</td>
-                  <td class= "has-text-centered py-5">{{ bill.title}}</td>
-                  <td class="has-text-centered py-5 status-column">{{ bill.status }}</td>
+                  <td class="py-5 custom-text-dark">{{ bill.number }}</td>
+                  <td class= "has-text-centered py-5 custom-text-dark">{{ bill.title}}</td>
+                  <td class="has-text-centered py-5 status-column custom-text-dark">{{ bill.status }}</td>
                   <td class="has-text-centered py-5">
                     <!-- Add multiple tags here -->
                      <div class="grid">
-                    <span class="tag is-link is-rounded">Example topic</span> 
+                    <span class="tag button-blue is-rounded is-medium">Example topic</span> 
+                    <span class="tag button-purple is-rounded is-medium">Example topic</span> 
+                    <span class="tag button-green is-rounded is-medium">Example topic</span> 
                   </div>
                   </td>
                   <td class="has-text-centered py-5">
-                    <span class="icon has-text-warning">
-                      <i class="fa-regular fa-star fa-lg"></i>
+                    <span class="icon custom-yellow">
+                      <i class="fa-regular fa-star fa-xl"></i>
                     </span>
                   </td>
                 </tr>
@@ -94,24 +105,8 @@
               </tbody>
         </table>
         {% else %}
-            <p class="has-text-centered">Please enter a search term.</p>
+            <p class="has-text-centered custom-text-dark">Please enter a search term.</p>
         {% endif %}
-
-
-
-<!--      <tr>
-  <td class="py-5">COUNTIES CD-RECALL OFFICIALS</td>
-  <td class="has-text-centered py-5">SB 1954</td>
-  <td class="has-text-centered py-5 status-column">Assigned to Ethics and Elections</td>
-  <td class="has-text-centered py-5">
-
-      <span class="tag is-success">Counties</span>
-      <span class="tag is-info">Elections and Referendums</span>
-  </td>
-  <td class="has-text-centered py-5">
-      <span class="icon has-text-warning">
-      <i class="fa-regular fa-star fa-lg"></i>
-      </span>
-  </td>
-</tr>
--->
+      </section>
+    </body>
+  </html>
