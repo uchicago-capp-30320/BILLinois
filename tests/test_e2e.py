@@ -47,10 +47,12 @@ def test_search_empty(page: Page, search_term, expected_results, message):
     page.goto("http://127.0.0.1:8000/")
 
     # search for a bill
-    page.get_by_placeholder("Search Bill Summary").click()
+    page.get_by_placeholder("Search bills by name or topic...").click()
     page.keyboard.type(search_term)
 
-    page.locator('input[type="submit"][value="Search"]').click()
+    # TODO: ask frontend to add a submit button
+    # page.locator('input[type="submit"][value="Search"]').click()
+    page.keyboard.press("Enter")
 
     # expect page to have search results
     expect(page.get_by_text(expected_results), message).to_be_visible()
