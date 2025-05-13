@@ -14,10 +14,9 @@ def test_home_status(test_home):
 @pytest.mark.django_db
 def test_home_content(test_home):
 
-    assert b"Billinois" in test_home.content
-    # assert b"BILLinois" in response.content
-    # assert b"Get started by searching a custom bill topic" in response.content
-    # assert b"Education" in response.content
+    assert b"BILLinois" in test_home.content
+    assert b"Get started by searching a custom bill topic" in test_home.content
+    assert b"Education" in test_home.content
 
 @pytest.fixture
 def test_search_fake(client): 
@@ -29,8 +28,9 @@ def test_create_search(test_search_fake):
 
 @pytest.mark.django_db
 def test_search_content(test_search_fake):
-    assert b"Billinois" in test_search_fake.content
-
+    assert b"BILLinois" in test_search_fake.content
+    assert b"Home" in test_search_fake.content
+    assert b"Sign In" in test_search_fake.content
 
 @pytest.fixture
 def test_search_real(client): 
@@ -42,4 +42,6 @@ def test_create_search_real(test_search_real):
 
 @pytest.mark.django_db
 def test_search_content_real(test_search_real):
-    assert b"Billinois" in test_search_real.content
+    assert b"BILLinois" in test_search_real.content
+    assert b"Home" in test_search_real.content
+    assert b"Sign In" in test_search_real.content

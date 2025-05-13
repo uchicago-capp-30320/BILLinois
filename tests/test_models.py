@@ -30,7 +30,6 @@ def test_get_bill_from_number(test_bill):
     bill = BillsMockDjango.objects.get(number="AB 123")
     assert bill.bill_id == "123"
 
-
 # Action model tests
 @pytest.fixture
 def test_action(test_bill):  
@@ -87,7 +86,6 @@ def test_mock_favorite(test_favorite, test_user, test_bill):
     assert favorite.user_id.user_id == test_user.user_id
     assert favorite._meta.db_table == "favorites_mock"
 
-
 @pytest.mark.django_db
 def test_unique_together(test_favorite, test_user, test_bill):
     FavoritesMockDjango.objects.create(
@@ -97,7 +95,6 @@ def test_unique_together(test_favorite, test_user, test_bill):
     # This should fail
     with pytest.raises(IntegrityError):
         FavoritesMockDjango.objects.create(user_id=test_user, bill_id=test_bill)
-
 
 # User model from accounts tests
 @pytest.fixture
