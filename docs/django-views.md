@@ -30,4 +30,4 @@ This is an object containing the following fields, corresponding to the columns 
 `summary`: The bill summary
 `status`: The bill status
 `topics`: TO BE IMPLEMENTED
-`favorite`: TO BE IMPLEMENTED
+`favorite`: Whether or not the bill has been favorited by the logged-in user
