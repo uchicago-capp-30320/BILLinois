@@ -21,7 +21,7 @@ class ActionsTable(models.Model):
     The full actions table.
     """
 
-    action_id = models.CharField(unique=True, primary_key=True)
+    action_id = models.CharField(unique=True, primary_key=True, db_column="action_id")
     bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
     description = models.CharField()
     date = models.DateTimeField()
@@ -30,6 +30,7 @@ class ActionsTable(models.Model):
 
     class Meta:
         db_table = "actions_table"
+        unique_together = ("action_id", "bill_id")
 
 
 class BillsMockDjango(models.Model):
@@ -148,6 +149,21 @@ class TopicsTable(models.Model):
 
     class Meta:
         db_table = "topics_table"
+
+class UpdatesTable(models.Model):
+    """
+    A table storing periodic updates for bills.
+    """
+    action_id = models.ForeignKey("ActionsTable", on_delete=models.CASCADE, db_column="action_id")
+    bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
+    description = models.CharField()
+    date = models.DateTimeField()
+    category = models.CharField(null=True)
+    chamber = models.CharField()
+
+    class Meta:
+        db_table = "updates_table"
+        unique_together = ("action_id", "bill_id")
 
 
 class UsersMockDjango(models.Model):
