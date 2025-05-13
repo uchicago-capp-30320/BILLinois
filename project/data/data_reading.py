@@ -32,17 +32,17 @@ for i in range(1, max_pages + 1):
     num_inserts += inserts_on_page
     # Mass inserting with lists
     arguments_bills = ",".join(
-        cur.mogrify("(%s, %s, %s, %s, %s)", bill).decode("utf-8") for bill in bills
+        cur.mogrify("(%s, %s, %s, %s, %s, %s, %s)", bill).decode("utf-8") for bill in bills
     )
     arguments_sponsors = ",".join(
         cur.mogrify("(%s, %s, %s, %s, %s, %s)", sponsor).decode("utf-8") for sponsor in sponsors
     )
     arguments_actions = ",".join(
-        cur.mogrify("(%s, %s, %s, %s, %s)", action).decode("utf-8") for action in actions
+        cur.mogrify("(%s, %s, %s, %s, %s, %s)", action).decode("utf-8") for action in actions
     )
 
     cur.execute(
-        "INSERT INTO bills_table (bill_id, number, title, summary, status) VALUES "
+        "INSERT INTO bills_table (bill_id, number, title, summary, status, state, session) VALUES "
         + arguments_bills
     )
     cur.execute(
@@ -50,7 +50,7 @@ for i in range(1, max_pages + 1):
         + arguments_sponsors
     )
     cur.execute(
-        "INSERT INTO actions_table (action_id, bill_id, description, date, category) VALUES "
+        "INSERT INTO actions_table (action_id, bill_id, description, chamber, date, category) VALUES "
         + arguments_actions
     )
 

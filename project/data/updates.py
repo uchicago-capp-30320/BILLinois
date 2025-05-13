@@ -4,13 +4,17 @@ from datetime import timedelta
 import time
 import os
 import psycopg2
+import sys
 
+# Connect to DB, parse state and session from input args
 conn = psycopg2.connect(
     database="billinois",
     host=os.environ["billinois-db-host"],
     user=os.environ["billinois-db-user"],
     password=os.environ["billinois-db-password"],
 )
+state = sys.argv[1]
+session = sys.argv[2]
 
 # Set up cursor, and clear updates_table
 cur = conn.cursor()
@@ -19,13 +23,13 @@ cur.execute("DELETE FROM updates_table;")
 # Setting up date, total pages, and number of inserts
 today_date = date.today()
 yesterday_date = str(today_date - timedelta(days=1))
-_, total_pages_updated = pull_page(1, yesterday_date)
+_, total_pages_updated = pull_page(state, session, 1, yesterday_date)
 num_updated_inserts = 0
 
 # Iterate through each page, deleting outdated records if needed,
 # inserting updated data, and populating updates table
 for p in range(1, total_pages_updated + 1):
-    page_updated_bills, _ = pull_page(p, yesterday_date)
+    page_updated_bills, _ = pull_page(state, session, p, yesterday_date)
     if not page_updated_bills:
         print("No updates to bills")
         break
@@ -46,22 +50,23 @@ for p in range(1, total_pages_updated + 1):
     updated_bills, updated_sponsors, updated_actions, updated_inserts, updates = insert_bills(
         page_updated_bills
     )
+
     arguments_bills_updated = ",".join(
-        cur.mogrify("(%s, %s, %s, %s, %s)", bill).decode("utf-8") for bill in updated_bills
+        cur.mogrify("(%s, %s, %s, %s, %s, %s, %s)", bill).decode("utf-8") for bill in updated_bills
     )
     arguments_sponsors_updated = ",".join(
         cur.mogrify("(%s, %s, %s, %s, %s, %s)", sponsor).decode("utf-8")
         for sponsor in updated_sponsors
     )
     arguments_actions_updated = ",".join(
-        cur.mogrify("(%s, %s, %s, %s, %s)", action).decode("utf-8") for action in updated_actions
+        cur.mogrify("(%s, %s, %s, %s, %s, %s)", action).decode("utf-8") for action in updated_actions
     )
     arguments_updates = ",".join(
-        cur.mogrify("(%s, %s, %s, %s, %s)", bill_update).decode("utf-8") for bill_update in updates
+        cur.mogrify("(%s, %s, %s, %s, %s, %s)", bill_update).decode("utf-8") for bill_update in updates
     )
 
     cur.execute(
-        "INSERT INTO bills_table (bill_id, number, title, summary, status) VALUES "
+        "INSERT INTO bills_table (bill_id, number, title, summary, status, state, session) VALUES "
         + arguments_bills_updated
     )
     cur.execute(
@@ -69,13 +74,14 @@ for p in range(1, total_pages_updated + 1):
         + arguments_sponsors_updated
     )
     cur.execute(
-        "INSERT INTO actions_table (action_id, bill_id, description, date, category) VALUES "
+        "INSERT INTO actions_table (action_id, bill_id, description, chamber, date, category) VALUES "
         + arguments_actions_updated
     )
-    cur.execute(
-        "INSERT INTO updates_table(bill_id, category, description, action_id, date) VALUES "
-        + arguments_updates
-    )
+    if updates:
+        cur.execute(
+            "INSERT INTO updates_table(bill_id, category, description, chamber, action_id, date) VALUES "
+            + arguments_updates
+        )
 
     # Committing at every ~5k inserts
     num_updated_inserts += updated_inserts
