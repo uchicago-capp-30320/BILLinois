@@ -14,6 +14,9 @@ from playwright.sync_api import Page, expect
 
 #     # print("after the test runs")
 
+TIMEOUT = 2000
+expect.set_options(timeout=TIMEOUT)
+
 
 def test_playwright_working(page: Page):
     page.goto("https://playwright.dev/")
