@@ -1,7 +1,7 @@
 import re
 import pytest
-import playwright
 from playwright.sync_api import Page, expect
+
 
 # @pytest.fixture(scope="function", autouse=True)
 # def before_each_after_each(page: Page):
@@ -28,14 +28,16 @@ def test_home_exists(page: Page):
     page.goto("http://127.0.0.1:8000/")
 
     # expect heading with billinois to exist
-    expect(page.locator("h1"), "Custom home page is not properly configured").to_have_text("BILLinois")
+    expect(page.locator("h1"), "Custom home page is not properly configured").to_have_text(
+        "BILLinois"
+    )
 
 
 @pytest.mark.parametrize(
     "search_term, expected_results, message",
     [
         ("", "Please enter a search term.", "Failed to prompt user when no search term entered."),
-        ("e", "No results found.", "Failed to inform user when 0 results are returned."),
+        ("asdf", "No results found.", "Failed to inform user when 0 results are returned."),
         ("environment", "Topics", "Failed to return any results for a valid search term."),
     ],
 )
@@ -60,6 +62,7 @@ def test_search_empty(page: Page, search_term, expected_results, message):
     # expect page to have search results
     expect(page.get_by_text(expected_results), message).to_be_visible()
 
+
 # def test_bill_page(page: Page):
 #     """
 #     Test navigating to a specific bill page.
@@ -72,7 +75,7 @@ def test_search_empty(page: Page, search_term, expected_results, message):
 
 # def test_favorite_bill(page: Page):
 #     """
-#     Test favoriting a bill. 
+#     Test favoriting a bill.
 #     TODO: finish
 #     TODO: if not signed in, prompt to sign in
 #     """
