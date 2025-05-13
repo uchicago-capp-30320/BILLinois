@@ -79,15 +79,52 @@ def test_search_empty(page: Page, search_term, expected_results, message):
 #     # expect star to be filled
 #     expect(page.get_by_role("link",name="Favorite")).to_have_class(re.compile("fa-star-fill"))
 
-# def test_sign_in(page: Page):
-#     """
-#     Test signing in from the home page.
-#     TODO: finish
-#     """
 
-#     page.goto("http://127.0.0.1:8000/")
+@pytest.mark.parametrize(
+    "username, password, expected_results, message",
+    [
+        (
+            "wrong@wrong.com",
+            "testpassword",
+            "not correct",
+            "Failed to inform user when credentials are incorrect.",
+        ),
+        (
+            "notkarenyi@gmail.com",
+            "test123!",
+            "Phone Verification",
+            "Failed to redirect to phone verification page.",
+        ),
+    ],
+)
+def test_sign_in(page: Page, username, password, expected_results, message):
+    """
+    Test signing in from the home page for at least two cases:
+    - Wrong username/password case, where the user is warned about incorrect credentials.
+    - Successful login case, where user is redirected to verification step.
+    TODO: finish once the SMS verify remove PR is approved
+    """
 
-#     page.get_by_role("link",name="Sign in").click()
+    page.goto("http://127.0.0.1:8000/")
 
-#     # expect page to have search results
-#     expect(page.get_by_text("Sign in")).to_be_visible()
+    page.locator('#djHideToolBarButton').click(timeout=TIMEOUT)
+
+    # page.pause()
+    # page.screenshot(path="debug.png")
+
+    page.locator('[href*="/accounts/login"]').click(timeout=TIMEOUT)
+
+    # assert page.locator('[href*="/accounts/login"]').is_visible(), "Element is not visible"
+    # assert page.locator('[href*="/accounts/login"]').is_enabled(), "Element is not enabled"
+
+    # expect(page.get_by_text("Forgot your password?"), message).to_be_visible()
+
+    page.get_by_placeholder("Email address").click()
+    page.keyboard.type(username)
+
+    page.get_by_placeholder("Password").click()
+    page.keyboard.type(password)
+
+    page.locator("button[type='submit']").click()
+
+    expect(page.get_by_text(expected_results), message).to_be_visible()
