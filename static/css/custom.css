@@ -1,4 +1,4 @@
-/* status column in the table returned by search results */
+/* Status column in the table returned by search results */
 th.status-column, td.status-column {
     width: 290px; 
     white-space: wrap; /* text wrapping */
@@ -11,12 +11,21 @@ body {
 html, body {
     height: 100%; /* Make the html and body elements fill the viewport height */
 }
-/* color palette */
-/* background color for webpages */
+/* Set the navbar background color */
+.navbar {
+    background-color: #F5F5F5; /* Match the page background color */
+    border: none; 
+}
+/* Change the color of the dropdown arrow */
+.navbar-link::after {
+    border-color: #4269D0;
+}
+/* Color palette */
+/* Background color for webpages */
 .bg-light {
     background-color: #F5F5F5;
 }
-/* text colors*/
+/* Text colors*/
 .custom-text-dark {
     color: #3D474A;
 }
@@ -38,7 +47,7 @@ html, body {
 .custom-purple {
     color: #A12FA7;
 }
-/* button colors */
+/* Button colors */
 .button-green {
     background-color: #4BAB68;
     color: #F5F5F5;

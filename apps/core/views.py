@@ -8,6 +8,7 @@ from django.db.models import OuterRef, Exists
 from .models import BillsTable, FavoritesTable
 
 
+
 def home(request: HttpRequest) -> HttpResponse:
     """
     Render the home page.
@@ -70,7 +71,6 @@ def search(request: HttpRequest) -> HttpResponse:
         {"query": request.GET.get("query", ""), "results": results},
     )
 
-
 @login_required
 def toggle_favorite(request, bill_id):
     """
@@ -91,6 +91,7 @@ def toggle_favorite(request, bill_id):
             favorite.delete()
 
     return redirect(request.META.get("HTTP_REFERER", "search"))
+
 
 def bill_page(request: HttpRequest, bill_number: str) -> HttpResponse:
     """

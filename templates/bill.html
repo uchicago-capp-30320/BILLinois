@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ bill_data.number }} – {{ bill_data.title }}</title>
+</head>
+<body>
+    <h1>{{ bill_data.number }} – {{ bill_data.title }}</h1>
+
+    <h2>Summary</h2>
+    <p>{{ bill_data.summary }}</p>
+
+    <h2>Topics</h2>
+    <ul>
+        {% for topic in bill_data.topics %}
+            <li>{{ topic.topic }}</li>
+        {% empty %}
+            <li>No topics available.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Sponsors</h2>
+    <ul>
+        {% for sponsor in bill_data.sponsors %}
+            <li>
+                {{ sponsor.sponsor_name }} ({{ sponsor.party }}) – {{ sponsor.position }}<br>
+                ID: {{ sponsor.sponsor_id }}
+            </li>
+        {% empty %}
+            <li>No sponsors available.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Status</h2>
+    <ul>
+        {% for status in bill_data.status %}
+            <li>
+                <strong>{{ status.date }}</strong>: {{ status.status }}<br>
+                <em>{{ status.status_desc }}</em>
+            </li>
+        {% empty %}
+            <li>No actions recorded.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
