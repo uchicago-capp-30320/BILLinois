@@ -1,11 +1,16 @@
 import re
 
-from apps.core.models import BillsTable
+from nltk.corpus import stopwords
 
 from .keywords import TOPIC_KEYWORDS
+from .stopwords import STOPWORDS
 
 
-def get_topics_from_bill(bill: BillsTable) -> list[str]:
+stop_words = set(stopwords.words("english"))
+stop_words.update(STOPWORDS)
+
+
+def get_topics_from_bill(bill_title: str, bill_summary: str) -> list[str]:
     """
     Determine relevant topics for a given bill based on keyword matches in its title and summary.
 
@@ -15,14 +20,17 @@ def get_topics_from_bill(bill: BillsTable) -> list[str]:
     Returns:
         list[str]: A list of topic names matched based on predefined keyword sets.
     """
-    title = bill.title or ""
-    summary = bill.summary or ""
-    text = f"{title} {summary}".lower()
-    words = set(re.findall(r"\b\w+\b", text))
+    combined_text = f"{bill_title} {bill_summary}"
+    cleaned_text = re.sub(r"[^a-zA-Z\s]", "", combined_text).lower()
+    tokens = [word for word in cleaned_text.split() if word not in stop_words]
+
+    unigrams = set(tokens)
+    bigrams = {f"{tokens[i]} {tokens[i + 1]}" for i in range(len(tokens) - 1)}
+    all_tokens = unigrams | bigrams
 
     matched_topics = []
     for topic, keywords in TOPIC_KEYWORDS.items():
-        if any(keyword in words for keyword in keywords):
+        if any(keyword.lower() in all_tokens for keyword in keywords):
             matched_topics.append(topic)
 
     return matched_topics
