@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     # Uncomment for MFA/Webauthn
-    # "allauth.mfa",
+    "allauth.mfa",
     "django_structlog",
     "django_typer",
     "apps.accounts",
@@ -187,11 +187,13 @@ if DJOK_USER_TYPE in ("email", "email+username"):
     ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
     if DJOK_USER_TYPE == "email":
         ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-        ACCOUNT_SIGNUP_FIELDS = ["email*", "phone*"] + _PASSWORDS
+        ACCOUNT_SIGNUP_FIELDS = ["email*", "phone", "full_name"] + _PASSWORDS
     else:
         ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
         ACCOUNT_SIGNUP_FIELDS = ["email*", "username"] + _PASSWORDS
 
+# Phone verification
+ACCOUNT_PHONE_VERIFICATION_ENABLED = False
 # Email settings
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 
@@ -203,12 +205,17 @@ ANYMAIL = {
 DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL")
 
 
-# Uncomment for Webauthnn
-# MFA_SUPPORTED_TYPES = ["webauthn"]
-# MFA_PASSKEY_LOGIN_ENABLED = True
-# MFA_PASSKEY_SIGNUP_ENABLED = True
-# if DEBUG:
-#     MFA_WEBAUTHN_ALLOW_INSECURE_ORIGIN = True
+#Uncomment for Webauthnn
+MFA_SUPPORTED_TYPES = ["webauthn", "email"]
+MFA_PASSKEY_LOGIN_ENABLED = True
+MFA_PASSKEY_SIGNUP_ENABLED = True
+if DEBUG:
+    MFA_WEBAUTHN_ALLOW_INSECURE_ORIGIN = True
+
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_MFA_REQUIRED = True 
+ACCOUNT_MFA_ENFORCE_ON_LOGIN = True 
+ACCOUNT_MFA_REQUIRED_METHODS = ["email", "webauthn"]
 
 
 # Logging Config ---------
