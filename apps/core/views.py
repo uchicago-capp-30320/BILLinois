@@ -7,8 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import OuterRef, Exists
 from .models import BillsTable, FavoritesTable
 
-
-
 def home(request: HttpRequest) -> HttpResponse:
     """
     Render the home page.
@@ -71,6 +69,7 @@ def search(request: HttpRequest) -> HttpResponse:
         {"query": request.GET.get("query", ""), "results": results},
     )
 
+
 @login_required
 def toggle_favorite(request, bill_id):
     """
@@ -82,10 +81,7 @@ def toggle_favorite(request, bill_id):
         bill = get_object_or_404(BillsTable, bill_id=bill_id)
 
         # Use get_or_create with the related objects
-        favorite, created = FavoritesTable.objects.get_or_create(
-            user_id=user,
-            bill_id=bill
-        )
+        favorite, created = FavoritesTable.objects.get_or_create(user_id=user, bill_id=bill)
 
         if not created:
             favorite.delete()

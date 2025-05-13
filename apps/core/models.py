@@ -21,7 +21,7 @@ class ActionsTable(models.Model):
     The full actions table.
     """
 
-    action_id = models.CharField(unique=True, primary_key=True)
+    action_id = models.CharField(unique=True, primary_key=True, db_column="action_id")
     bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
     description = models.CharField()
     date = models.DateTimeField()
@@ -30,6 +30,7 @@ class ActionsTable(models.Model):
 
     class Meta:
         db_table = "actions_table"
+        unique_together = ("action_id", "bill_id")
 
 
 class BillsMockDjango(models.Model):
@@ -67,12 +68,26 @@ class BillsTable(models.Model):
         db_table = "bills_table"
 
 
+class FavoritesMockDjango(models.Model):
+    """
+    A mock model for the favorites table.
+    Meant to store mock data for user favorites.
+    """
+
+    user_id = models.ForeignKey("UsersMockDjango", on_delete=models.CASCADE, db_column="user_id")
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
+
+    class Meta:
+        db_table = "favorites_mock"
+        unique_together = ("user_id", "bill_id")
+
+
 class FavoritesTable(models.Model):
     """
     The full favorites table.
     """
 
-    user_id = models.ForeignKey("accounts.User", on_delete=models.CASCADE, db_column="user_id")
+    user_id = models.ForeignKey("UsersTable", on_delete=models.CASCADE, db_column="user_id")
     bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
 
     class Meta:
@@ -134,3 +149,69 @@ class TopicsTable(models.Model):
 
     class Meta:
         db_table = "topics_table"
+
+
+class UpdatesMockDjango(models.Model):
+    """
+    A mock model for the updates table.
+    Meant to store mock data for periodic updates on bills.
+    """
+
+    action_id = models.ForeignKey(
+        "ActionsMockDjango", on_delete=models.CASCADE, db_column="action_id"
+    )
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
+    description = models.CharField()
+    date = models.DateTimeField()
+    category = models.CharField(null=True)
+    chamber = models.CharField()
+
+    class Meta:
+        db_table = "updates_mock"
+        unique_together = ("action_id", "bill_id")
+
+
+class UpdatesTable(models.Model):
+    """
+    A table storing periodic updates for bills.
+    """
+
+    action_id = models.ForeignKey("ActionsTable", on_delete=models.CASCADE, db_column="action_id")
+    bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
+    description = models.CharField()
+    date = models.DateTimeField()
+    category = models.CharField(null=True)
+    chamber = models.CharField()
+
+    class Meta:
+        db_table = "updates_table"
+        unique_together = ("action_id", "bill_id")
+
+
+class UsersMockDjango(models.Model):
+    """
+    A mock model for the users table.
+    Meant to store mock data for users.
+    """
+
+    user_id = models.CharField(unique=True, primary_key=True, null=False)
+    password = models.CharField()
+    phone = models.CharField()
+    zip = models.CharField()
+
+    class Meta:
+        db_table = "users_mock"
+
+
+class UsersTable(models.Model):
+    """
+    The full users table.
+    """
+
+    user_id = models.CharField(unique=True, primary_key=True, null=False)
+    password = models.CharField()
+    phone = models.CharField()
+    zip = models.CharField()
+
+    class Meta:
+        db_table = "users_table"
