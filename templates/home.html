@@ -6,16 +6,27 @@
     <title>Homepage</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Link to custom CSS -->
+    <link rel="stylesheet" href="../static/css/custom.css">
   </head>
   <body>
     <section class = "section">
         <div class = "container">
-          <a href = "/accounts/login" class="icon-text is-pulled-right has-text-link">
-            <span class="icon">
-                <i class="fa-solid fa-circle-user"></i>
-            </span>
-            <span>Sign In</span>
-          </a>
+            {% if user.is_authenticated %}
+            <a href = "/accounts/logout" class="icon-text is-pulled-right has-text-link">
+                <span class="icon">
+                    <i class="fa-solid fa-circle-user"></i>
+                </span>
+                <span>Sign Out</span>
+              </a>
+            {% else %}
+            <a href = "/accounts/login" class="icon-text is-pulled-right has-text-link">
+                <span class="icon">
+                    <i class="fa-solid fa-circle-user"></i>
+                </span>
+                <span>Sign In</span>
+            </a>
+            {% endif %}
           <span class = "is-pulled-right mx-2" > | </span>
           <a href = "/" class="icon-text is-pulled-right has-text-link">
               <span class="icon">
@@ -27,17 +38,17 @@
     </section>
   <section class="section">
     <div class="container">
-      <h1 class="title is-1 has-text-centered">
+      <h1 class="title is-1 has-text-centered custom-text-dark">
         BILLinois
       </h1>
-      <p class="subtitle has-text-centered">
+      <p class="subtitle has-text-centered custom-text-dark">
        Civic Engagement, Made Simple.
       </p>
     </div>
   </section>
   <section class = "section">
     <div class="container is-max-tablet mt-3 mb-3">
-        <p class="mt-3 mb-3 has-text-centered">
+        <p class="mt-3 mb-3 has-text-centered custom-text-dark">
           Get started by searching a custom bill topic or clicking on a bill category below.
         </p>
         <form method="GET" action="./search">
@@ -61,12 +72,12 @@
       <br>
     <div class = "container is-max-tablet">
         <div class="grid buttons is-column-gap-7">
-            <a href = "./search/?query=education" class="cell button is-medium is-primary ">Education</a>
-            <a href = "./search/?query=energy" class="cell button is-medium is-link">Energy/Environment</a>
-            <a href = "./search/?query=health" class="cell button is-medium is-info is-row-start-2">Health</a>
-            <a href = "./search/?query=transportation" class="cell button is-medium is-success is-row-start-2">Transportation</a>
-            <a href = "./search/?query=housing" class="cell button is-medium is-warning is-row-start-3">Housing</a>
-            <a href = "./search/?query=LGBTQIA" class="cell button is-medium is-danger is-row-start-3">LGBTQIA</a>
+            <a href = "./search/?query=education" class="cell button is-medium button-blue ">Education</a>
+            <a href = "./search/?query=energy" class="cell button is-medium button-green">Energy/Environment</a>
+            <a href = "./search/?query=health" class="cell button is-medium button-red is-row-start-2">Health</a>
+            <a href = "./search/?query=transportation" class="cell button is-medium button-purple is-row-start-2">Transportation</a>
+            <a href = "./search/?query=housing" class="cell button is-medium button-pink is-row-start-3">Housing</a>
+            <a href = "./search/?query=LGBTQIA" class="cell button is-medium button-yellow is-row-start-3">LGBTQIA</a>
         </div>
     </div>
 

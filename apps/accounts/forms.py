@@ -10,7 +10,7 @@ class CustomSignupForm(SignupForm):
 
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("Email already exists.")
-        
+
         return email
 
     def clean_phone(self) -> str:
@@ -20,5 +20,5 @@ class CustomSignupForm(SignupForm):
         if User.objects.filter(phone=phone).exists():
             print("Phone exists")
             raise forms.ValidationError("Phone already exists.")
-        
+
         return phone
