@@ -37,7 +37,7 @@ TOPIC_KEYWORDS = {
         "lgbtq",
         "lgbt",
         "trans",
-        "transexual",
+        "transgender",
         "lesbian",
         "gay",
         "bisexual",
