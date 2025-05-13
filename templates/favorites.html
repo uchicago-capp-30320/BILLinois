@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html data-theme = "light">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>User Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Link to custom CSS -->
+    <link rel="stylesheet" href="../static/css/custom.css">
   </head>
   <body>
   <section class="section">
@@ -62,32 +64,27 @@
                   <h2 class = "title is-4 m-2" >Regular Arko</h1>
                   <p class = "subtitle is-6 m-2"> arkoreg@internet.com </p>
                   <br>
-                  <p class = "subtitle is-6 m-2"><strong>Alerts: </strong></p>
-                  <div class="dropdown">
-                    <div class="dropdown-trigger">
-                      <button class="button is-small m-2" aria-haspopup="true" aria-controls="dropdown-menu3">
-                        <span> Frequency </span>
-                        <span class="icon is-small">
-                          <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </div>
-                    <div class="dropdown-menu m-2" id="dropdown-menu3" role="menu">
-                      <div class="dropdown-content">
-                        <a href="#" class="dropdown-item"> Daily </a>
-                        <a href="#" class="dropdown-item"> Weekly </a>
-                        <a href="#" class="dropdown-item"> Biweekly </a>
-                        <a href="#" class="dropdown-item"> Custom </a>
-                        <a href="#" class="dropdown-item"> Never </a>
+                  <div class = "is-flex is-align-items-center">
+                    <p class = "subtitle is-6 m-2"><strong>Alerts: </strong></p>
+                    <!-- <div class="buttons are-small has-addons">
+                      <button class="button is-success is-selected">On</button>
+                      <button class="button">Off</button>
+                    </div> -->
+                    <label class="switch">
+                      <input type="checkbox">
+                      <div class="slider"></div>
+                      <div class="slider-card">
+                        <div class="slider-card-face slider-card-front"></div>
+                        <div class="slider-card-face slider-card-back"></div>
                       </div>
-                    </div>
+                    </label>
                   </div>
                   
-                  <footer class="card-footer">
-                    <a href="/accounts/password/change/" class="card-footer-item is-size-6 has-text-weight-light has-text-link">Edit Password</a>
+                  <footer class="card-footer has-text-left">
+                    <a href="/accounts/password/change/" class="card-footer-item has-text-left has-text-link">Edit Password</a>
                   </footer>
-                  <footer class="card-footer">
-                    <a href="/accounts/email/" class="card-footer-item has-text-weight-light has-text-link">Edit Email</a>
+                  <footer class="card-footer is-justify-content-start">
+                    <a href="/accounts/email/" class="card-footer-item has-text-link">Edit Email</a>
                   </footer>
                 </div>
             </div>
