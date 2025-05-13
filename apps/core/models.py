@@ -150,6 +150,23 @@ class TopicsTable(models.Model):
     class Meta:
         db_table = "topics_table"
 
+class UpdatesMockDjango(models.Model):
+    """
+    A mock model for the updates table.
+    Meant to store mock data for periodic updates on bills.
+    """
+
+    action_id = models.ForeignKey("ActionsMockDjango", on_delete=models.CASCADE, db_column="action_id")
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
+    description = models.CharField()
+    date = models.DateTimeField()
+    category = models.CharField(null=True)
+    chamber = models.CharField()
+
+    class Meta:
+        db_table = "updates_mock"
+        unique_together = ("action_id", "bill_id")
+
 class UpdatesTable(models.Model):
     """
     A table storing periodic updates for bills.
