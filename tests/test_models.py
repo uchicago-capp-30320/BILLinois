@@ -1,20 +1,12 @@
 import pytest
-from django.test import TestCase, Client
 from apps.core.models import BillsMockDjango, ActionsMockDjango, UsersMockDjango, FavoritesMockDjango
 from apps.accounts.models import User
-import config.settings as settings
-from django.core.management import call_command
+# import config.settings as settings
 from datetime import datetime
 from django.db import IntegrityError
 from django.utils import timezone
 
 # DJANGO_SETTINGS_MODULE=config.settings uv run python tests/test_search.py
-
-@pytest.mark.django_db
-def test_create_search(client):
-    response = client.get("/search/", {"query": "This is a test query."})
-
-    assert response.status_code == 200
 
 # Bill model tests
 @pytest.fixture
@@ -111,7 +103,7 @@ def test_unique_together(test_favorite, test_user, test_bill):
 @pytest.fixture
 def test_user_accounts(): 
     return User.objects.create(
-    email = "test@gmail.com",
+    email = "test@gmail.COM",
     username = "david_test",
     full_name = "David Test",
     is_staff = False,
@@ -121,7 +113,7 @@ def test_user_accounts():
 
 @pytest.mark.django_db
 def test_user_name(test_user_accounts):
-    assert test_user_accounts.email == "test@gmail.com"
+    assert test_user_accounts.email == "test@gmail.COM"
     assert test_user_accounts.username == "david_test"
 
 @pytest.mark.django_db
@@ -131,3 +123,8 @@ def test_get_full_name(test_user_accounts):
 @pytest.mark.django_db
 def test_get_short_name(test_user_accounts):
     assert test_user_accounts.get_short_name() == "david_test"
+
+@pytest.mark.django_db
+def test_clean_email(test_user_accounts):
+    test_user_accounts.clean()
+    assert test_user_accounts.email == "test@gmail.com"
