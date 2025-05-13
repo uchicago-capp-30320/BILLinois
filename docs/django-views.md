@@ -19,6 +19,13 @@ Search does two things:
 1. Renders `templates/search.html` at the `/search/` endpoint.
 2. Handles search requests from search form submissions. Queries the database, and then returns the `results` object.
 
+#### Parameters:
+1. `query` - the query text of the search. Returns bills whose titles or summaries match this query text.
+2.  `state` – the state to filter on. Optional. If not present, will return bills from all states. If present, will filter by state selected. State should be the full name of the state.
+
+**Example Query**:
+http://127.0.0.1:8000/search/?query=environment&state=Illinois
+
 #### The Results Object:
 Search results returned by the database. 
 

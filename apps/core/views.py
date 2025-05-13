@@ -39,6 +39,8 @@ def search(request: HttpRequest) -> HttpResponse:
                 favorite: TO BE IMPLEMENTED
     """
     query = request.GET.get("query", "")
+    state = request.GET.get("state", None)
+    topic = request.GET.get("topic", None)
 
     results = []
 
@@ -48,6 +50,12 @@ def search(request: HttpRequest) -> HttpResponse:
         results = (
             BillsTable.objects.annotate(search=search_vector)
             .filter(search=search_query)
+        )
+
+        if state:
+            results = results.filter(state=state)
+        
+        results = (results
             .annotate(rank=SearchRank(search_vector, search_query))
             .order_by("-rank")
         )
