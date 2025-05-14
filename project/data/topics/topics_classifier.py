@@ -1,13 +1,7 @@
 import re
 
-from nltk.corpus import stopwords
-
 from .keywords import TOPIC_KEYWORDS
 from .stopwords import STOPWORDS
-
-
-stop_words = set(stopwords.words("english"))
-stop_words.update(STOPWORDS)
 
 
 def get_topics_from_bill(bill_title: str, bill_summary: str) -> list[str]:
@@ -22,7 +16,7 @@ def get_topics_from_bill(bill_title: str, bill_summary: str) -> list[str]:
     """
     combined_text = f"{bill_title} {bill_summary}"
     cleaned_text = re.sub(r"[^a-zA-Z\s]", "", combined_text).lower()
-    tokens = [word for word in cleaned_text.split() if word not in stop_words]
+    tokens = [word for word in cleaned_text.split() if word not in STOPWORDS]
 
     unigrams = set(tokens)
     bigrams = {f"{tokens[i]} {tokens[i + 1]}" for i in range(len(tokens) - 1)}
