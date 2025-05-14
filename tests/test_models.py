@@ -15,7 +15,7 @@ from django.utils import timezone
 # DJANGO_SETTINGS_MODULE=config.settings uv run python tests/test_search.py
 
 
-# Bill model tests
+#%% Bill model tests
 @pytest.fixture
 def test_bill():
     return BillsMockDjango.objects.create(
@@ -40,7 +40,7 @@ def test_get_bill_from_number(test_bill):
     assert bill.bill_id == "123"
 
 
-# Action model tests
+#%% Action model tests
 @pytest.fixture
 def test_action(test_bill):
     return ActionsMockDjango.objects.create(
@@ -64,7 +64,7 @@ def test_action_from_id(test_action):
     assert bill.description == "Passed House"
 
 
-# User model from core tests
+#%% User model from core tests
 # Will have to delete/change this after the PR that removes this
 @pytest.fixture
 def test_user():
@@ -80,7 +80,7 @@ def test_mock_user(test_user):
     assert test_user._meta.db_table == "users_mock"
 
 
-# Favorites model tests
+#%% Favorites model tests
 @pytest.fixture
 def test_favorite(test_bill, test_user):
     return FavoritesMockDjango.objects.create(user_id=test_user, bill_id=test_bill)
