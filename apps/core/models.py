@@ -41,6 +41,8 @@ class BillsMockDjango(models.Model):
     bill_id = models.CharField(unique=True, primary_key=True)
     number = models.CharField()
     title = models.CharField()
+    state = models.CharField()
+    session = models.CharField()
     summary = models.CharField()
     status = models.CharField()
 
@@ -56,6 +58,8 @@ class BillsTable(models.Model):
     bill_id = models.CharField(unique=True, primary_key=True)
     number = models.CharField()
     title = models.CharField()
+    state = models.CharField()
+    session = models.CharField()
     summary = models.CharField()
     status = models.CharField()
 
