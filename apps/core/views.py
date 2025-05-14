@@ -2,7 +2,6 @@ from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import BillsMockDjango, BillsTable
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 
 def home(request: HttpRequest) -> HttpResponse:

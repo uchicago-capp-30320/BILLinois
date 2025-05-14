@@ -115,7 +115,7 @@ def test_sign_in(page: Page, username, password, expected_results, message):
 
     page.goto("http://127.0.0.1:8000/")
 
-    page.locator('#djHideToolBarButton').click(timeout=TIMEOUT)
+    page.locator("#djHideToolBarButton").click(timeout=TIMEOUT)
 
     # page.pause()
     # page.screenshot(path="debug.png")
