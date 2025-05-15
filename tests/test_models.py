@@ -29,9 +29,8 @@ def test_bill():
 
 @pytest.mark.django_db
 def test_mock_bill_created(test_bill):
-    assert test_bill.bill_id == "123"
-
-    assert test_bill._meta.db_table == "bills_mock"
+    assert (test_bill.bill_id, test_bill._meta.db_table) == \
+        ("123", "bills_mock")
 
 
 @pytest.mark.django_db
@@ -53,9 +52,8 @@ def test_action(test_bill):
 
 @pytest.mark.django_db
 def test_mock_action(test_action):
-    assert test_action.action_id == "Passed"
-
-    assert test_action._meta.db_table == "actions_mock"
+    assert (test_action.action_id, test_action._meta.db_table) == \
+        ("Passed", "actions_mock")
 
 
 @pytest.mark.django_db
@@ -87,21 +85,21 @@ def test_favorite(test_bill, test_user):
 
 
 @pytest.mark.django_db
-def test_mock_favorite(test_favorite, test_user, test_bill):
+def test_get_favorite_from_user_and_bill(test_favorite, test_user, test_bill):
     favorite = FavoritesMockDjango.objects.get(user_id=test_user.user_id, bill_id=test_bill.bill_id)
 
     print(f"favorite.user_id: {favorite.user_id}")
     print(f"test_user.user_id: {test_user.user_id}")
 
-    assert favorite.user_id.user_id == test_user.user_id
-    assert favorite._meta.db_table == "favorites_mock"
+    assert (favorite.user_id.user_id, favorite._meta.db_table) == \
+        (test_user.user_id, "favorites_mock")
 
 
 @pytest.mark.django_db
-def test_unique_together(test_favorite, test_user, test_bill):
-    FavoritesMockDjango.objects.create(user_id=test_user, bill_id=test_bill)
+def test_favorites_table_uniqueness(test_favorite, test_user, test_bill):
+    # Removed the creation of the object here since it is already created
 
-    # This should fail
+    # This should raise an error, the test will pass
     with pytest.raises(IntegrityError):
         FavoritesMockDjango.objects.create(user_id=test_user, bill_id=test_bill)
 
