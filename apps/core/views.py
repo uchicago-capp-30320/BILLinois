@@ -1,9 +1,11 @@
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
-from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.http import HttpResponse, HttpRequest, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import BillsMockDjango, BillsTable
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.db.models import OuterRef, Exists
+from .models import BillsTable, FavoritesTable
 
 def home(request: HttpRequest) -> HttpResponse:
     """
@@ -69,11 +71,39 @@ def search(request: HttpRequest) -> HttpResponse:
             .order_by("-rank")
         )
 
+    if request.user.is_authenticated:
+        user_id = request.user.id
+
+        favorites_query = FavoritesTable.objects.filter(
+            user_id=user_id, bill_id=OuterRef("bill_id")
+        )
+
+        results = results.annotate(favorite=Exists(favorites_query))
+
     return render(
         request,
         "search.html",
         {"query": request.GET.get("query", ""), "results": results},
     )
+
+
+@login_required
+def toggle_favorite(request, bill_id):
+    """
+    Toggle a bill as favorite for the logged-in user via a form submission.
+    """
+    if request.method == "POST":
+        # Django expects an object to be passed to a ForeignKey field, not a string
+        user = request.user
+        bill = get_object_or_404(BillsTable, bill_id=bill_id)
+
+        # Use get_or_create with the related objects
+        favorite, created = FavoritesTable.objects.get_or_create(user_id=user, bill_id=bill)
+
+        if not created:
+            favorite.delete()
+
+    return redirect(request.META.get("HTTP_REFERER", "search"))
 
 
 def bill_page(request: HttpRequest, bill_number: str) -> HttpResponse:

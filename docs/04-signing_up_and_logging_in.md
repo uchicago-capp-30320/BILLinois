@@ -5,15 +5,13 @@
 
 ## Currently In Progress:
 We are currently awaiting our Twilio campaign to be approved in order to send text messages without running into spam filters.
-In the meantime, authentication codes for phone authorization will be sent to `_logs/phone_verification.log`
+In the meantime, phone authentication for the app has been disabled.
 
 ## Signing Up
-To sign up, you will need to provide three things:
-
+To sign up, you will be asked to provide three things:
 * Email Address
+* Phone Number (Optional)
+* Full Name (Optional)
 * Password
 
 You will then be instructed to authorize your email address. Enter the authorization code sent to your email address. If you can't find it, check your spam folder.
-
-## Logging In
-To log in, simply provide your email and password.

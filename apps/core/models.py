@@ -1,5 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class ActionsMockDjango(models.Model):
     """
@@ -23,7 +25,7 @@ class ActionsTable(models.Model):
     This table is queried by frontend views that show bill information, such as most recent action. Additionally, it will be queried by the notification system, which updates users about favorited bills that have had a significant action associated with them in the past 24 hours.
     """
 
-    action_id = models.CharField(unique=True, primary_key=True)
+    action_id = models.CharField(unique=True, primary_key=True, db_column="action_id")
     bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
     description = models.CharField()
     date = models.DateTimeField()
@@ -43,6 +45,8 @@ class BillsMockDjango(models.Model):
     bill_id = models.CharField(unique=True, primary_key=True)
     number = models.CharField()
     title = models.CharField()
+    state = models.CharField()
+    session = models.CharField()
     summary = models.CharField()
     status = models.CharField()
 
@@ -60,6 +64,8 @@ class BillsTable(models.Model):
     bill_id = models.CharField(unique=True, primary_key=True)
     number = models.CharField()
     title = models.CharField()
+    state = models.CharField()
+    session = models.CharField()
     summary = models.CharField()
     status = models.CharField()
 
@@ -73,7 +79,7 @@ class FavoritesMockDjango(models.Model):
     Meant to store mock data for user favorites.
     """
 
-    user_id = models.ForeignKey("UsersMockDjango", on_delete=models.CASCADE, db_column="user_id")
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
 
     class Meta:
@@ -88,7 +94,7 @@ class FavoritesTable(models.Model):
     This table will be queried by frontend views that show users which bills they have favorited. Additionally, this table will be used for the automatic notification system that notifies users about updates from bills they have favorited.
     """
 
-    user_id = models.ForeignKey("UsersTable", on_delete=models.CASCADE, db_column="user_id")
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
 
     class Meta:
@@ -154,6 +160,43 @@ class TopicsTable(models.Model):
 
     class Meta:
         db_table = "topics_table"
+
+
+class UpdatesMockDjango(models.Model):
+    """
+    A mock model for the updates table.
+    Meant to store mock data for periodic updates on bills.
+    """
+
+    action_id = models.ForeignKey(
+        "ActionsMockDjango", on_delete=models.CASCADE, db_column="action_id"
+    )
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
+    description = models.CharField()
+    date = models.DateTimeField()
+    category = models.CharField(null=True)
+    chamber = models.CharField()
+
+    class Meta:
+        db_table = "updates_mock"
+        unique_together = ("action_id", "bill_id")
+
+
+class UpdatesTable(models.Model):
+    """
+    A table storing periodic updates for bills.
+    """
+
+    action_id = models.ForeignKey("ActionsTable", on_delete=models.CASCADE, db_column="action_id")
+    bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
+    description = models.CharField()
+    date = models.DateTimeField()
+    category = models.CharField(null=True)
+    chamber = models.CharField()
+
+    class Meta:
+        db_table = "updates_table"
+        unique_together = ("action_id", "bill_id")
 
 
 class UsersMockDjango(models.Model):

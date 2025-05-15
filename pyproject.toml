@@ -25,6 +25,7 @@ dependencies = [
     "ruff>=0.11.4",
     "twilio>=9.6.0",
     "whitenoise>=6.9.0,<7",
+    "pytest-playwright>=0.7.0",
 ]
 
 [tool.ruff]
@@ -45,3 +46,4 @@ ignore = [
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py", "*_test.py", "tests/python/*.py"]
