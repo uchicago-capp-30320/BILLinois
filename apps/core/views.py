@@ -1,11 +1,11 @@
-from django.http import HttpResponse, HttpRequest, Http404
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import BillsMockDjango, BillsTable
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db.models import OuterRef, Exists
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db.models import Exists, OuterRef
+from django.http import Http404, HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+
 from .models import BillsTable, FavoritesTable
+
 
 def home(request: HttpRequest) -> HttpResponse:
     """
@@ -47,12 +47,12 @@ def search(request: HttpRequest) -> HttpResponse:
 
     ```json
     [{
-        "bill_id": '123', 
-        "number": "HB-001", 
-        "title": "Test Bill", 
-        "summary": "Tests a bill.", 
-        "status": "Submitted", 
-        "topics": ['Environment', 'Education'], 
+        "bill_id": '123',
+        "number": "HB-001",
+        "title": "Test Bill",
+        "summary": "Tests a bill.",
+        "status": "Submitted",
+        "topics": ['Environment', 'Education'],
         "sponsors": ['Rep. Patel', 'Rep. Wilks']
     }]
     ```
@@ -133,7 +133,7 @@ def bill_page(request: HttpRequest, bill_number: str) -> HttpResponse:
                     position: their role in the legislature
                     - sponsor_id: unique number for sponsor
 
-    Example: 
+    Example:
     ```json
     {"bill_id": '123', "number": "HB-001", "title": "Test Bill", "summary": "Tests a bill.", "status": "Submitted", "topics": ['Environment', 'Education'], "sponsors": ['Rep. Patel', 'Rep. Wilks']}
     ```
