@@ -11,7 +11,7 @@ erDiagram
 
 ## Users
 
-::: apps.core.models.UsersTable
+::: apps.accounts.models.User
 
 ### Has Connections From:
 
@@ -105,3 +105,4 @@ erDiagram
 | id      | Bigint, PrimaryKey  | ID of the topic                                              |
 | topic   | Varchar             | Topic name                                                   |
 | bill_id | Varchar, ForeignKey | `bill_id` from the bills table, the bill the topic is associated with |
+

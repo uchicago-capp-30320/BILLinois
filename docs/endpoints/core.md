@@ -8,7 +8,7 @@
 
 ::: apps.core.views.search
 
-## /bill/{bill_id}
+## /bill/{bill_number}
 
 ::: apps.core.views.bill_page
 

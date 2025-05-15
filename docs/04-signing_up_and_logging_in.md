@@ -11,12 +11,9 @@ In the meantime, authentication codes for phone authorization will be sent to `_
 To sign up, you will need to provide three things:
 
 * Email Address
-* Phone Number (must comply with format: `+{AREA CODE}{PHONE NUMBER}`, for example `+1234567890`)
 * Password
-
-After entering this, you will be instructed to authorize the phone number. Enter the authorization code sent to your phone, or to `_logs/phone_verification.log`.
 
 You will then be instructed to authorize your email address. Enter the authorization code sent to your email address. If you can't find it, check your spam folder.
 
 ## Logging In
-BILLinois uses two-factor authentication. After entering your username and password, you will be instructed to enter a verification code sent to your phone, or to `_logs/phone_verification.log`.
+To log in, simply provide your email and password.
