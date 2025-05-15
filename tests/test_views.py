@@ -37,11 +37,7 @@ def test_create_search(test_search_fake):
 
 @pytest.mark.django_db
 def test_search_content(test_search_fake):
-    bytes = [
-        b"BILLinois",
-        b"Home",
-        b"Sign In"
-    ]
+    bytes = [b"BILLinois", b"Home", b"Sign In"]
     assert all(byte in test_search_fake.content for byte in bytes)
 
 
@@ -57,9 +53,5 @@ def test_create_search_real(test_search_real):
 
 @pytest.mark.django_db
 def test_search_content_real(test_search_real):
-    bytes = [
-        b"BILLinois",
-        b"Home",
-        b"Sign In"
-    ]
+    bytes = [b"BILLinois", b"Home", b"Sign In"]
     assert all(byte in test_search_real.content for byte in bytes)

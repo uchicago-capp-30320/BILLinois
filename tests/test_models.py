@@ -15,7 +15,7 @@ from django.utils import timezone
 # DJANGO_SETTINGS_MODULE=config.settings uv run python tests/test_search.py
 
 
-#%% Bill model tests
+# %% Bill model tests
 @pytest.fixture
 def test_bill():
     return BillsMockDjango.objects.create(
@@ -29,8 +29,7 @@ def test_bill():
 
 @pytest.mark.django_db
 def test_mock_bill_created(test_bill):
-    assert (test_bill.bill_id, test_bill._meta.db_table) == \
-        ("123", "bills_mock")
+    assert (test_bill.bill_id, test_bill._meta.db_table) == ("123", "bills_mock")
 
 
 @pytest.mark.django_db
@@ -39,7 +38,7 @@ def test_get_bill_from_number(test_bill):
     assert bill.bill_id == "123"
 
 
-#%% Action model tests
+# %% Action model tests
 @pytest.fixture
 def test_action(test_bill):
     return ActionsMockDjango.objects.create(
@@ -52,8 +51,7 @@ def test_action(test_bill):
 
 @pytest.mark.django_db
 def test_mock_action(test_action):
-    assert (test_action.action_id, test_action._meta.db_table) == \
-        ("Passed", "actions_mock")
+    assert (test_action.action_id, test_action._meta.db_table) == ("Passed", "actions_mock")
 
 
 @pytest.mark.django_db
@@ -62,7 +60,7 @@ def test_action_from_id(test_action):
     assert bill.description == "Passed House"
 
 
-#%% User model from core tests
+# %% User model from core tests
 # Will have to delete/change this after the PR that removes this
 @pytest.fixture
 def test_user():
@@ -78,7 +76,7 @@ def test_mock_user(test_user):
     assert test_user._meta.db_table == "users_mock"
 
 
-#%% Favorites model tests
+# %% Favorites model tests
 @pytest.fixture
 def test_favorite(test_bill, test_user):
     return FavoritesMockDjango.objects.create(user_id=test_user, bill_id=test_bill)
@@ -91,8 +89,10 @@ def test_get_favorite_from_user_and_bill(test_favorite, test_user, test_bill):
     print(f"favorite.user_id: {favorite.user_id}")
     print(f"test_user.user_id: {test_user.user_id}")
 
-    assert (favorite.user_id.user_id, favorite._meta.db_table) == \
-        (test_user.user_id, "favorites_mock")
+    assert (favorite.user_id.user_id, favorite._meta.db_table) == (
+        test_user.user_id,
+        "favorites_mock",
+    )
 
 
 @pytest.mark.django_db
