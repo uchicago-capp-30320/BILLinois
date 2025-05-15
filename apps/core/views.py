@@ -1,11 +1,11 @@
+from django.http import HttpResponse, HttpRequest, Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
-from django.db.models import Exists, OuterRef
-from django.http import Http404, HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
-
+from django.db.models import OuterRef, Exists
 from .models import BillsTable, FavoritesTable
-
+from .utils import normalize_bill_number, bill_number_for_url
 
 def home(request: HttpRequest) -> HttpResponse:
     """
@@ -106,42 +106,75 @@ def toggle_favorite(request, bill_id):
     return redirect(request.META.get("HTTP_REFERER", "search"))
 
 
-def bill_page(request: HttpRequest, bill_number: str) -> HttpResponse:
+def bill_page(
+    request: HttpRequest,
+    bill_id: str = None,
+    state: str = None,
+    session: str = None,
+    bill_number: str = None,
+) -> HttpResponse:
     """
-    Return data from a single bill, including the status, sponsors, name and tagged topic
+    Return detailed bill data using either the bill ID or a combination of state, year, and bill number.
 
     Args:
         request (HttpRequest): An HTTP request object.
-        bill_number (str): The `bill_id` from the Postgres bills model for the bill you want to view (i.e. SB 2253)
+        bill_id (str): The unique identifier for the bill
+                (e.g., ocd-bill/12bcc69d-cfa4-4021-974a-5f562297ea34).
+        state (str): The U.S. state abbreviation or name
+                (e.g., 'il' for Illinois).
+        year (str): The legislative session year
+                (e.g., '2025').
+        bill_number (str): The official bill number
+                (e.g., 'HB1234').
 
-    Returns:
-        HttpResponse: A Django context variable with the data from the query. Renders HTML bill page if bill exists, otherwise, an error
-        Results: A JSON object containing the following columns from database's table:
+        At least one of the following must be provided:
+        - `bill_id`, or
+        - All of: `state`, `year`, and `bill_number`.
 
-            - bill_id: The unique identifier for the bill
-            number: The bill number
-            - title: The bill title
-            summary: The bill summary
-            - status: The bill status
-                - includes: current and all previous statuses
-                    - dates: date of change of status
-                    - description: a description of the change of status
-            - topics: A tagged topic from the summary
-            - sponsors: any registered sponsor for the bill
-                - includes: name of sponsor
-                    - party: the political party they represent
-                    position: their role in the legislature
-                    - sponsor_id: unique number for sponsor
-
-    Example:
-    ```json
-    {"bill_id": '123', "number": "HB-001", "title": "Test Bill", "summary": "Tests a bill.", "status": "Submitted", "topics": ['Environment', 'Education'], "sponsors": ['Rep. Patel', 'Rep. Wilks']}
-    ```
+        Returns:
+        HttpResponse: A Django context variable with the data from the query.
+        Results: contains the following columns from database's table:
+                bill_id: The unique identifier for the bill
+                number: The bill number
+                title: The bill title
+                summary: The bill summary
+                status: The bill status
+                    includes: current and all previous statuses
+                              dates: date of change of status
+                              description: a description of the change of status
+                topics: A tagged topic from the summary
+                sponsors: any registered sponsor for the bill
+                    includes: name of sponsor
+                              party: the political party they represent
+                              position: their role in the legislature
+                              sponsor_id: unique number for sponsor
     """
-    try:
-        bill = BillsTable.objects.get(number=bill_number)
-    except BillsTable.DoesNotExist as err:
-        raise Http404("Bill not found.") from err
+    if bill_id:
+        try:
+            bill = BillsTable.objects.get(bill_id=bill_id)
+        except BillsTable.DoesNotExist as err:
+            raise Http404("Bill not found with given ID.") from err
+
+        url_bill_number = bill_number_for_url(bill.number)
+        return redirect(
+            "bill_by_info",
+            state=bill.state.lower(),
+            session=bill.session,
+            bill_number=url_bill_number,
+        )
+
+    elif state and session and bill_number:
+        try:
+            normalized_number = normalize_bill_number(bill_number)
+            bill = BillsTable.objects.get(
+                state=state.capitalize(),
+                session=session,
+                number=normalized_number,
+            )
+        except BillsTable.DoesNotExist as err:
+            raise Http404("Bill not found with given state/year/number.") from err
+    else:
+        raise Http404("Insufficient information to find bill.")
 
     data = {
         "bill_id": bill.bill_id,
