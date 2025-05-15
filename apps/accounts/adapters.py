@@ -11,6 +11,7 @@ from django.utils import timezone
 logger = logging.getLogger("phone_verification")
 test_phones = os.environ.get("TEST_PHONES", "").split(",")
 
+
 class CustomAccountAdapter(DefaultAccountAdapter):
     """
     Overrides for the default account adapter to allow for phone verification

@@ -3,6 +3,7 @@ from django.utils.crypto import get_random_string
 from django.utils import timezone
 from ...models import UpdatesMockDjango, ActionsMockDjango, BillsMockDjango
 
+
 class Command(BaseCommand):
     help = "Insert a mock update into the updates_mock table."
 
@@ -27,8 +28,8 @@ class Command(BaseCommand):
                 "summary": "Declares February 5, 2025 as Nutella Day in the State of Illinois to honor Ferrero's significant investments in the State, the many employees who contribute to its success, and the joy that Nutella spreads throughout our communities.",
                 "status": "Assigned to State Government Administration Committee",
                 "state": "IL",
-                "session": 'session: "104th"'
-            }
+                "session": 'session: "104th"',
+            },
         )
 
         action, _ = ActionsMockDjango.objects.get_or_create(
@@ -37,7 +38,7 @@ class Command(BaseCommand):
                 "description": "This is a mock action",
                 "date": timezone.now(),
                 "bill_id": bill,
-            }
+            },
         )
 
         update = UpdatesMockDjango.objects.create(

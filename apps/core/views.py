@@ -1,11 +1,11 @@
-from django.http import HttpResponse, HttpRequest, Http404
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import BillsMockDjango, BillsTable
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db.models import OuterRef, Exists
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db.models import Exists, OuterRef
+from django.http import Http404, HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+
 from .models import BillsTable, FavoritesTable
+
 
 def home(request: HttpRequest) -> HttpResponse:
     """
@@ -15,7 +15,7 @@ def home(request: HttpRequest) -> HttpResponse:
         request (HttpRequest): An HTTP request object:
 
     Returns:
-        HttpResponse: The rendered home page.
+        HttpResponse: The rendered HTML home page, redirect to `/search/` page upon search submission.
     """
     return render(request, "home.html")
 
@@ -28,17 +28,34 @@ def search(request: HttpRequest) -> HttpResponse:
         request (HttpRequest): An HTTP request object.
 
     Returns:
-        HttpResponse: The rendered search results page.
-        Results: Search results returned by the database.
-            This is an object containing the following fields, corresponding
+        HttpResponse: The rendered search results page listing all bills matching a search query.
+        Results: An array of JSON objects from the Postgres database, containing bill information about searched bills.
+            The fields correspond
             to the columns in the database's bills table:
-                bill_id: The unique identifier for the bill
-                number: The bill number
-                title: The bill title
-                summary: The bill summary
-                status: The bill status
-                topics: TO BE IMPLEMENTED
-                favorite: TO BE IMPLEMENTED
+
+            - bill_id: The unique identifier for the bill<br />
+            - number: The bill number\n
+            - title: The bill title
+            - summary: The bill summary
+            - status: The bill status
+            - topics: TO BE IMPLEMENTED
+            - favorite: TO BE IMPLEMENTED
+
+    Example:
+
+    `http://127.0.0.1:8000/search/?query=environment`
+
+    ```json
+    [{
+        "bill_id": '123',
+        "number": "HB-001",
+        "title": "Test Bill",
+        "summary": "Tests a bill.",
+        "status": "Submitted",
+        "topics": ['Environment', 'Education'],
+        "sponsors": ['Rep. Patel', 'Rep. Wilks']
+    }]
+    ```
     """
     query = request.GET.get("query", "")
 
