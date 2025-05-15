@@ -1,11 +1,11 @@
+from django.http import HttpResponse, HttpRequest, Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
-from django.db.models import Exists, OuterRef
-from django.http import Http404, HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
-
+from django.db.models import OuterRef, Exists
 from .models import BillsTable, FavoritesTable
-
+from .utils import normalize_bill_number, bill_number_for_url
 
 def home(request: HttpRequest) -> HttpResponse:
     """
