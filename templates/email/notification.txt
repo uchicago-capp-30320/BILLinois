@@ -18,3 +18,5 @@ Updated At: {{ bill.updated_at }}
 
 {% endfor %}
 {% endif %}
+
+Tired of updates? Unsubscribe here: {{ unsubscribe_url }}

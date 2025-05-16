@@ -30,7 +30,7 @@ class Command(BaseCommand):
         # Only include users who are subscribed to notifications.
         users_to_notify = [
             UserNotificationQueue(
-                user_id=User.objects.get(id=favorite["user_id"]).filter(is_subscribed=True),
+                user_id=User.objects.filter(is_subscribed=True).get(id=favorite["user_id"]),
                 number_of_notifications=favorite["number_of_notifications"],
                 bills_to_notify=favorite["bills_to_notify"],
                 is_notified=False,

@@ -4,12 +4,14 @@ import os
 from django.core.management.base import BaseCommand
 from django.core.mail import EmailMultiAlternatives
 from django.utils import timezone
+from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 
 from ...models import UserNotificationQueue, FavoritesTable, BillsTable, UpdatesMockDjango
 from ....accounts.models import User
 
 FROM_EMAIL = os.getenv("FROM_EMAIL")
+BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 
 logger = logging.getLogger("email_notifications")
 
@@ -121,6 +123,7 @@ class Command(BaseCommand):
                 "full_name": user.full_name,
                 "number_of_notifications": queue.number_of_notifications,
                 "bills": bills,
+                "unsubscribe_url": f"{BASE_URL}/favorites/",
             }
 
             text_content, html_content = self.create_email_body(context_data)
