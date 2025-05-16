@@ -1,10 +1,10 @@
 # Updating Django Models and Database Schema
 
-Billinois uses Django's built in migration system to make updates to the database schema.
+BILLinois uses Django's built in migration system to make updates to the database schema.
 
 In order to update the database schema:
 
-Go to `apps/core/models.py`, and create or edit the appropriate model. Each *class* is a table, while each variable declared within that class is a field. Read the Django documentation on models for more information: https://docs.djangoproject.com/en/5.2/topics/db/models/
+Go to `apps/core/models.py`, and create or edit the appropriate model. Each *class* is a table, while each variable declared within that class is a field. Read the [Django documentation](https://docs.djangoproject.com/en/5.2/topics/db/models/) on models for more information. 
 
 1. **Edit The Models File**
 
