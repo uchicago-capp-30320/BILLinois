@@ -4,6 +4,13 @@ from django import forms
 
 
 class CustomSignupForm(SignupForm):
+    full_name = forms.CharField(
+        label="Full Name",
+        max_length=150,
+        required=False,
+        widget=forms.TextInput(attrs={"placeholder": "Full Name"}),
+    )
+
     def clean_email(self) -> str:
         email = self.cleaned_data.get("email")
         User = get_user_model()
@@ -17,8 +24,14 @@ class CustomSignupForm(SignupForm):
         phone = self.cleaned_data.get("phone")
         User = get_user_model()
 
-        if User.objects.filter(phone=phone).exists():
-            print("Phone exists")
-            raise forms.ValidationError("Phone already exists.")
+        if phone:
+            if User.objects.filter(phone=phone).exists():
+                raise forms.ValidationError("Phone already exists.")
 
         return phone
+
+    def save(self, request) -> object:
+        user = super().save(request)
+        user.full_name = self.cleaned_data.get("full_name")
+        user.save()
+        return user
