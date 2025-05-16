@@ -23,8 +23,8 @@ jobs:
     - name: Install the project
       run: uv sync
 
-    - name: Install dependencies
-      run: playwright install
+    - name: Install playwright
+      run: uv run playwright install
 
     - name: Run tests
       run: uv run pytest tests
