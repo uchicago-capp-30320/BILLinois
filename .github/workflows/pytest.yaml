@@ -33,7 +33,7 @@ jobs:
         DEFAULT_FROM_EMAIL: "Billinois <no-reply@mail.billinoisapp.com>"
         EMAIL_HOST: "smtp.mailgun.com"
         MAILGUN_SENDER_DOMAIN:"mail.billinoisapp.com"
-        EMAIL_PORT:"587"
+        EMAIL_PORT: "587"
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
