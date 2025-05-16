@@ -26,6 +26,9 @@ jobs:
     - name: Install playwright
       run: uv run playwright install
 
+    - name: Launch app
+      run: uv run python manage.py runserver
+
     - name: Run tests
       run: uv run pytest tests
       env: 
