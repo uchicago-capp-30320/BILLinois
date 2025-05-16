@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "apps.accounts",
     "apps.core",
     "django.contrib.postgres",
+    "anymail",
 ]
 
 MIDDLEWARE = [
@@ -205,7 +206,7 @@ ANYMAIL = {
 DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL")
 
 
-#Uncomment for Webauthnn
+# Uncomment for Webauthnn
 MFA_SUPPORTED_TYPES = ["webauthn", "email"]
 MFA_PASSKEY_LOGIN_ENABLED = True
 MFA_PASSKEY_SIGNUP_ENABLED = True
@@ -213,8 +214,8 @@ if DEBUG:
     MFA_WEBAUTHN_ALLOW_INSECURE_ORIGIN = True
 
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_MFA_REQUIRED = True 
-ACCOUNT_MFA_ENFORCE_ON_LOGIN = True 
+ACCOUNT_MFA_REQUIRED = True
+ACCOUNT_MFA_ENFORCE_ON_LOGIN = True
 ACCOUNT_MFA_REQUIRED_METHODS = ["email", "webauthn"]
 
 
@@ -263,6 +264,11 @@ LOGGING = {
             "filename": "_logs/phone_verification.log",
             "formatter": "key_value",
         },
+        "email_notifications": {
+            "class": "logging.handlers.WatchedFileHandler",
+            "filename": "_logs/email_notifications.log",
+            "formatter": "key_value",
+        },
     },
     "loggers": {
         "django_structlog": {
@@ -271,6 +277,11 @@ LOGGING = {
         },
         "phone_verification": {
             "handlers": ["phone_verification"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "email_notifications": {
+            "handlers": ["email_notifications"],
             "level": "DEBUG",
             "propagate": False,
         },

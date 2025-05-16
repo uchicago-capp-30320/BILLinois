@@ -67,6 +67,13 @@ class User(AbstractBaseUser, PermissionsMixin):
             "Unselect this instead of deleting accounts."
         ),
     )
+
+    is_subscribed = models.BooleanField(
+        _("subscribed"),
+        default=True,
+        help_text=_("Designates whether the user is subscribed to notifications."),
+    )
+    
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
     objects = OkUserManager()

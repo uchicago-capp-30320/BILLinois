@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import OuterRef, Exists
 from .models import BillsTable, FavoritesTable
 
+
 def home(request: HttpRequest) -> HttpResponse:
     """
     Render the home page.

@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class ActionsMockDjango(models.Model):
     """
     A mock model for the actions table.
@@ -161,7 +162,7 @@ class UpdatesMockDjango(models.Model):
     action_id = models.ForeignKey(
         "ActionsMockDjango", on_delete=models.CASCADE, db_column="action_id"
     )
-    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
+    bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
     description = models.CharField()
     date = models.DateTimeField()
     category = models.CharField(null=True)
@@ -216,3 +217,17 @@ class UsersTable(models.Model):
 
     class Meta:
         db_table = "users_table"
+
+
+class UserNotificationQueue(models.Model):
+    """
+    A table to store user notifications.
+    """
+
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE, db_column="user_id")
+    number_of_notifications = models.IntegerField()
+    bills_to_notify = models.JSONField()
+    is_notified = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "user_notification_queue"
