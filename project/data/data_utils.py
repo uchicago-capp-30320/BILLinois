@@ -1,10 +1,12 @@
 import os
 import requests
+from topics.topics_classifier import get_topics_from_bill
 
 API_KEY = os.environ["openstates_key"]
 base_url = "https://v3.openstates.org/bills?"
 vars_to_include = ["sponsorships", "abstracts", "actions"]
 per_page_val = 20  # Highest it can go
+
 
 # Single function for all API calls
 def pull_page(state, session, page_num, date=None):
@@ -62,6 +64,7 @@ def insert_bills(series_of_bills):
     page_sponsors = []
     page_actions = []
     page_updates = []
+    page_topics = []
 
     for record in series_of_bills:
         # Bill
@@ -73,8 +76,16 @@ def insert_bills(series_of_bills):
         state_val = record["jurisdiction"]["name"]
         session_val = record["session"]
 
-        page_bills.append([bill_id_val, number_val, title_val, summary_val, status_val, state_val, session_val])
+        page_bills.append(
+            [bill_id_val, number_val, title_val, summary_val, status_val, state_val, session_val]
+        )
         page_inserts += 1
+
+        # Topics within a bill
+        assigned_topics = get_topics_from_bill(title_val, summary_val)
+        if assigned_topics:
+            for topic in assigned_topics:
+                page_topics.append([bill_id_val, topic])
 
         # Sponsors
         sponsors_list = record["sponsorships"]
@@ -139,4 +150,11 @@ def insert_bills(series_of_bills):
         if something_to_update:
             page_updates.append(most_recent_significant)
 
-    return page_bills, page_sponsors, page_actions, page_inserts, page_updates
+    return {
+        "bills_from_page": page_bills,
+        "sponsors_from_page": page_sponsors,
+        "actions_from_page": page_actions,
+        "inserts_from_page": page_inserts,
+        "updates_from_page": page_updates,
+        "topics_from_page": page_topics,
+    }
