@@ -11,30 +11,33 @@
   </head>
   <body>
     <section class = "section">
-        <div class = "container">
-            {% if user.is_authenticated %}
-            <a href = "/accounts/logout" class="icon-text is-pulled-right has-text-link">
-                <span class="icon">
-                    <i class="fa-solid fa-circle-user"></i>
-                </span>
-                <span>Sign Out</span>
-              </a>
-            {% else %}
-            <a href = "/accounts/login" class="icon-text is-pulled-right has-text-link">
-                <span class="icon">
-                    <i class="fa-solid fa-circle-user"></i>
-                </span>
-                <span>Sign In</span>
+          <!-- Dropdown Menu -->
+          <nav class="navbar is-right is-flex is-justify-content-flex-end" role="navigation" aria-label="dropdown navigation">
+            <div class = "navbar-end">
+              <div id="navbarMenu" class="navbar-menu is-right">
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link">
+                    Menu
+                  </a>
+                  <div class="navbar-dropdown is-boxed">
+                    {% if user.is_authenticated %}
+                    <a href="" class="navbar-item">My Account</a>
+                    <a href="/accounts/logout" class="navbar-item">Sign Out</a>
+                    {% else %}
+                    <a href="/accounts/login" class="navbar-item">Log In</a>
+                    <a href="/accounts/signup/" class="navbar-item">Sign Up</a> 
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
             </a>
-            {% endif %}
-          <span class = "is-pulled-right mx-2" > | </span>
-          <a href = "/" class="icon-text is-pulled-right has-text-link">
-              <span class="icon">
-                <i class="fas fa-home"></i>
-              </span>
-              <span>Home</span>
-          </a>
-        </div>
+          </nav> 
     </section>
   <section class="section">
     <div class="container">
@@ -80,7 +83,8 @@
             <a href = "./search/?query=LGBTQIA" class="cell button is-medium button-yellow is-row-start-3">LGBTQIA</a>
         </div>
     </div>
-
-</section>
+  </section>
+  <!-- JS for burger menu -->
+  <script src="../static/js/burger.js"></script>
   </body>
 </html>

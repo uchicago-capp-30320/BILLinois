@@ -1,0 +1,57 @@
+name: Run all tests with pytest
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env: 
+      DEBUG: "true"
+      PHONE_DEBUG: "True"
+      ALLOWED_HOSTS: "127.0.0.1,localhost"
+      EMAIL_URL: "consolemail://"
+      DEFAULT_FROM_EMAIL: "Billinois <no-reply@mail.billinoisapp.com>"
+      EMAIL_HOST: "smtp.mailgun.com"
+      MAILGUN_SENDER_DOMAIN: "mail.billinoisapp.com"
+      EMAIL_PORT: "587"
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+      MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+      TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+      TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+      TWILIO_FROM_NUMBER: ${{ secrets.TWILIO_FROM_NUMBER }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version-file: "pyproject.toml"
+
+    - name: Install the project
+      run: uv sync
+
+    - name: Install playwright
+      run: uv run playwright install
+
+    - name: Launch app
+      run: uv run python manage.py runserver & # run in background and continue to next step
+
+    - name: Wait for server to be ready
+      run: |
+        for i in {1..10; do
+          curl -sSf http://127.0.0.1:8000/ && break
+          sleep 1
+        done
+
+    - name: Run tests
+      run: uv run pytest tests
