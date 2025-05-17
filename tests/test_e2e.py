@@ -100,8 +100,8 @@ def test_search_empty(page: Page, search_term, expected_results, message):
         (
             "notkarenyi@gmail.com",
             "test123!",
-            "Phone Verification",
-            "Failed to redirect to phone verification page.",
+            "Sign Out",
+            "Failed to redirect to home page with logged-in state after successful login.",
         ),
     ],
 )
@@ -109,23 +109,18 @@ def test_sign_in(page: Page, username, password, expected_results, message):
     """
     Test signing in from the home page for at least two cases:
     - Wrong username/password case, where the user is warned about incorrect credentials.
-    - Successful login case, where user is redirected to verification step.
-    TODO: finish once the SMS verify remove PR is approved
+    - Successful login case, where user is redirected to home page with a logged-in state.
     """
 
     page.goto("http://127.0.0.1:8000/")
 
     page.locator("#djHideToolBarButton").click(timeout=TIMEOUT)
 
-    # page.pause()
-    # page.screenshot(path="debug.png")
-
-    page.locator('[href*="/accounts/login"]').click(timeout=TIMEOUT)
+    page.get_by_text("Menu").click(timeout=TIMEOUT)
+    page.get_by_text("Log In").click(timeout=TIMEOUT)
 
     # assert page.locator('[href*="/accounts/login"]').is_visible(), "Element is not visible"
     # assert page.locator('[href*="/accounts/login"]').is_enabled(), "Element is not enabled"
-
-    # expect(page.get_by_text("Forgot your password?"), message).to_be_visible()
 
     page.get_by_placeholder("Email address").click()
     page.keyboard.type(username)
@@ -133,6 +128,12 @@ def test_sign_in(page: Page, username, password, expected_results, message):
     page.get_by_placeholder("Password").click()
     page.keyboard.type(password)
 
-    page.locator("button[type='submit']").click()
+    page.locator("button[type='submit']").first.click()
+
+    if expected_results == "Sign Out": # click menu only if successful login
+              
+        page.pause()
+        page.screenshot(path="debug.png")
+        page.get_by_text("Menu").click(timeout=TIMEOUT)
 
     expect(page.get_by_text(expected_results), message).to_be_visible()
