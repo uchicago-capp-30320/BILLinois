@@ -48,7 +48,6 @@ class CustomSignupForm(SignupForm):
             phone=self.cleaned_data.get("phone"),
         )
 
-        # Set password after creating the user
         user.set_password(self.cleaned_data.get("password1"))
         user.save()
         return user
