@@ -73,7 +73,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=True,
         help_text=_("Designates whether the user is subscribed to notifications."),
     )
-    
+
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
     objects = OkUserManager()

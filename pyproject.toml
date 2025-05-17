@@ -12,6 +12,10 @@ dependencies = [
     "django-environ>=0.12.0,<1",
     "django-structlog>=9.1.0,<10",
     "django-typer>=3.1.0,<4",
+    "docutils>=0.21.2",
+    "mkdocs-material>=9.6.13",
+    "mkdocs-mermaid2-plugin>=1.2.1",
+    "mkdocstrings-python>=1.16.10",
     "playwright>=1.52.0",
     "pre-commit>=4.2.0",
     "psycopg>=3.2.6",
@@ -21,6 +25,7 @@ dependencies = [
     "ruff>=0.11.4",
     "twilio>=9.6.0",
     "whitenoise>=6.9.0,<7",
+    "pytest-playwright>=0.7.0",
 ]
 
 [tool.ruff]
@@ -41,3 +46,4 @@ ignore = [
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py", "*_test.py", "tests/python/*.py"]
