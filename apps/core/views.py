@@ -74,6 +74,7 @@ def search(request: HttpRequest) -> HttpResponse:
 @login_required
 def toggle_favorite(request, bill_id):
     if request.method == "POST":
+        # Django expects an object to be passed to a ForeignKey field, not a string
         user = request.user
         bill = get_object_or_404(BillsTable, bill_id=bill_id)
 
