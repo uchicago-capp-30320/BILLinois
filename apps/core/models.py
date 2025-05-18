@@ -22,9 +22,13 @@ class ActionsMockDjango(models.Model):
 
 class ActionsTable(models.Model):
     """
-    Stores each distinct action taken on a bill, e.g., ("First Reading"). Represented by a one-to-many relationship between bill and actions.
+    Stores each distinct action taken on a bill, e.g., ("First Reading").
+    Represented by a one-to-many relationship between bill and actions.
 
-    This table is queried by frontend views that show bill information, such as most recent action. Additionally, it will be queried by the notification system, which updates users about favorited bills that have had a significant action associated with them in the past 24 hours.
+    This table is queried by frontend views that show bill information, such
+    as most recent action. Additionally, it will be queried by the
+    notification system, which updates users about favorited bills that have
+    had a significant action associated with them in the past 24 hours.
     """
 
     action_id = models.CharField(unique=True, primary_key=True, db_column="action_id")
@@ -36,6 +40,7 @@ class ActionsTable(models.Model):
 
     class Meta:
         db_table = "actions_table"
+        unique_together = ("action_id", "bill_id")
 
 
 class BillsMockDjango(models.Model):
@@ -60,7 +65,8 @@ class BillsTable(models.Model):
     """
     Stores data for each bill.
 
-    This table is queried by frontend views that show bill information, such as the search view, and individual bill pages.
+    This table is queried by frontend views that show bill information, such
+    as the search view, and individual bill pages.
     """
 
     bill_id = models.CharField(unique=True, primary_key=True)
@@ -91,9 +97,14 @@ class FavoritesMockDjango(models.Model):
 
 class FavoritesTable(models.Model):
     """
-    Stores data for user favorites of bills. Represents a many-to-many relationship: one user can like many bills, one bill can be associated with many users.
+    Stores data for user favorites of bills. Represents a many-to-many
+    relationship: one user can like many bills, one bill can be associated
+    with many users.
 
-    This table will be queried by frontend views that show users which bills they have favorited. Additionally, this table will be used for the automatic notification system that notifies users about updates from bills they have favorited.
+    This table will be queried by frontend views that show users which bills
+    they have favorited. Additionally, this table will be used for the
+    automatic notification system that notifies users about updates from
+    bills they have favorited.
     """
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
@@ -121,9 +132,11 @@ class SponsorsMockDjango(models.Model):
 
 class SponsorsTable(models.Model):
     """
-    Stores data for sponsors of bills. Represents a one-to-many relationship: one bill may have many sponsors.
+    Stores data for sponsors of bills. Represents a one-to-many relationship:
+    one bill may have many sponsors.
 
-    This table is queried by frontend views that show bill information, including sponsor information.
+    This table is queried by frontend views that show bill information,
+    including sponsor information.
     """
 
     id = models.CharField(unique=True, primary_key=True)
@@ -152,9 +165,11 @@ class TopicsMockDjango(models.Model):
 
 class TopicsTable(models.Model):
     """
-    Stores data for topics associated with each bill. Represents a many-to-many relationship: one bill may have many topics, one topic may have many bills associated with it.
+    Stores data for topics associated with each bill. Represents a many-to-many relationship:
+    one bill may have many topics, one topic may have many bills associated with it.
 
-    This table is queried by frontend views that show bill information, including topic information.
+    This table is queried by frontend views that show bill information,
+    including topic information.
     """
 
     bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
