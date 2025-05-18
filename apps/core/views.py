@@ -73,7 +73,7 @@ def search(request: HttpRequest) -> HttpResponse:
 
     # If the user has searched by bill number, only search the number field
     # This is to avoid returning unrelated results for bill numbers
-    if re.match(bill_number_pattern, query.strip().upper()):
+    if re.fullmatch(bill_number_pattern, query.strip().upper()):
         search_vector = SearchVector("number", config="english")
         search_query = SearchQuery(query, config="english")
         results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
