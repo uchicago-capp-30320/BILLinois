@@ -23,7 +23,9 @@ for record in bill_info:
     status_val = record["latest_action_description"]
 
     # Inserting into bills
-    insert_statement = """INSERT INTO bills_mock (bill_id, number, title, summary, status) VALUES (%s, %s, %s, %s, %s)"""
+    insert_statement = """
+    INSERT INTO bills_mock (bill_id, number, title, summary, status) VALUES (%s, %s, %s, %s, %s)
+    """
     cur.execute(insert_statement, (id_val, number_val, title_val, summary_val, status_val))
 
     # Leaving topics blank for now -- haven't decided method of topic determination
@@ -36,9 +38,12 @@ for record in bill_info:
             sponsorship_id = s["id"]
             sponsor_id_val = s["person"]["id"]
             sponsor_name_val = s["person"]["name"]
-        except:
+        except Exception as e:
+            print(f"Error with sponsor data: {e}")
             continue
-        insert_sponsor_statement = """INSERT INTO sponsors_mock (id, bill_id, sponsor_id, sponsor_name) VALUES (%s, %s, %s, %s)"""
+        insert_sponsor_statement = """
+        INSERT INTO sponsors_mock (id, bill_id, sponsor_id, sponsor_name) VALUES (%s, %s, %s, %s)
+        """
         # Using bill id from outer loop
         cur.execute(
             insert_sponsor_statement, (sponsorship_id, id_val, sponsor_id_val, sponsor_name_val)
@@ -50,7 +55,9 @@ for record in bill_info:
         action_id = a["id"]
         description_val = a["description"]
         date_val = a["date"]
-        insert_action_statement = """INSERT INTO actions_mock (bill_id, action_id, description, date) VALUES (%s, %s, %s, %s)"""
+        insert_action_statement = """
+        INSERT INTO actions_mock (bill_id, action_id, description, date) VALUES (%s, %s, %s, %s)
+        """
         # Using bill id from outer loop
         cur.execute(insert_action_statement, (id_val, action_id, description_val, date_val))
 
