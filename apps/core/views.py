@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import OuterRef, Exists
 from .models import BillsTable, FavoritesTable
 from django.template.loader import render_to_string
-from django.http import JsonResponse
 
 def home(request: HttpRequest) -> HttpResponse:
     """
