@@ -4,26 +4,51 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from django.db.models import Count
 from django.contrib.postgres.aggregates import ArrayAgg
-from ...models import UserNotificationQueue, FavoritesTable, BillsTable, UpdatesMockDjango
+from ...models import UserNotificationQueue, FavoritesTable, BillsTable, UpdatesMockDjango, UpdatesTable
 from ....accounts.models import User
 
 logger = logging.getLogger("to_email_queue")
 
 
 class Command(BaseCommand):
-    def handle(self, **kwargs):
+
+    def add_arguments(self, parser):
+        """
+        Add a debug command line argument.
+        """
+        parser.add_argument(
+            "--DEBUG",
+            action="store_true",
+            help="Run the command in debug mode.",
+        )
+
+        
+    def handle(self, *args, **options):
         """
         Populate the UserNotificationQueue table with data.
         """
 
+        debug = options.get("DEBUG")
+        if debug == 1:
+            updates_table = UpdatesMockDjango
+        else:
+            updates_table = UpdatesTable
+        
+        # We only want to notify users who have bill updates within the last 24 hours.
+        # This is to avoid sending notifications for old updates.
+        time_threshold = timezone.now() - timezone.timedelta(days=1)
+
         favorite_updates = (
-            FavoritesTable.objects.filter(bill_id__in=UpdatesMockDjango.objects.values("bill_id"))
-            .select_related("accounts.user")
-            .values("user_id")
-            .annotate(
-                number_of_notifications=Count("bill_id"),
-                bills_to_notify=ArrayAgg("bill_id"),
-            )
+        FavoritesTable.objects
+        .filter(
+            bill_id__in=updates_table.objects.filter(date__gte=time_threshold).values("bill_id"),
+            user_id__in=User.objects.filter(is_subscribed=True).values("id")
+        )
+        .values("user_id")
+        .annotate(
+            number_of_notifications=Count("bill_id"),
+            bills_to_notify=ArrayAgg("bill_id"),
+        )
         )
 
         # Make list of users to notify for bulk insert into UserNotificationQueue.

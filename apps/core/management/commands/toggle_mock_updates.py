@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils.crypto import get_random_string
 from django.utils import timezone
-from ...models import UpdatesMockDjango, ActionsMockDjango, BillsMockDjango
+from ...models import UpdatesMockDjango, ActionsMockDjango, BillsTable, BillsMockDjango
 
 
 class Command(BaseCommand):

@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 
-from ...models import UserNotificationQueue, FavoritesTable, BillsTable, UpdatesMockDjango
+from ...models import UserNotificationQueue, FavoritesTable, BillsTable, UpdatesMockDjango, UpdatesTable
 from ....accounts.models import User
 
 FROM_EMAIL = os.getenv("FROM_EMAIL")
@@ -21,7 +21,17 @@ class Command(BaseCommand):
     Send bill update notifications to users.
     """
 
-    def get_bill_data(self, bill):
+    def add_arguments(self, parser):
+        """
+        Add a debug command line argument.
+        """
+        parser.add_argument(
+            "--DEBUG",
+            action="store_true",
+            help="Run the command in debug mode.",
+        )
+
+    def get_bill_data(self, bill, updates_table):
         """
         Get the data of a bill for a given bill ID.
 
@@ -32,7 +42,7 @@ class Command(BaseCommand):
             dict: A dictionary containing bill information.
         """
 
-        latest_update = UpdatesMockDjango.objects.filter(bill_id=bill)
+        latest_update = updates_table.objects.filter(bill_id=bill)
 
         bill_data = (
             BillsTable.objects.filter(bill_id=bill)
@@ -103,7 +113,15 @@ class Command(BaseCommand):
 
         return True
 
-    def handle(self, **kwargs):
+    def handle(self, *args, **options):
+
+        debug = options.get("DEBUG")
+
+        if debug == 1:
+            updates_table = UpdatesMockDjango
+        else:
+            updates_table = UpdatesTable
+
         users_to_notify = (
             User.objects.filter(usernotificationqueue__is_notified=False)
             .select_related("usernotificationqueue")
@@ -117,7 +135,7 @@ class Command(BaseCommand):
 
             # Bills to notify is an array of bill IDs
             for bill in queue.bills_to_notify:
-                bills.append(self.get_bill_data(bill))
+                bills.append(self.get_bill_data(bill, updates_table))
 
             context_data = {
                 "full_name": user.full_name,

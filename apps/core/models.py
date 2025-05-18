@@ -173,7 +173,7 @@ class UpdatesMockDjango(models.Model):
     action_id = models.ForeignKey(
         "ActionsMockDjango", on_delete=models.CASCADE, db_column="action_id"
     )
-    bill_id = models.ForeignKey("BillsTable", on_delete=models.CASCADE, db_column="bill_id")
+    bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
     description = models.CharField()
     date = models.DateTimeField()
     category = models.CharField(null=True)
