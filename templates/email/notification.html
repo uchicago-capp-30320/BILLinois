@@ -2,7 +2,7 @@
 <html lang="en">
     <body>
         <h1>Your Updated Bills</h1>
-        <p> Dear {{ full_name }}</p>
+        <p> Dear {{ full_name|default:"Billinois Subscriber" }}</p>
         <p>Take a look at your favorited bills that have updated in the past day:</p>
         <ul>
             {% if user.number_of_notifications > 5 %}

@@ -1,6 +1,6 @@
 Your Updated Bills
 
-Dear {{ full_name }},
+Dear {{ full_name|default:"Billinois Subscriber" }},
 
 Take a look at your favorited bills that have updated in the past day:
 
