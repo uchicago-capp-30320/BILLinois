@@ -130,8 +130,7 @@ def test_sign_in(page: Page, username, password, expected_results, message):
 
     page.locator("button[type='submit']").first.click()
 
-    if expected_results == "Sign Out": # click menu only if successful login
-
+    if expected_results == "Sign Out":  # click menu only if successful login
         page.pause()
         page.screenshot(path="debug.png")
         page.get_by_text("Menu").click(timeout=TIMEOUT)
