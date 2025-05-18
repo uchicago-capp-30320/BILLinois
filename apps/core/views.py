@@ -6,6 +6,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import OuterRef, Exists
 from .models import BillsTable, FavoritesTable
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 def home(request: HttpRequest) -> HttpResponse:
     """
@@ -72,21 +74,29 @@ def search(request: HttpRequest) -> HttpResponse:
 
 @login_required
 def toggle_favorite(request, bill_id):
-    """
-    Toggle a bill as favorite for the logged-in user via a form submission.
-    """
     if request.method == "POST":
-        # Django expects an object to be passed to a ForeignKey field, not a string
         user = request.user
         bill = get_object_or_404(BillsTable, bill_id=bill_id)
 
         # Use get_or_create with the related objects
         favorite, created = FavoritesTable.objects.get_or_create(user_id=user, bill_id=bill)
-
         if not created:
             favorite.delete()
+            is_favorite = False
+        else:
+            is_favorite = True
 
-    return redirect(request.META.get("HTTP_REFERER", "search"))
+        # Render the partial template of updated button HTML
+        button_html = render_to_string(
+            "partials/favorite_button.html",
+            {"bill": bill, "is_favorite": is_favorite},
+            request=request
+        )
+
+        return HttpResponse(button_html)
+
+    else:
+        raise Http404("Unable to update favorites.")
 
 
 def bill_page(request: HttpRequest, bill_number: str) -> HttpResponse:
