@@ -145,4 +145,39 @@ def test_get_topics_from_id(test_topics, test_bill):
     assert all(topic.bill_id == test_bill for topic in topics)
 
 
-# %%
+# Updates table tests
+@pytest.fixture
+def test_update(test_bill, test_action):
+    return UpdatesTable.objects.create(
+        bill_id=test_bill,
+        action_id=test_action,
+        description="Passed House",
+        date=timezone.make_aware(datetime(2025, 5, 13, 8, 22, 0)),
+        category="",
+        chamber="House",
+    )
+
+
+@pytest.mark.django_db
+def test_update_created(test_update, test_bill, test_action):
+    assert (test_update.bill_id, test_update.action_id) == (test_bill, test_action)
+
+
+@pytest.mark.django_db
+def test_get_update_from_id(test_update, test_bill, test_action):
+    updates = UpdatesTable.objects.filter(bill_id=test_bill, action_id=test_action)
+    assert any(update.description == "Passed House" for update in updates)
+
+
+@pytest.mark.django_db
+def test_updates_table_uniqueness(test_update, test_bill, test_action):
+    # This should raise an error, the test will pass
+    with pytest.raises(IntegrityError):
+        UpdatesTable.objects.create(
+            bill_id=test_bill,
+            action_id=test_action,
+            description="Passed House",
+            date=timezone.make_aware(datetime(2025, 5, 18, 8, 22, 0)),
+            category="",
+            chamber="House",
+        )
