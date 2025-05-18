@@ -7,7 +7,13 @@ from django.utils import timezone
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 
-from ...models import UserNotificationQueue, FavoritesTable, BillsTable, UpdatesMockDjango, UpdatesTable
+from ...models import (
+    UserNotificationQueue,
+    FavoritesTable,
+    BillsTable,
+    UpdatesMockDjango,
+    UpdatesTable,
+)
 from ....accounts.models import User
 
 FROM_EMAIL = os.getenv("FROM_EMAIL")
@@ -114,7 +120,6 @@ class Command(BaseCommand):
         return True
 
     def handle(self, *args, **options):
-
         debug = options.get("DEBUG")
 
         if debug == 1:

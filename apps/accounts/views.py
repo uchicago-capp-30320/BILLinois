@@ -2,6 +2,7 @@ from django.contrib.auth.models import User, BaseUserManager
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
 
+
 class CustomUserManager(BaseUserManager):
     """
     Custom implementation of the UserManager class to handle user creation.
@@ -28,6 +29,7 @@ class CustomUserManager(BaseUserManager):
         )
         user.save()
         return True
+
 
 def make_account_page(request: HttpRequest) -> HttpResponse:
     """
