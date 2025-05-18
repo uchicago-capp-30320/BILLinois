@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.http import Http404, HttpRequest, HttpResponse
 from .models import BillsMockDjango, BillsTable
-from .models import BillsTable
 from django.db.models import Exists, OuterRef
 from django.shortcuts import get_object_or_404, redirect, render
 
