@@ -41,7 +41,7 @@ def test_search_content(test_search_fake):
 def test_bill():
     return BillsTable.objects.create(
         bill_id="123",
-        number="AB 123",
+        number="123",
         title="Transportation Test Bill",
         summary="This is a test bill.",
         status="Introduced",
@@ -59,3 +59,14 @@ def test_create_search_real(test_search_real):
 def test_search_content_real(test_search_real, test_bill):
     bytes = [b"BILLinois", b"Menu", b"123", b"Transportation Test Bill"]
     assert all(byte in test_search_real.content for byte in bytes)
+
+
+# Bill page view tests: real query
+# Not implemented for now as these are not currently in urls.py
+# @pytest.fixture
+# def test_bill_view(client, test_bill):
+#     return client.get("/bill_page/", {"bill_number": "123"})
+
+# @pytest.mark.django_db
+# def test_create_bill_view(test_bill_view):
+#     assert test_bill_view.status_code == 200
