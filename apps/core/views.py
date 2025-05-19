@@ -1,10 +1,13 @@
 import re
+
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.http import Http404, HttpRequest, HttpResponse
 from django.db.models import Exists, OuterRef
-from django.http import HttpResponse, HttpRequest, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.auth import get_user_model
+
 from .models import BillsTable, FavoritesTable
 from .utils import normalize_bill_number, bill_number_for_url
 
@@ -94,10 +97,18 @@ def search(request: HttpRequest) -> HttpResponse:
 
         results = results.annotate(favorite=Exists(favorites_query))
 
+    # Paginate the results to avoid overwhelming the frontend
+    paginator = Paginator(results, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(
         request,
         "search.html",
-        {"query": request.GET.get("query", ""), "results": results},
+        {
+            "query": query,
+            "results": page_obj,
+        },
     )
 
 
@@ -215,4 +226,4 @@ def bill_page(
         ],
     }
 
-    return render(request, "bill.html", {"bill_data": data})
+    return render(request, "bill_page.html", {"bill_data": data})
