@@ -1,12 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.core.paginator import Paginator
 from django.http import Http404, HttpRequest, HttpResponse
 from .models import BillsTable
 from django.db.models import Exists, OuterRef
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import FavoritesTable
-
 
 def home(request: HttpRequest) -> HttpResponse:
     """
@@ -86,12 +86,19 @@ def search(request: HttpRequest) -> HttpResponse:
 
         results = results.annotate(favorite=Exists(favorites_query))
 
+    # Paginate the results to avoid overwhelming the frontend
+    paginator = Paginator(results, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(
         request,
         "search.html",
-        {"query": request.GET.get("query", ""), "results": results},
+        {
+            "query": query,
+            "results": page_obj,
+        },
     )
-
 
 @login_required
 def toggle_favorite(request, bill_id):
