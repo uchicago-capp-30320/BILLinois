@@ -1,5 +1,8 @@
+import re
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.core.paginator import Paginator
 from django.http import Http404, HttpRequest, HttpResponse
 from .models import BillsMockDjango, BillsTable
 from django.db.models import Exists, OuterRef
@@ -67,15 +70,23 @@ def search(request: HttpRequest) -> HttpResponse:
 
     results = []
 
-    if query:
-        search_vector = SearchVector("title", "summary", config="english")
-        search_query = SearchQuery(query, search_type="websearch", config="english")
+    bill_number_pattern = r'^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+'
+
+    # If the user has searched by bill number, only search the number field
+    # This is to avoid returning unrelated results for bill numbers
+    if re.fullmatch(bill_number_pattern, query.strip().upper()):
+        search_vector = SearchVector("number", config="english")
+        search_query = SearchQuery(query, config="english")
         results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
 
-        if state:
-            results = results.filter(state=state)
-
+    else:
+        search_vector = SearchVector("title", "summary", "number", config="english")
+        search_query = SearchQuery(query, config="english")
+        results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
         results = results.annotate(rank=SearchRank(search_vector, search_query)).order_by("-rank")
+
+    if state:
+        results = results.filter(state=state)    
 
     if request.user.is_authenticated:
         user_id = request.user.id
@@ -86,10 +97,18 @@ def search(request: HttpRequest) -> HttpResponse:
 
         results = results.annotate(favorite=Exists(favorites_query))
 
+    # Paginate the results to avoid overwhelming the frontend
+    paginator = Paginator(results, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(
         request,
         "search.html",
-        {"query": request.GET.get("query", ""), "results": results},
+        {
+            "query": query,
+            "results": page_obj,
+        },
     )
 
 
