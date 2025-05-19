@@ -84,11 +84,17 @@ for p in range(1, total_pages_updated + 1):
         + " ON CONFLICT (bill_id) DO UPDATE SET title=EXCLUDED.title, summary=EXCLUDED.summary, status=EXCLUDED.status;"
     )
     cur.execute(
-        "INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES "
+        """
+        INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES
+        """
+        + " "
         + arguments_sponsors_updated
     )
     cur.execute(
-        "INSERT INTO actions_table (action_id, bill_id, description, chamber, date, category) VALUES "
+        """
+        INSERT INTO actions_table (action_id, bill_id, description, chamber, date, category) VALUES
+        """
+        + " "
         + arguments_actions_updated
     )
     if updates:

@@ -62,7 +62,10 @@ for i in range(1, max_pages + 1):
         + arguments_bills
     )
     cur.execute(
-        "INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES "
+        """
+        INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES
+        """
+        + " "
         + arguments_sponsors
     )
     cur.execute(

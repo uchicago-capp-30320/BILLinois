@@ -25,7 +25,12 @@ class Command(BaseCommand):
             defaults={
                 "title": "NUTELLA DAY",
                 "number": "HR 87",
-                "summary": "Declares February 5, 2025 as Nutella Day in the State of Illinois to honor Ferrero's significant investments in the State, the many employees who contribute to its success, and the joy that Nutella spreads throughout our communities.",
+                "summary": """
+                Declares February 5, 2025 as Nutella Day in the State of
+                Illinois to honor Ferrero's significant investments in the
+                State, the many employees who contribute to its success, and
+                the joy that Nutella spreads throughout our communities.
+                """,
                 "status": "Assigned to State Government Administration Committee",
                 "state": "IL",
                 "session": 'session: "104th"',
