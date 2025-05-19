@@ -1,14 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
-from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import render
-from .models import BillsTable
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-from django.db.models import Exists, OuterRef
 from django.http import Http404, HttpRequest, HttpResponse
+from .models import BillsTable
+from django.db.models import Exists, OuterRef
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import BillsTable, FavoritesTable
+from .models import FavoritesTable
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -19,7 +16,9 @@ def home(request: HttpRequest) -> HttpResponse:
         request (HttpRequest): An HTTP request object:
 
     Returns:
-        HttpResponse: The rendered HTML home page, redirect to `/search/` page upon search submission.
+        HttpResponse:
+            The rendered HTML home page, redirect to `/search/` page
+            upon search submission.
     """
     return render(request, "home.html")
 
@@ -33,9 +32,10 @@ def search(request: HttpRequest) -> HttpResponse:
 
     Returns:
         HttpResponse: The rendered search results page listing all bills matching a search query.
-        Results: An array of JSON objects from the Postgres database, containing bill information about searched bills.
-            The fields correspond
-            to the columns in the database's bills table:
+        Results:
+            An array of JSON objects from the Postgres database, containing
+            bill information about searched bills.
+            The fields correspond to the columns in the database's bills table:
 
             - bill_id: The unique identifier for the bill<br />
             - number: The bill number\n
@@ -63,7 +63,7 @@ def search(request: HttpRequest) -> HttpResponse:
     """
     query = request.GET.get("query", "")
     state = request.GET.get("state", None)
-    topic = request.GET.get("topic", None)
+    # topic = request.GET.get("topic", None)
 
     results = []
 
@@ -118,10 +118,13 @@ def bill_page(request: HttpRequest, bill_number: str) -> HttpResponse:
 
     Args:
         request (HttpRequest): An HTTP request object.
-        bill_number (str): The `bill_id` from the Postgres bills model for the bill you want to view (i.e. SB 2253)
+        bill_number (str):
+            The `bill_id` from the Postgres bills model for the bill you want to view
+            (i.e. SB 2253)
 
     Returns:
-        HttpResponse: A Django context variable with the data from the query. Renders HTML bill page if bill exists, otherwise, an error
+        HttpResponse: A Django context variable with the data from the query.
+        Renders HTML bill page if bill exists, otherwise, an error
         Results: A JSON object containing the following columns from database's table:
 
             - bill_id: The unique identifier for the bill
@@ -141,7 +144,15 @@ def bill_page(request: HttpRequest, bill_number: str) -> HttpResponse:
 
     Example:
     ```json
-    {"bill_id": '123', "number": "HB-001", "title": "Test Bill", "summary": "Tests a bill.", "status": "Submitted", "topics": ['Environment', 'Education'], "sponsors": ['Rep. Patel', 'Rep. Wilks']}
+    {
+        "bill_id": '123',
+        "number": "HB-001",
+        "title": "Test Bill",
+        "summary": "Tests a bill.",
+        "status": "Submitted",
+        "topics": ['Environment', 'Education'],
+        "sponsors": ['Rep. Patel', 'Rep. Wilks']
+    }
     ```
     """
     try:
