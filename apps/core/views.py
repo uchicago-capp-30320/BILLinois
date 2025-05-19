@@ -255,7 +255,7 @@ def favorites_page(request):
     favorite_qs = FavoritesTable.objects.filter(user_id=user_id)
     favorite_bill_ids = favorite_qs.values("bill_id")
 
-    bills_qs = BillsTable.objects.filter(id__in=Subquery(favorite_bill_ids))
+    bills_qs = BillsTable.objects.filter(bill_id__in=Subquery(favorite_bill_ids))
 
     if sort_option == "action_date":
         # get most recent relevant action (i.e. with a category) for bills
@@ -273,7 +273,7 @@ def favorites_page(request):
     else:
         # sort by when user favorited
         bills_qs = bills_qs.annotate(
-            favorite_id=Subquery(favorite_qs.filter(bill_id=OuterRef("id")).values("id")[:1])
+            favorite_id=Subquery(favorite_qs.filter(bill_id=OuterRef("bill_id")).values("id")[:1])
         ).order_by("-favorite_id")
 
     return render(
