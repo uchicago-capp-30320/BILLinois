@@ -1,9 +1,10 @@
+import re
+from django.contrib.auth.decorators import login_required
+from django.db.models import Exists, OuterRef
 from django.http import HttpResponse, HttpRequest, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
-from django.db.models import Exists, OuterRef
 from .models import BillsTable, FavoritesTable
 from .utils import normalize_bill_number, bill_number_for_url
 
@@ -66,15 +67,23 @@ def search(request: HttpRequest) -> HttpResponse:
 
     results = []
 
-    if query:
-        search_vector = SearchVector("title", "summary", config="english")
-        search_query = SearchQuery(query, search_type="websearch", config="english")
+    bill_number_pattern = r'^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+'
+
+    # If the user has searched by bill number, only search the number field
+    # This is to avoid returning unrelated results for bill numbers
+    if re.fullmatch(bill_number_pattern, query.strip().upper()):
+        search_vector = SearchVector("number", config="english")
+        search_query = SearchQuery(query, config="english")
         results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
 
-        if state:
-            results = results.filter(state=state)
-
+    else:
+        search_vector = SearchVector("title", "summary", "number", config="english")
+        search_query = SearchQuery(query, config="english")
+        results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
         results = results.annotate(rank=SearchRank(search_vector, search_query)).order_by("-rank")
+
+    if state:
+        results = results.filter(state=state)    
 
     if request.user.is_authenticated:
         user_id = request.user.id
