@@ -8,17 +8,15 @@ import time
 from data_utils import pull_page, insert_bills
 import sys
 
+# Setup and unpacking state, session from command line
 start = time.time()
-
 conn = psycopg2.connect(
     database="billinois",
     host=os.environ["billinois_db_host"],
     user=os.environ["billinois_db_user"],
     password=os.environ["billinois_db_password"],
 )
-
 cur = conn.cursor()
-# Unpacking state, session from command line
 state = sys.argv[1]
 session = sys.argv[2]
 
@@ -69,7 +67,10 @@ for i in range(1, max_pages + 1):
         + arguments_sponsors
     )
     cur.execute(
-        "INSERT INTO actions_table (action_id, bill_id, description, chamber, date, category) VALUES "
+        """
+        INSERT INTO actions_table (action_id, bill_id, description, chamber, date, category) VALUES
+        """
+        + " "
         + arguments_actions
     )
 

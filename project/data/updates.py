@@ -22,14 +22,14 @@ cur.execute("DELETE FROM updates_table;")
 
 # Setting up date, total pages, and number of inserts
 today_date = date.today()
-yesterday_date = str(today_date - timedelta(days=1))
-_, total_pages_updated = pull_page(state, session, 1, yesterday_date)
+since_date = str(today_date - timedelta(days=1))
+_, total_pages_updated = pull_page(state, session, 1, since_date)
 num_updated_inserts = 0
 
 # Iterate through each page, deleting outdated records if needed,
 # inserting updated data, and populating updates table
 for p in range(1, total_pages_updated + 1):
-    page_updated_bills, _ = pull_page(state, session, p, yesterday_date)
+    page_updated_bills, _ = pull_page(state, session, p, since_date)
     if not page_updated_bills:
         print("No updates to bills")
         break
@@ -38,7 +38,6 @@ for p in range(1, total_pages_updated + 1):
         id_to_delete = record["id"]
 
         # NOTE: Cannot delete bills as that would get rid of people's favorites
-        # bill_delete_statement = """DELETE FROM bills_table WHERE bill_id = (%s)"""
         sponsors_delete_statement = """DELETE FROM sponsors_table WHERE bill_id = (%s)"""
         actions_delete_statement = """DELETE FROM actions_table WHERE bill_id = (%s)"""
         # NOTE: Re-running topic assignment allows us to use most updated summary/title
@@ -47,11 +46,11 @@ for p in range(1, total_pages_updated + 1):
         # Deleting from actions/sponsors first as PK issue
         cur.execute(actions_delete_statement, (id_to_delete,))
         cur.execute(sponsors_delete_statement, (id_to_delete,))
-        # cur.execute(bill_delete_statement, (id_to_delete,))
         cur.execute(topics_delete_statement, (id_to_delete,))
 
     print(f"inserting updated bills from page {p}")
     all_info_from_page = insert_bills(page_updated_bills)
+    # Extract all information from returned dictionary
     updated_bills = all_info_from_page["bills_from_page"]
     updated_sponsors = all_info_from_page["sponsors_from_page"]
     updated_actions = all_info_from_page["actions_from_page"]
@@ -99,7 +98,10 @@ for p in range(1, total_pages_updated + 1):
     )
     if updates:
         cur.execute(
-            "INSERT INTO updates_table(bill_id, category, description, chamber, action_id, date) VALUES "
+            """
+            INSERT INTO updates_table(bill_id, category, description, chamber, action_id, date) VALUES
+            """
+            + " "
             + arguments_updates
         )
 
