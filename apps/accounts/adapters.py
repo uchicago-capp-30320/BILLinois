@@ -47,9 +47,9 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         """
         Send a verification code to the user's phone number.
         """
-        API_KEY = os.environ.get("TWILIO_API_KEY")
-        AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
-        FROM_NUMBER = os.environ.get("TWILIO_FROM_NUMBER")
+        api_key = os.environ.get("TWILIO_API_KEY")
+        auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+        from_number = os.environ.get("TWILIO_FROM_NUMBER")
 
         PhoneVerification.objects.create(user=user, code=code)
 
@@ -60,9 +60,9 @@ class CustomAccountAdapter(DefaultAccountAdapter):
 
         else:
             try:
-                client = Client(API_KEY, AUTH_TOKEN)
+                client = Client(api_key, auth_token)
                 client.messages.create(
-                    body=f"Your verification code is: {code}", from_=FROM_NUMBER, to=phone
+                    body=f"Your verification code is: {code}", from_=from_number, to=phone
                 )
 
             except Exception as e:
