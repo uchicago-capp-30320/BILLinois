@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import FavoritesTable
 
+
 def home(request: HttpRequest) -> HttpResponse:
     """
     Render the home page.
@@ -99,6 +100,7 @@ def search(request: HttpRequest) -> HttpResponse:
             "results": page_obj,
         },
     )
+
 
 @login_required
 def toggle_favorite(request, bill_id):
