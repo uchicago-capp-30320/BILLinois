@@ -69,7 +69,7 @@ def search(request: HttpRequest) -> HttpResponse:
 
     results = []
 
-    bill_number_pattern = r'^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM)\s*\d+'
+    bill_number_pattern = r'^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+'
 
     # If the user has searched by bill number, only search the number field
     # This is to avoid returning unrelated results for bill numbers
