@@ -42,15 +42,24 @@ for i in range(220, max_pages + 1):
     )
 
     cur.execute(
-        "INSERT INTO bills_table (bill_id, number, title, summary, status) VALUES "
+        """
+        INSERT INTO bills_table (bill_id, number, title, summary, status) VALUES
+        """
+        + " "
         + arguments_bills
     )
     cur.execute(
-        "INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES "
+        """
+        INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES
+        """
+        + " "
         + arguments_sponsors
     )
     cur.execute(
-        "INSERT INTO actions_table (action_id, bill_id, description, date, category) VALUES "
+        """
+        INSERT INTO actions_table (action_id, bill_id, description, date, category) VALUES
+        """
+        + " "
         + arguments_actions
     )
 

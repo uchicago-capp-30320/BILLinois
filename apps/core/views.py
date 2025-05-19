@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db.models import OuterRef, Exists
+from django.db.models import Exists, OuterRef
 from .models import BillsTable, FavoritesTable
 from .utils import normalize_bill_number, bill_number_for_url
 
@@ -15,7 +15,9 @@ def home(request: HttpRequest) -> HttpResponse:
         request (HttpRequest): An HTTP request object:
 
     Returns:
-        HttpResponse: The rendered HTML home page, redirect to `/search/` page upon search submission.
+        HttpResponse:
+            The rendered HTML home page, redirect to `/search/` page
+            upon search submission.
     """
     return render(request, "home.html")
 
@@ -29,9 +31,10 @@ def search(request: HttpRequest) -> HttpResponse:
 
     Returns:
         HttpResponse: The rendered search results page listing all bills matching a search query.
-        Results: An array of JSON objects from the Postgres database, containing bill information about searched bills.
-            The fields correspond
-            to the columns in the database's bills table:
+        Results:
+            An array of JSON objects from the Postgres database, containing
+            bill information about searched bills.
+            The fields correspond to the columns in the database's bills table:
 
             - bill_id: The unique identifier for the bill<br />
             - number: The bill number\n
@@ -58,18 +61,20 @@ def search(request: HttpRequest) -> HttpResponse:
     ```
     """
     query = request.GET.get("query", "")
+    state = request.GET.get("state", None)
+    # topic = request.GET.get("topic", None)
 
     results = []
 
     if query:
         search_vector = SearchVector("title", "summary", config="english")
         search_query = SearchQuery(query, search_type="websearch", config="english")
-        results = (
-            BillsTable.objects.annotate(search=search_vector)
-            .filter(search=search_query)
-            .annotate(rank=SearchRank(search_vector, search_query))
-            .order_by("-rank")
-        )
+        results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
+
+        if state:
+            results = results.filter(state=state)
+
+        results = results.annotate(rank=SearchRank(search_vector, search_query)).order_by("-rank")
 
     if request.user.is_authenticated:
         user_id = request.user.id
