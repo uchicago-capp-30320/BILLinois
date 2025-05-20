@@ -3,6 +3,7 @@ import re
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Exists, OuterRef, Subquery
+from django.contrib.postgres.aggregates import ArrayAgg 
 from django.http import Http404, HttpRequest, HttpResponse
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.auth import get_user_model
@@ -64,6 +65,7 @@ def search(request: HttpRequest) -> HttpResponse:
     }]
     ```
     """
+
     query = request.GET.get("query", "")
     state = request.GET.get("state", None)
     # topic = request.GET.get("topic", None)
@@ -76,17 +78,18 @@ def search(request: HttpRequest) -> HttpResponse:
     # This is to avoid returning unrelated results for bill numbers
     if re.fullmatch(bill_number_pattern, query.strip().upper()):
         search_vector = SearchVector("number", config="english")
-        search_query = SearchQuery(query, config="english")
-        results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
 
     else:
         search_vector = SearchVector("title", "summary", "number", config="english")
-        search_query = SearchQuery(query, config="english")
-        results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
-        results = results.annotate(rank=SearchRank(search_vector, search_query)).order_by("-rank")
+
+    search_query = SearchQuery(query, config="english")
+    results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
 
     if state:
         results = results.filter(state=state)
+    
+    results = results.annotate(rank=SearchRank(search_vector, search_query)).order_by("-rank")
+    results = results.annotate(topics = ArrayAgg("topicstable__topic", distinct=True))
 
     if request.user.is_authenticated:
         user_id = request.user.id

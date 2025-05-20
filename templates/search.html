@@ -86,9 +86,17 @@
                   <td class="has-text-centered py-5">
                     <!-- Add multiple tags here -->
                      <div class="grid">
-                    <span class="tag button-blue is-rounded is-medium">Example topic</span> 
-                    <span class="tag button-purple is-rounded is-medium">Example topic</span> 
-                    <span class="tag button-green is-rounded is-medium">Example topic</span> 
+                      {% for topic in bill.topics %}
+                      <span class="
+                      {% if topic == 'Education' %}button-blue
+                      {% elif topic == 'Energy/Environment' %}button-green
+                      {% elif topic == 'Health' %}button-red
+                      {% elif topic == 'Transportation' %}button-purple
+                      {% elif topic == 'Housing' %}button-pink
+                      {% elif topic == 'LGBTQIA' %}button-yellow
+                      {% endif %}
+                      tag is-rounded is-medium">{{ topic }} </span>
+                      {% endfor %}
                   </div>
                   </td>
                   <td class="has-text-centered py-5">
