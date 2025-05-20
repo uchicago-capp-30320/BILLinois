@@ -8,8 +8,8 @@ urlpatterns = [
     path("djadmin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("", include("apps.core.urls")),
-    path("search/", include("apps.core.urls")),
-    path("bill/", include("apps.core.urls")),
+    #    path("search/", include("apps.core.urls")),
+    #    path("bill/", include("apps.core.urls")),
     path("accounts/", include("apps.accounts.urls")),
 ]
 
