@@ -4,7 +4,7 @@ from topics.topics_classifier import get_topics_from_bill
 from pathlib import Path
 import environ
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
     DEBUG=(bool, False),
 )
