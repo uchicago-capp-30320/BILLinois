@@ -16,7 +16,7 @@
             <div class="columns is-vcentered is-mobile" style="margin: 0;">
               <!-- Title Column -->
               <div class="column is-narrow" style="padding-left: 0; flex-grow: 0;">
-                <a href="/">  class="title is-1 custom-text-dark">BILLinois </a>
+                <a href="/" class="title is-1 custom-text-dark">BILLinois </a>
               </div>
               <!-- Search Column, for spacing-->
               <div class="column" style="flex-grow: 1;">
@@ -71,17 +71,21 @@
                   <p class = "subtitle is-6 m-2 custom-text-dark"> arkoreg@internet.com </p>
                   <br>
                   <!-- Alerts Toggle -->
-                  <div class = "is-flex is-align-items-center">
-                    <p class = "subtitle is-6 m-2"><strong>Alerts: </strong></p>
-                    <label class="switch">
-                      <input type="checkbox">
-                      <div class="slider"></div>
-                      <div class="slider-card">
+        <div class="is-flex is-align-items-center">
+            <p class="subtitle is-6 m-2"><strong>Alerts: </strong></p>
+            <form action="{% url 'unsubscribe' %}" method="post">
+                {% csrf_token %}
+                <label class="switch">
+                    <input type="checkbox" name="is_subscribed" value="true" 
+                          onchange="this.form.submit()" {% if user.is_subscribed %}checked{% endif %}>
+                    <div class="slider"></div>
+                    <div class="slider-card">
                         <div class="slider-card-face slider-card-front"></div>
                         <div class="slider-card-face slider-card-back"></div>
-                      </div>
-                    </label>
-                  </div>
+                    </div>
+                </label>
+            </form>
+        </div>
                   <br>
                   <!-- Card Footer -->
                   <div class="card-footer has-text-left">
