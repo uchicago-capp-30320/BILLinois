@@ -244,3 +244,17 @@ class UsersTable(models.Model):
 
     class Meta:
         db_table = "users_table"
+
+
+class UserNotificationQueue(models.Model):
+    """
+    A table to store user notifications.
+    """
+
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE, db_column="user_id")
+    number_of_notifications = models.IntegerField()
+    bills_to_notify = models.JSONField()
+    is_notified = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "user_notification_queue"

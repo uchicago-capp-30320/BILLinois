@@ -11,6 +11,13 @@ class CustomSignupForm(SignupForm):
         widget=forms.TextInput(attrs={"placeholder": "Full Name"}),
     )
 
+    subscribe = forms.BooleanField(
+        label="Subscribe to bill updates",
+        required=False,
+        initial=True,
+        widget=forms.CheckboxInput(attrs={"checked": "checked"}),
+    )
+
     def clean_email(self) -> str:
         email = self.cleaned_data.get("email")
         user = get_user_model()
@@ -31,7 +38,16 @@ class CustomSignupForm(SignupForm):
         return phone
 
     def save(self, request) -> object:
-        user = super().save(request)
-        user.full_name = self.cleaned_data.get("full_name")
+        User = get_user_model()
+
+        user = User.objects.create_user(
+            email=self.cleaned_data.get("email"),
+            username=self.cleaned_data.get("email"),
+            full_name=self.cleaned_data.get("full_name"),
+            is_subscribed=self.cleaned_data.get("subscribe", True),
+            phone=self.cleaned_data.get("phone"),
+        )
+
+        user.set_password(self.cleaned_data.get("password1"))
         user.save()
         return user
