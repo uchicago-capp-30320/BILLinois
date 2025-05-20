@@ -5,14 +5,18 @@ import time
 import os
 import psycopg2
 import sys
+from pathlib import Path
+import environ
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+env = environ.Env(
+    DEBUG=(bool, False),
+)
+env.read_env(BASE_DIR / ".env")
+
 
 # Connect to DB, parse state and session from input args
-conn = psycopg2.connect(
-    database="billinois",
-    host=os.environ["billinois_db_host"],
-    user=os.environ["billinois_db_user"],
-    password=os.environ["billinois_db_password"],
-)
+conn = psycopg2.connect(os.getenv("DATABASE_URL"))
 state = sys.argv[1]
 session = sys.argv[2]
 
