@@ -61,19 +61,31 @@ for p in range(1, total_pages_updated + 1):
     )
 
     cur.execute(
-        "INSERT INTO bills_table (bill_id, number, title, summary, status) VALUES "
+        """
+        INSERT INTO bills_table (bill_id, number, title, summary, status) VALUES
+        """
+        + " "
         + arguments_bills_updated
     )
     cur.execute(
-        "INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES "
+        """
+        INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES
+        """
+        + " "
         + arguments_sponsors_updated
     )
     cur.execute(
-        "INSERT INTO actions_table (action_id, bill_id, description, date, category) VALUES "
+        """
+        INSERT INTO actions_table (action_id, bill_id, description, date, category) VALUES
+        """
+        + " "
         + arguments_actions_updated
     )
     cur.execute(
-        "INSERT INTO updates_table(bill_id, category, description, action_id, date) VALUES "
+        """
+        INSERT INTO updates_table(bill_id, category, description, action_id, date) VALUES
+        """
+        + " "
         + arguments_updates
     )
 

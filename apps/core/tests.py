@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from .models import BillsMockDjango
 
 
-class searchViewTest(TestCase):
+class SearchViewTest(TestCase):
     """
     Test the search view.
     """
