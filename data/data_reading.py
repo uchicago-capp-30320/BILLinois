@@ -7,15 +7,18 @@ import os
 import time
 from data_utils import pull_page, insert_bills
 import sys
+from pathlib import Path
+import environ
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env(
+    DEBUG=(bool, False),
+)
+env.read_env(BASE_DIR / ".env")
 
 # Setup and unpacking state, session from command line
 start = time.time()
-conn = psycopg2.connect(
-    database="billinois",
-    host=os.environ["billinois_db_host"],
-    user=os.environ["billinois_db_user"],
-    password=os.environ["billinois_db_password"],
-)
+conn = psycopg2.connect(os.getenv("DATABASE_URL"))
 cur = conn.cursor()
 state = sys.argv[1]
 session = sys.argv[2]
