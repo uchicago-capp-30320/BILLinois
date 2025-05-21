@@ -23,7 +23,8 @@ def test_home_content(test_home):
 # Search view tests: fake query
 @pytest.fixture
 def test_search_fake(client):
-    return client.get("/search/", {"query": "This is a test query."})
+    return client.get("/search/", {"query": "This is a test query.",
+                                   "state": "IL"})
 
 
 @pytest.mark.django_db
