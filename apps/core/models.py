@@ -40,6 +40,7 @@ class ActionsTable(models.Model):
 
     class Meta:
         db_table = "actions_table"
+        unique_together = ("action_id", "bill_id")
 
 
 class BillsMockDjango(models.Model):
