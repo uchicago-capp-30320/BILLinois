@@ -87,9 +87,17 @@
                   <td class="has-text-centered py-5">
                     <!-- Add multiple tags here -->
                      <div class="grid">
-                    <span class="tag button-blue is-rounded is-medium">Example topic</span> 
-                    <span class="tag button-purple is-rounded is-medium">Example topic</span> 
-                    <span class="tag button-green is-rounded is-medium">Example topic</span> 
+                      {% for topic in bill.topics %}
+                      <span class="
+                      {% if topic == 'Education' %}button-blue
+                      {% elif topic == 'Energy/Environment' %}button-green
+                      {% elif topic == 'Health' %}button-red
+                      {% elif topic == 'Transportation' %}button-purple
+                      {% elif topic == 'Housing' %}button-pink
+                      {% elif topic == 'LGBTQIA' %}button-yellow
+                      {% endif %}
+                      tag is-rounded is-medium">{{ topic }} </span>
+                      {% endfor %}
                   </div>
                   </td>
                   <td class="has-text-centered py-5">
@@ -111,6 +119,24 @@
                 {% endfor %}
               </tbody>
         </table>
+        <div class="pagination">
+          <!-- Pagination controls -->
+    <span class="step-links">
+        {% if results.has_previous %}
+            <a href="?page=1&query={{ query }}">&laquo; first</a>
+            <a href="?page={{ results.previous_page_number }}&query={{ query }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ results.number }} of {{ results.paginator.num_pages }}.
+        </span>
+
+        {% if results.has_next %}
+            <a href="?page={{ results.next_page_number }}&query={{ query }}">next</a>
+            <a href="?page={{ results.paginator.num_pages }}&query={{ query }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
         {% else %}
             <p class="has-text-centered custom-text-dark">Please enter a search term.</p>
         {% endif %}
