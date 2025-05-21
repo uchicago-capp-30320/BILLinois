@@ -1,5 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
+from django.shortcuts import render
+from .models import BillsTable
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.db.models import Exists, OuterRef
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -58,18 +62,20 @@ def search(request: HttpRequest) -> HttpResponse:
     ```
     """
     query = request.GET.get("query", "")
+    state = request.GET.get("state", None)
+    topic = request.GET.get("topic", None)
 
     results = []
 
     if query:
         search_vector = SearchVector("title", "summary", config="english")
         search_query = SearchQuery(query, search_type="websearch", config="english")
-        results = (
-            BillsTable.objects.annotate(search=search_vector)
-            .filter(search=search_query)
-            .annotate(rank=SearchRank(search_vector, search_query))
-            .order_by("-rank")
-        )
+        results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
+
+        if state:
+            results = results.filter(state=state)
+
+        results = results.annotate(rank=SearchRank(search_vector, search_query)).order_by("-rank")
 
     if request.user.is_authenticated:
         user_id = request.user.id
