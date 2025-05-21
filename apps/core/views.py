@@ -231,7 +231,7 @@ def bill_page(
         ],
     }
 
-    return render(request, "bill.html", {"bill_data": data})
+    return render(request, "bill_page.html", {"bill_data": data})
 
 
 @login_required
