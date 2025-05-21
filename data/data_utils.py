@@ -1,15 +1,23 @@
 import os
 import requests
 from topics.topics_classifier import get_topics_from_bill
+from pathlib import Path
+import environ
 
-API_KEY = os.environ["openstates_key"]
+BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env(
+    DEBUG=(bool, False),
+)
+env.read_env(BASE_DIR / ".env")
+
+API_KEY = os.getenv("OPENSTATES_KEY")
 base_url = "https://v3.openstates.org/bills?"
 vars_to_include = ["sponsorships", "abstracts", "actions"]
 per_page_val = 20  # Highest it can go
 
 
 # Single function for all API calls
-def pull_page(state, session, page_num, date=None):
+def pull_page(state: str, session: str, page_num: int, date=None):
     """
     Single function for performing either all bills or bills with actions
     since a given date. If page number is not specified, the first page is returned.
@@ -37,7 +45,7 @@ def pull_page(state, session, page_num, date=None):
     return results, max_pages
 
 
-def insert_bills(series_of_bills):
+def insert_bills(series_of_bills: dict):
     """
     This function creates the lists of bills, sponsors, actions, and updates
     needed for mass insertion into the tables

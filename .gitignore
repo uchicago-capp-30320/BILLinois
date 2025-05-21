@@ -1,8 +1,5 @@
 # avoid adding python cache files
-*.pyc
-
-# data directories: add any additional data folders here
-/data
+*/*.pyc
 
 # UV
 #   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.

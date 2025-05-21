@@ -1,16 +1,16 @@
 import re
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator
 from django.db.models import Exists, OuterRef, Subquery
 from django.contrib.postgres.aggregates import ArrayAgg 
 from django.http import Http404, HttpRequest, HttpResponse
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import ActionsTable, BillsTable, FavoritesTable
 from .utils import bill_number_for_url, normalize_bill_number
-
 
 def home(request: HttpRequest) -> HttpResponse:
     """
@@ -144,6 +144,7 @@ def bill_page(
     """
     Return detailed bill data using either the bill ID or a combination of
         state, year, and bill number.
+
 
     Args:
         request (HttpRequest): An HTTP request object.
