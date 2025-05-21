@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <!-- Link to custom CSS -->
-    <link rel="stylesheet" href="../static/css/custom.css">
+    <link rel="stylesheet" href="../../../../static/css/custom.css">
   </head>
   <body class="bg-light">
     <section class="section">
@@ -21,14 +21,21 @@
           <!-- Search Column -->
           <div class="column" style="flex-grow: 1;">
             <!-- Search Bar -->
-            <div class="container is-max-tablet">
-              <p class="control has-icons-left">
-                <input class="input" type="topic" placeholder="Search bills by name or topic..." />
-                <span class="icon is-small is-left">
-                  <i class="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
+            <form method="GET" action="/search">
+              <div class="container is-max-tablet">
+                <div class="control has-icons-left is-max-tablet">
+                  <input
+                    class="input"
+                    type="text"
+                    name="query"
+                    placeholder="Search bills by name or topic..."
+                  />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-magnifying-glass"></i>
+                  </span>
+                </div>
+              </div>
+            </form>
           </div>
           <!-- Dropdown Menu -->
           <nav class="navbar" role="navigation" aria-label="dropdown navigation">
@@ -79,7 +86,14 @@
         <p class="is-size-6 mt-3 custom-text-dark">{{bill_data.summary}}</p>
         <!-- Bill Tracker -->
         <h2 class="title is-4 mt-5 custom-text-dark">Bill Tracker</h2>
-          <p>Bill tracker will live here.</p>
+        {% for status in bill_data.status %}
+            <li>
+                <strong>{{ status.date }}</strong>: {{ status.status_desc }}<br>
+                <em></em>
+            </li>
+        {% empty %}
+            <li>No actions recorded.</li>
+        {% endfor %}
           <br>
           <p><i>View a <a class="custom-blue" href="https://www.aclu-il.org/sites/default/files/how_a_bill_becomes_a_law_one_pager.pdf">detailed flow chart</a> for more information on how a bill becomes law in Illinois.</i></p>
         <!-- Bill Sponsors -->
@@ -98,25 +112,29 @@
       </div>
         <!-- Bill Topics -->
         <h2 class="title is-4 mt-5 custom-text-dark">Topic(s)</h2>
+        <div class="buttons">
         {% for topic in bill_data.topics %}
-          <div class="buttons">
-          <button class="button button-blue is-rounded">Higher Education</button>
-          <button class="button button-purple is-rounded">Public Education</button>
-          <button class="button button-green is-rounded">Students</button>
-          <button class="button button-yellow is-rounded">Scholarships</button>
-          <button class="button button-red is-rounded">Topic 5</button>
-          </div>
+            <span class="button
+            {% if topic.topic == 'Education' %} button-blue
+            {% elif topic.topic == 'Energy/Environment' %} button-green
+            {% elif topic.topic == 'Health' %} button-red
+            {% elif topic.topic == 'Transportation' %} button-purple
+            {% elif topic.topic == 'Housing' %} button-pink
+            {% elif topic.topic == 'LGBTQIA' %} button-yellow
+            {% endif %} 
+            is-rounded">{{ topic.topic }}</span>
           {% empty %}
           <span>No topics available.</span>
         {% endfor %}
         </div>
+        </div>
         <br>
         <br>
-        <p><i>Page last updated 5/07/25</i></p>
+        <p><i>Page last updated 5/21/25</i></p>
         </div>
       </div>
     </section>
     <!-- JS for burger menu -->
-    <script src="../static/js/burger.js"></script>
+    <script src="../../../../static/js/burger.js"></script>
   </body>
 </html>
