@@ -75,21 +75,21 @@
                   <p class = "subtitle is-6 m-2 custom-text-dark">{{user.email}}</p>
                   <br>
                   <!-- Alerts Toggle -->
-        <div class="is-flex is-align-items-center">
-            <p class="subtitle is-6 m-2"><strong>Alerts: </strong></p>
-            <form action="{% url 'unsubscribe' %}" method="post">
-                {% csrf_token %}
-                <label class="switch">
-                    <input type="checkbox" name="is_subscribed" value="true" 
-                          onchange="this.form.submit()" {% if user.is_subscribed %}checked{% endif %}>
-                    <div class="slider"></div>
-                    <div class="slider-card">
-                        <div class="slider-card-face slider-card-front"></div>
-                        <div class="slider-card-face slider-card-back"></div>
-                    </div>
-                </label>
-            </form>
-        </div>
+                  <div class="is-flex is-align-items-center">
+                      <p class="subtitle is-6 m-2"><strong>Alerts: </strong></p>
+                      <form action="{% url 'unsubscribe' %}" method="post">
+                          {% csrf_token %}
+                          <label class="switch">
+                              <input type="checkbox" name="is_subscribed" value="true" 
+                                    onchange="this.form.submit()" {% if user.is_subscribed %}checked{% endif %}>
+                              <div class="slider"></div>
+                              <div class="slider-card">
+                                  <div class="slider-card-face slider-card-front"></div>
+                                  <div class="slider-card-face slider-card-back"></div>
+                              </div>
+                          </label>
+                      </form>
+                  </div>
                   <br>
                   <!-- Card Footer -->
                   <div class="card-footer has-text-left">
