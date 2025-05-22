@@ -223,7 +223,7 @@ def bill_page(
         "topics": [{"topic": t.topic} for t in bill.topicstable_set.all()],
         "status": [
             {
-                "date": a.date.isoformat(),
+                "date": a.date,
                 "status": a.category,
                 "status_desc": a.description,
             }
@@ -231,7 +231,7 @@ def bill_page(
         ],
     }
 
-    return render(request, "bill.html", {"bill_data": data})
+    return render(request, "bill_page.html", {"bill_data": data})
 
 
 @login_required
