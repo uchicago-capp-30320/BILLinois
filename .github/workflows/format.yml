@@ -1,9 +1,9 @@
 name: Lint and Commit
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
           npm install
 
       - name: Run Prettier
-        run: npx prettier --check .
+        run: npx prettier --check --write .
 
       - name: Run Ruff format
         run: ruff format
