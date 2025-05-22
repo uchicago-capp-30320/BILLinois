@@ -12,11 +12,11 @@ We collect the following pieces of information from users:
 
 All of this information is stored in a protected, remote server accessible to BILLinois developers only. Your password is encrypted before it enters our databases, meaning we never have access to your login credential. 
 
-All of this data is stored until you delete your account. Upon deletion, all of your information is deleted from our application. 
+All of this data is stored until you delete your account. Upon deletion, all of your information is deleted from our application and databases. 
 
 ## How Do We Use Your Data?
 
-We use your email to notify you when your favorited bills have important updates (moved to committee, voted on, etc.). While phone number notifications is not a functional feature at this time, we intend to build out that capability. We will never sell or forward your data to a 3rd party, nor will we ever ask for sensitive information (credit card information, social security numbers, etc.).
+We use your email to notify you when your favorited bills have important updates (moved to committee, voted on, etc.). We have also built out functionality for notifications via phone number, which is pending vendor approval. We will never sell or forward your data to a 3rd party. We will also never ask for sensitive information (credit card information, social security numbers, etc.).
 
 ## Additional Information
 
