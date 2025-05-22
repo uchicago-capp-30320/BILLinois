@@ -20,4 +20,4 @@ We use your email to notify you when your favorited bills have important updates
 
 ## Additional Information
 
-If you have any questions about our data collection practices, please contact Echo Nattinger at enattinger@uchicago.edu
+If you have any questions about our data collection practices, please contact our team at billinois.app@gmail.com 
