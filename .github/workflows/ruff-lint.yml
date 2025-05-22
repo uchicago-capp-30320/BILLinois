@@ -16,20 +16,29 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Install Python
+
+      - name: Install Python and Node.js
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          node-version: "14"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install ruff
-      # Update output format to enable automatic inline annotations.
+          npm install
+
+      - name: Run Prettier
+        run: npx prettier --check .
+
       - name: Run Ruff format
         run: ruff format
+
       - name: Run Ruff check
         run: ruff check
-      - name: Commit Ruff fixes
+
+      - name: Commit Ruff + prettier fixes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Apply Ruff fixes
+          commit_message: Apply formatting fixes
