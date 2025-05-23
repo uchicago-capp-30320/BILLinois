@@ -259,3 +259,15 @@ class UserNotificationQueue(models.Model):
 
     class Meta:
         db_table = "user_notification_queue"
+
+class MostRecentUpload(models.Model):
+    """
+    A table that stores the most recent bill upload date.
+    Used to determine whether or not a notification email should be sent, or
+    if there was an error uploading the bills.
+    """
+
+    last_upload_date = models.DateField()
+
+    class Meta:
+        db_table = "most_recent_upload"
