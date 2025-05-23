@@ -78,11 +78,6 @@
                 <th class="is-size-5 has-text-centered custom-text-dark">Favorite</th>
                 </tr>
             </thead>
-            <!-- Global Spinner -->
-            <div id="spinner">
-              <i class="fas fa-spinner fa-spin"></i>
-            </div>
-            <tbody>
               {% for bill in results %}
                 <tr>
                   <td class="py-5 custom-text-dark">{{ bill.number }}</td>
@@ -105,8 +100,8 @@
                   </div>
                   </td>
                   <td class="has-text-centered py-5">
-                    {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}
-                  </td>
+                    {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}          
+                  </td>     
                 </tr>
                 {% endfor %}
               </tbody>
