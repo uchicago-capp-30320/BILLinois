@@ -257,7 +257,9 @@ def favorites_page(request):
     favorite_qs = FavoritesTable.objects.filter(user_id=user_id)
     favorite_bill_ids = favorite_qs.values("bill_id")
 
-    bills_qs = BillsTable.objects.filter(bill_id__in=Subquery(favorite_bill_ids))
+    bills_qs = BillsTable.objects.filter(bill_id__in=Subquery(favorite_bill_ids)).prefetch_related(
+        "topicstable_set"
+    )
 
     if sort_option == "action_date":
         # get most recent relevant action (i.e. with a category) for bills
