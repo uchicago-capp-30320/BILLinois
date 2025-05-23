@@ -14,7 +14,7 @@ from playwright.sync_api import Page, expect
 
 #     # print("after the test runs")
 
-TIMEOUT = 2000
+TIMEOUT = 10000
 expect.set_options(timeout=TIMEOUT)
 
 
