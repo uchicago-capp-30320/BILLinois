@@ -19,7 +19,7 @@ Start here for an overview of the applications we use to support BILLinois.
     * Ingest updates to legislation from the API
     * Notify users of any updates to their saved bills
 
-![image-20250501112854222](image-20250501112854222.png)
+![Architecture diagram](architecture.png)
 
 ## User flow
 
@@ -27,4 +27,4 @@ Overview of the user experience supported by the application architecture, for r
 
 Users can search and filter bills as either an authenticated user or a guest, but users must be logged in to get notifications for bills. 
 
-![image-20250501112926582](image-20250501112926582.png)
+![User flow diagram](image-20250501112926582.png)
