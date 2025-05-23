@@ -285,3 +285,14 @@ def favorites_page(request):
         "favorites.html",
         {"favorited_bills": bills_qs, "sort_option": sort_option},
     )
+
+def privacy_policy(request: HttpRequest) -> HttpResponse:
+    """
+    Render the privacy policy page.
+
+    Args:
+        request (HttpRequest): An HTTP request object.
+    Returns:
+        HttpResponse: The rendered HTML privacy policy page.
+    """
+    return render(request, "privacy_policy.html")
