@@ -33,3 +33,6 @@ Response:
 {"bill_id": '123', "number": "HB-001", "title": "Test Bill", "summary": "Tests a bill.", "status": "Submitted", "topics": ['Environment', 'Education'], "sponsors": ['Rep. Patel', 'Rep. Wilks']}
 ]
 ```
+## /privacy_policy/
+
+::: apps.core.views.privacy_policy
