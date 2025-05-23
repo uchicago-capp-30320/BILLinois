@@ -20,9 +20,10 @@ conn = psycopg2.connect(os.getenv("DATABASE_URL"))
 state = sys.argv[1]
 session = sys.argv[2]
 
-# Set up cursor, and clear updates_table
+# Set up cursor, and clear updates_table/most_recent_upload
 cur = conn.cursor()
 cur.execute("DELETE FROM updates_table;")
+cur.execute("DELETE FROM most_recent_upload;")
 
 # Setting up date, total pages, and number of inserts
 today_date = date.today()
@@ -121,6 +122,9 @@ for p in range(1, total_pages_updated + 1):
     time.sleep(6)
 
 # Close out
+today_string = str(today_date)
+date_insert_statement = """INSERT INTO most_recent_upload (last_upload_date) VALUES (%s)"""
+cur.execute(date_insert_statement, (today_string,))
 conn.commit()
 cur.close()
 conn.close()
