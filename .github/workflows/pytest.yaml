@@ -44,7 +44,6 @@ jobs:
       run: uv run playwright install
 
     - name: Launch app
-      run: uv run python manage.py makemigrations --merge
       run: uv run python manage.py runserver & # run in background and continue to next step
 
     - name: Wait for server to be ready
