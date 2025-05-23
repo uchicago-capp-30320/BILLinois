@@ -38,10 +38,10 @@ def test_home_exists(page: Page):
     [
         ("", "Please enter a search term.", "Failed to prompt user when no search term entered."),
         ("asdf", "No results found.", "Failed to inform user when 0 results are returned."),
-        ("environment", "Topics", "Failed to return any results for a valid search term."),
+        ("environment", "Search results", "Failed to return any results for a valid search term."),
     ],
 )
-def test_search_empty(page: Page, search_term, expected_results, message):
+def test_search(page: Page, search_term, expected_results, message):
     """
     Test the search functionality of the page for at least two cases:
     - Empty search case, where the user is prompted to enter a search term.
