@@ -1,7 +1,10 @@
 import pytest
 from django.urls import reverse
 from apps.core.models import BillsTable
+from apps.accounts.models import User
 
+from datetime import datetime
+from django.utils import timezone
 
 # Home view tests
 @pytest.fixture
@@ -45,10 +48,11 @@ def test_bill():
         bill_id="123",
         number="123",
         title="Transportation Test Bill",
+        state="illinois",
+        session="104th",
         summary="This is a test bill.",
         status="Introduced",
     )
-
 
 @pytest.fixture
 def test_search_real(client, test_bill):
@@ -66,12 +70,38 @@ def test_search_content_real(test_search_real, test_bill):
     assert all(byte in test_search_real.content for byte in bytes)
 
 
-# Bill page view tests: real query
-# Not implemented for now
-# @pytest.fixture
-# def test_bill_view(client, test_bill):
-#     return client.get("/bill_page/", {"bill_number": "123"})
+# test user
+@pytest.fixture
+def test_user():
+    return User.objects.create(
+        email="test@gmail.COM",
+        username="david_test",
+        full_name="David Test",
+        is_staff=False,
+        is_active=True,
+        date_joined=timezone.make_aware(datetime(2025, 5, 13, 8, 22, 0)),
+    )
 
-# @pytest.mark.django_db
-# def test_create_bill_view(test_bill_view):
-#     assert test_bill_view.status_code == 200
+# Bill page view tests: query by bill_id
+@pytest.fixture
+def test_bill_view_id(client, test_bill):
+    print(client.get("/bill/123/", {"bill_id": "123"}, follow=True).url)
+    return client.get("/bill/123/", {"bill_id": "123"}, follow=True)
+
+@pytest.mark.django_db
+def test_create_bill_view_by_id(client, test_bill_view_id):
+    user = User.objects.create_user(username='test', password='testpass')
+    client.login(username='test', password='testpass')
+    assert test_bill_view_id.status_code == 200
+
+
+# Bill page view tests: query by state, session, and bill number
+@pytest.fixture
+def test_bill_view_info(client, test_bill):
+    return client.get("/bill/illinois/104th/123/", {"state": "illinois",
+                                 "session": "104th",
+                                 "number": "123"})
+
+@pytest.mark.django_db
+def test_create_bill_view(test_bill_view_info):
+    assert test_bill_view_info.status_code == 200
