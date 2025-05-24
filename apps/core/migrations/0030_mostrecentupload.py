@@ -26,6 +26,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 "db_table": "most_recent_upload",
+                "managed": False,
             },
         ),
     ]
