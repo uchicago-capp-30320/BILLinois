@@ -106,3 +106,29 @@ erDiagram
 | topic   | Varchar             | Topic name                                                   |
 | bill_id | Varchar, ForeignKey | `bill_id` from the bills table, the bill the topic is associated with |
 
+## Most Recent Upload
+::: apps.core.models.MostRecentUpload
+
+### Connects To:
+None
+
+| Name    | Type                | Description                                                  |
+| ------- | ------------------- | ------------------------------------------------------------ |
+| id      | Bigint, PrimaryKey  | ID of the upload                                              |
+| last_upload_date   | Date             | Date of the last successful bill upload                                                   |
+
+## User Notification Queue
+
+::: apps.core.models.UserNotificationQueue
+
+## Connects To:
+
+* Users (on user_id)
+
+| Name    | Type                | Description                                                  |
+| ------- | ------------------- | ------------------------------------------------------------ |
+| id      | Bigint, PrimaryKey  | ID of the queue entry                                              |
+| number_of_notifications   | Int             | Number of notifications for a user on a given day |
+| bills_to_notify | Array | A list of the bill ids that the user needs to be updated on |
+| is_notified | Boolean | Whether or not a notification email has been sent to the user |
+| user_id | ForeignKey | The user_id of the user to be notified |
