@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "apps.accounts",
     "apps.core",
     "django.contrib.postgres",
+    "anymail",
 ]
 
 MIDDLEWARE = [
@@ -263,6 +264,16 @@ LOGGING = {
             "filename": "_logs/phone_verification.log",
             "formatter": "key_value",
         },
+        "email_notifications": {
+            "class": "logging.handlers.WatchedFileHandler",
+            "filename": "_logs/email_notifications.log",
+            "formatter": "key_value",
+        },
+        "to_email_queue": {
+            "class": "logging.handlers.WatchedFileHandler",
+            "filename": "_logs/to_email_queue.log",
+            "formatter": "key_value",
+        },
     },
     "loggers": {
         "django_structlog": {
@@ -271,6 +282,16 @@ LOGGING = {
         },
         "phone_verification": {
             "handlers": ["phone_verification"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "email_notifications": {
+            "handlers": ["email_notifications"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "to_email_queue": {
+            "handlers": ["to_email_queue"],
             "level": "DEBUG",
             "propagate": False,
         },

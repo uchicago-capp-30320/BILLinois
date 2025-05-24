@@ -1,0 +1,22 @@
+Your Updated Bills
+
+Dear {{ full_name|default:"Billinois Subscriber" }},
+
+Take a look at your favorited bills that have updated in the past day:
+
+{% if number_of_notifications > 5 %}
+You have {{ number_of_notifications }} updated bills.
+Visit your favorites page to see them: {{ favorites_url }}
+
+{% else %}
+{% for bill in bills %}
+
+{{ bill.title }}
+Description: {{ bill.summary }}
+New Status: {{ bill.update_description }}
+Updated At: {{ bill.updated_at }}
+
+{% endfor %}
+{% endif %}
+
+Tired of updates? Unsubscribe here: {{ unsubscribe_url }}

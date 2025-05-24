@@ -19,13 +19,16 @@ dependencies = [
     "playwright>=1.52.0",
     "pre-commit>=4.2.0",
     "psycopg>=3.2.6",
-    "psycopg2>=2.9.10",
+    "psycopg2-binary>=2.9.10",
     "pytest-django>=4.11.1,<5",
     "rich>=14.0.0",
     "ruff>=0.11.4",
     "twilio>=9.6.0",
     "whitenoise>=6.9.0,<7",
     "pytest-playwright>=0.7.0",
+    "gunicorn>=23.0.0",
+    "environ>=1.0",
+    "structlog>=25.2.0",
 ]
 
 [tool.ruff]

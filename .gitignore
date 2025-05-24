@@ -1,8 +1,5 @@
 # avoid adding python cache files
-*.pyc
-
-# data directories: add any additional data folders here
-/data
+*/*.pyc
 
 # UV
 #   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
@@ -119,3 +116,7 @@ _logs/
 db.sqlite3
 .env
 */.DS_Store
+/node_modules
+package-lock.json
+package.json
+.vscode/settings.json

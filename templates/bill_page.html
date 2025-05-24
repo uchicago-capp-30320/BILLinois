@@ -1,42 +1,58 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html data-theme="light">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Billinois</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
+    />
     <!-- Link to custom CSS -->
-    <link rel="stylesheet" href="./static/css/custom.css">
+    <link rel="stylesheet" href="../../../../static/css/custom.css" />
   </head>
   <body class="bg-light">
     <section class="section">
-      <div class="container" style="max-width: 100%;">
-        <div class="columns is-vcentered is-mobile" style="margin: 0;">
+      <div class="container" style="max-width: 100%">
+        <div class="columns is-vcentered is-mobile" style="margin: 0">
           <!-- Title Column -->
-          <div class="column is-narrow" style="padding-left: 0; flex-grow: 0;">
-            <a href="/"> <h1 class="title is-1 custom-text-dark">BILLinois</h1>
+          <div class="column is-narrow" style="padding-left: 0; flex-grow: 0">
+            <a href="/">
+              <h1 class="title is-1 custom-text-dark">BILLinois</h1>
             </a>
           </div>
           <!-- Search Column -->
-          <div class="column" style="flex-grow: 1;">
+          <div class="column" style="flex-grow: 1">
             <!-- Search Bar -->
-            <div class="container is-max-tablet">
-              <p class="control has-icons-left">
-                <input class="input" type="topic" placeholder="Search bills by name or topic..." />
-                <span class="icon is-small is-left">
-                  <i class="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
+            <form method="GET" action="/search">
+              <div class="container is-max-tablet">
+                <div class="control has-icons-left is-max-tablet">
+                  <input
+                    class="input"
+                    type="text"
+                    name="query"
+                    placeholder="Search bills by name or topic..."
+                  />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-magnifying-glass"></i>
+                  </span>
+                </div>
+              </div>
+            </form>
           </div>
           <!-- Dropdown Menu -->
-          <nav class="navbar" role="navigation" aria-label="dropdown navigation">
+          <nav
+            class="navbar"
+            role="navigation"
+            aria-label="dropdown navigation"
+          >
             <div id="navbarMenu" class="navbar-menu">
               <div class="navbar-item has-dropdown is-hoverable navbar-end">
-                <a class="navbar-link">
-                  Menu
-                </a>
+                <a class="navbar-link is-size-5"> Menu </a>
                 <div class="navbar-dropdown is-right is-boxed">
                   <a href="/" class="navbar-item">Home</a>
                   {% if user.is_authenticated %}
@@ -44,115 +60,102 @@
                   <a href="/accounts/logout" class="navbar-item">Sign Out</a>
                   {% else %}
                   <a href="/accounts/login" class="navbar-item">Log In</a>
-                  <a href="/accounts/signup/" class="navbar-item">Sign Up</a> 
+                  <a href="/accounts/signup/" class="navbar-item">Sign Up</a>
                   {% endif %}
                 </div>
               </div>
             </div>
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+            <a
+              role="button"
+              class="navbar-burger"
+              aria-label="menu"
+              aria-expanded="false"
+              data-target="navbarMenu"
+            >
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
             </a>
-          </nav> 
+          </nav>
         </div>
       </div>
     </section>
-    <section class="section" style="max-width: 1150px;">
+    <section class="section" style="max-width: 1150px">
       <div class="columns">
         <div class="box column is-three-quarters-desktop">
-          <h1 class="title is-4 custom-text-dark">SB 1331 — SCHOLARSHIP ACCESSIBILITY ACT</h1>
+          <h1 class="title is-4 custom-text-dark">
+            {{bill_data.number}} — {{bill_data.title}}
+          </h1>
         </div>
         <div class="column">
           <div class="icon-text ml-2 is-align-items-center">
             <span class="icon custom-yellow mr-3">
-          <i class="fa-regular fa-star fa-2x"></i>
-        </span>
-        <span class="has-text-grey">
-          <em>Add bill to favorites</em>
-        </span>
-        </div>
-      </div>
-      </div>
-        <div class="pl-5">
-        <p class="is-size-6 mt-3 custom-text-dark">Creates the Scholarship Accessibility Act. 
-          Establishes the Illinois Scholarship Database, to be developed, implemented, 
-          and administered by the Illinois Student Assistance Commission, as
-          a utility to improve Illinois students' access to higher education 
-          scholarships, as well as to improve their knowledge of scholarships. 
-          Provides that to inform students and their parents on what scholarships 
-          are and how they are attained and maintained: (1) beginning in the 7th 
-          grade, a public school shall inform students of the Database and shall 
-          require them to create an account with the Database; (2) the account 
-          shall be created jointly by the student and the parent; and (3) both 
-          the student and the parent shall have access to the account and the
-          ability to manage activity on the account. Provides that the Database 
-          shall allow the student to have and the student is required to complete
-           a profile that: (1) presents a portfolio of the student and who the 
-           student is and the student's current year of enrollment; and (2) 
-           lists any criminal charge that requires the student to be a part of a 
-           registry for a crime the student has committed, unless the student is 
-           legally protected under law or court order or another exigent circumstance. 
-           Requires the Database to include and display a comprehensive list of 
-           scholarships. Allows students 18 or older to be able to create an account 
-           with and have access to the Database.</p>
-        <!-- Bill Tracker -->
-        <h2 class="title is-4 mt-5 custom-text-dark">Bill Tracker</h2>
-          <p>Bill tracker will live here.</p>
-          <br>
-          <p><i>View a <a class="custom-blue" href="https://www.aclu-il.org/sites/default/files/how_a_bill_becomes_a_law_one_pager.pdf">detailed flow chart</a> for more information on how a bill becomes law in Illinois.</i></p>
-        <!-- Bill Sponsors -->
-        <h2 class="title is-4 mt-5 custom-text-dark">Sponsor(s)</h2>
-        <div class="sponsors-list" style="margin-bottom: 40px;">
-        <div class="icon-text ml-2 mb-5">
-          <span class="icon" style="margin-right: 10px;">
-            <i class="fa-regular fa-circle-user fa-2x custom-text-dark"></i>
-          </span>
-          <span class="custom-text-dark">Senator Doris Turner (D)</span>
-        </div>
-        <div class="icon-text ml-2 mb-5">
-          <span class="icon" style="margin-right: 10px;">
-            <i class="fa-regular fa-circle-user fa-2x custom-text-dark"></i>
-          </span>
-          <span class="custom-text-dark">Senator Rachel Ventura (D)</span>
-        </div>
-        <div class="icon-text ml-2 mb-5">
-          <span class="icon" style="margin-right: 10px;">
-            <i class="fa-regular fa-circle-user fa-2x custom-text-dark"></i>
-          </span>
-          <span>Senator Sara Feigenholtz (D)</span>
-        </div>
-        <div class="icon-text ml-2 mb-5">
-          <span class="icon" style="margin-right: 10px;">
-            <i class="fa-regular fa-circle-user fa-2x custom-text-dark"></i>
-          </span>
-          <span class="custom-text-dark">Senator Willie Preston (D)</span>
-        </div>
-        <div class="icon-text ml-2 mb-5">
-          <span class="icon" style="margin-right: 10px;">
-            <i class="fa-regular fa-circle-user fa-2x custom-text-dark"></i>
-          </span>
-          <span class="custom-text-dark">Senator Dee Avelar (D)</span>
-        </div>
-      </div>
-        <!-- Bill Topics -->
-        <h2 class="title is-4 mt-5 custom-text-dark">Topic(s)</h2>
-          <div class="buttons">
-          <button class="button button-blue is-rounded">Higher Education</button>
-          <button class="button button-purple is-rounded">Public Education</button>
-          <button class="button button-green is-rounded">Students</button>
-          <button class="button button-yellow is-rounded">Scholarships</button>
-          <button class="button button-red is-rounded">Topic 5</button>
+              <i class="fa-regular fa-star fa-2x"></i>
+            </span>
+            <span class="has-text-grey">
+              <em>Add bill to favorites</em>
+            </span>
           </div>
         </div>
-        <br>
-        <br>
-        <p><i>Page last updated 5/07/25</i></p>
+      </div>
+      <div class="pl-5">
+        <p class="is-size-6 mt-3 custom-text-dark">{{bill_data.summary}}</p>
+        <!-- Bill Tracker -->
+        <h2 class="title is-4 mt-5 custom-text-dark">Bill Tracker</h2>
+        {% for status in bill_data.status %}
+        <li>
+          <strong>{{ status.date|date:"M j, Y" }}</strong>: {{
+          status.status_desc }}<br />
+          <em></em>
+        </li>
+        {% empty %}
+        <li>No actions recorded.</li>
+        {% endfor %}
+        <br />
+        <p>
+          <i
+            >View a
+            <a
+              class="custom-blue"
+              href="https://www.aclu-il.org/sites/default/files/how_a_bill_becomes_a_law_one_pager.pdf"
+              >detailed flow chart</a
+            >
+            for more information on how a bill becomes law in Illinois.</i
+          >
+        </p>
+        <!-- Bill Sponsors -->
+        <h2 class="title is-4 mt-5 custom-text-dark">Sponsor(s)</h2>
+        {% for sponsor in bill_data.sponsors %}
+        <div class="sponsors-list" style="margin-bottom: 40px">
+          <div class="icon-text ml-2 mb-5">
+            <span class="icon" style="margin-right: 10px">
+              <i class="fa-regular fa-circle-user fa-2x custom-text-dark"></i>
+            </span>
+            <span class="custom-text-dark"
+              >{{sponsor.position}} {{sponsor.sponsor_name}}
+              ({{sponsor.party}})</span
+            >
+          </div>
+          {% empty %}
+          <span>No sponsors available.</span>
+          {% endfor %}
+        </div>
+        <!-- Bill Topics -->
+        <h2 class="title is-4 mt-5 custom-text-dark">Topic(s)</h2>
+        <div class="buttons">
+          {% for topic in bill_data.topics %}
+          <span
+            class="button {% if topic.topic == 'Education' %} button-blue {% elif topic.topic == 'Energy/Environment' %} button-green {% elif topic.topic == 'Health' %} button-red {% elif topic.topic == 'Transportation' %} button-purple {% elif topic.topic == 'Housing' %} button-pink {% elif topic.topic == 'LGBTQIA' %} button-yellow {% endif %} is-rounded"
+            >{{ topic.topic }}</span
+          >
+          {% empty %}
+          <span>No topics available.</span>
+          {% endfor %}
         </div>
       </div>
     </section>
     <!-- JS for burger menu -->
-    <script src="../static/js/burger.js"></script>
+    <script src="../../../../static/js/burger.js"></script>
   </body>
 </html>
