@@ -18,4 +18,5 @@ urlpatterns = [
         name="bill_by_info",
     ),
     path("bill/<path:bill_id>/", views.bill_page, name="bill_by_id"),
+    path("privacy_policy/", views.privacy_policy, name="privacy_policy"),
 ]

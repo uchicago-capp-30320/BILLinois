@@ -11,6 +11,12 @@ body {
 html, body {
     height: 100%; /* Make the html and body elements fill the viewport height */
 }
+/* Make title on home page larger */
+.bigger-title {
+    font-size: 5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
 /* Set the navbar background color */
 .navbar {
     background-color: #F5F5F5; /* Match the page background color */

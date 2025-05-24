@@ -48,3 +48,15 @@ Parameters:
 * email: `str`
 
 Response: HTML password reset page, sends an email to the user upon form submit.
+
+## /accounts/delete_account
+
+Parameters:
+
+* password: `str`
+
+Response: Redirect to goodbye page on success, error message on failure
+
+## /accounts/account_goodbye
+
+Response: HTML goodbye page

@@ -24,7 +24,7 @@ def get_topics_from_bill(bill_title: str, bill_summary: str) -> list[str]:
 
     matched_topics = []
     for topic, keywords in TOPIC_KEYWORDS.items():
-        if any(keyword.lower() in all_tokens for keyword in keywords):
+        if all_tokens & keywords:
             matched_topics.append(topic)
 
     return matched_topics
