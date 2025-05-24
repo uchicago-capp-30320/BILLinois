@@ -31,6 +31,9 @@
                 {% endelement %}
             {% endslot %}
         {% endelement %}
+        {% element p %}
+        By signing up, you agree to our <a href="{% url 'privacy_policy' %}" target="_blank">Data &amp; Privacy Policy</a>.
+        {% endelement %}
     {% endif %}
     {% if PASSKEY_SIGNUP_ENABLED %}
         {% element hr %}
@@ -42,4 +45,5 @@
     {% if SOCIALACCOUNT_ENABLED %}
         {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
     {% endif %}
+
 {% endblock content %}

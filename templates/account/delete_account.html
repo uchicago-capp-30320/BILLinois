@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <h1>Confirm deletion</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {% if messages %}
+        <div class="messages">
+        {% for message in messages %}
+        {% if messsage == "error" %}
+            <div class="notification {{ message.tags }}">
+        {% endif %}
+        {{ message }}
+        </div>
+        {% endfor %}
+         </div>
+        {% endif %}
+        <p>Are you sure you want to delete account associated with {{ user.email }}?</p>
+        <p>This action cannot be undone.</p>
+        <p>To confirm, please enter your password:</p>
+        <input type="password" name="password" required>
+        <button type="submit" action="{% url 'delete_account' %}" method="post">
+            Delete Account
+        </button>
+        <a href="{% url 'home' %}">Cancel</a>
+</html>

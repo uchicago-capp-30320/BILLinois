@@ -1,5 +1,5 @@
 TOPIC_KEYWORDS = {
-    "Education": [
+    "Education": {
         "school",
         "schools",
         "education",
@@ -9,8 +9,8 @@ TOPIC_KEYWORDS = {
         "teacher",
         "teacher,university",
         "college",
-    ],
-    "Health": [
+    },
+    "Health": {
         "health",
         "healthcare",
         "medical",
@@ -18,7 +18,6 @@ TOPIC_KEYWORDS = {
         "insurance",
         "hospital",
         "mental",
-        "medical",
         "disability",
         "disabilities",
         "patient",
@@ -30,8 +29,8 @@ TOPIC_KEYWORDS = {
         "care provider",
         "care providers",
         "dental care",
-    ],
-    "LGBTQIA": [
+    },
+    "LGBTQIA": {
         "gender",
         "lqbtqia",
         "lgbtq",
@@ -44,8 +43,8 @@ TOPIC_KEYWORDS = {
         "queer",
         "intersex",
         "asexual",
-    ],
-    "Transportation": [
+    },
+    "Transportation": {
         "transportation",
         "highway",
         "traffic",
@@ -56,8 +55,9 @@ TOPIC_KEYWORDS = {
         "motor vehicle",
         "electric vehicle",
         "metropolitan mobility",
-    ],
-    "Housing": [
+    },
+    "Housing": {
+        "housing",
         "residential",
         "estate",
         "land",
@@ -66,8 +66,8 @@ TOPIC_KEYWORDS = {
         "affordable housing",
         "redevelopment project",
         "manufactured home",
-    ],
-    "Energy/Environment": [
+    },
+    "Energy/Environment": {
         "energy",
         "environment",
         "environmental",
@@ -81,5 +81,5 @@ TOPIC_KEYWORDS = {
         "oil",
         "renewable",
         "motor fuel",
-    ],
+    },
 }
