@@ -74,15 +74,15 @@
         <div class="column">
           <div class="icon-text ml-2 is-align-items-center">
             <span class="icon custom-yellow mr-3">
-          <i class="fa-regular fa-star fa-2x"></i>
-        </span>
-        <span class="has-text-grey">
-          <em>Add bill to favorites</em>
-        </span>
+              <i class="fa-regular fa-star fa-2x"></i>
+            </span>
+            <span class="has-text-grey">
+              <em>Add bill to favorites</em>
+            </span>
+          </div>
         </div>
       </div>
-      </div>
-        <div class="pl-5">
+      <div class="pl-5">
         <p class="is-size-6 mt-3 custom-text-dark">{{bill_data.summary}}</p>
         <!-- Bill Tracker -->
         <h2 class="title is-4 mt-5 custom-text-dark">Bill Tracker</h2>
@@ -100,16 +100,16 @@
         <h2 class="title is-4 mt-5 custom-text-dark">Sponsor(s)</h2>
         {% for sponsor in bill_data.sponsors %}
         <div class="sponsors-list" style="margin-bottom: 40px;">
-        <div class="icon-text ml-2 mb-5">
-          <span class="icon" style="margin-right: 10px;">
-            <i class="fa-regular fa-circle-user fa-2x custom-text-dark"></i>
-          </span>
-          <span class="custom-text-dark">{{sponsor.position}} {{sponsor.sponsor_name}} ({{sponsor.party}})</span>
+          <div class="icon-text ml-2 mb-5">
+            <span class="icon" style="margin-right: 10px;">
+              <i class="fa-regular fa-circle-user fa-2x custom-text-dark"></i>
+            </span>
+            <span class="custom-text-dark">{{sponsor.position}} {{sponsor.sponsor_name}} ({{sponsor.party}})</span>
+          </div>
+          {% empty %}
+          <span>No sponsors available.</span>
+          {% endfor %}
         </div>
-        {% empty %}
-        <span>No sponsors available.</span>
-        {% endfor %}
-      </div>
         <!-- Bill Topics -->
         <h2 class="title is-4 mt-5 custom-text-dark">Topic(s)</h2>
         <div class="buttons">
@@ -126,10 +126,6 @@
           {% empty %}
           <span>No topics available.</span>
         {% endfor %}
-        </div>
-        </div>
-        <br>
-        <br>
         </div>
       </div>
     </section>
