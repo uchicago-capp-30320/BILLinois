@@ -38,9 +38,9 @@ class CustomSignupForm(SignupForm):
         return phone
 
     def save(self, request) -> object:
-        User = get_user_model()
+        user_model = get_user_model()
 
-        user = User.objects.create_user(
+        user = user_model.objects.create_user(
             email=self.cleaned_data.get("email"),
             username=self.cleaned_data.get("email"),
             full_name=self.cleaned_data.get("full_name"),
