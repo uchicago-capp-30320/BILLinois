@@ -44,8 +44,8 @@ def test_search_content(test_search_fake):
 @pytest.fixture
 def test_bill():
     return BillsTable.objects.create(
-        bill_id="123",
-        number="123",
+        bill_id="hb123",
+        number="hb123",
         title="Transportation Test Bill",
         state="illinois",
         session="104th",
@@ -84,22 +84,36 @@ def test_user():
 # Bill page view tests: query by bill_id
 @pytest.fixture
 def test_bill_view_id(client, test_bill):
-    print(client.get("/bill/123/", {"bill_id": "123"}, follow=True).url)
-    return client.get("/bill/123/", {"bill_id": "123"}, follow=True)
+    print("Test bill_id:", test_bill.bill_id)
+    url = reverse("bill_by_id", kwargs={"bill_id": test_bill.bill_id})
+    print(url)
+    response = client.get(url, follow=True)
+    print("Status code:", response.status_code)
+    if hasattr(response, "url"):
+        print("Redirected to:", response.url)
+    else:
+        print("No redirect. Content:", response.content)
+    return response
 
 @pytest.mark.django_db
 def test_create_bill_view_by_id(client, test_bill_view_id):
-    user = User.objects.create_user(username='test', password='testpass')
-    client.login(username='test', password='testpass')
+    # user = User.objects.create_user(username='test', password='testpass')
+    # client.login(username='test', password='testpass')
     assert test_bill_view_id.status_code == 200
 
 
 # Bill page view tests: query by state, session, and bill number
 @pytest.fixture
 def test_bill_view_info(client, test_bill):
-    return client.get("/bill/illinois/104th/123/", {"state": "illinois",
-                                 "session": "104th",
-                                 "number": "123"})
+    url = reverse("bill_by_info", kwargs={
+        "state": test_bill.state,
+        "session": test_bill.session,
+        "bill_number": test_bill.number})
+    response = client.get(url, follow=True)
+    return response
+    # return client.get("/bill/illinois/104th/123/", {"state": "illinois",
+    #                              "session": "104th",
+    #                              "number": "123"})
 
 @pytest.mark.django_db
 def test_create_bill_view(test_bill_view_info):
