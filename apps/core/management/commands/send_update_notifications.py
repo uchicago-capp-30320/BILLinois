@@ -147,6 +147,7 @@ class Command(BaseCommand):
                 "number_of_notifications": queue.number_of_notifications,
                 "bills": bills,
                 "unsubscribe_url": f"{BASE_URL}/favorites/",
+                "favorites_url": f"{BASE_URL}/favorites/",
             }
 
             text_content, html_content = self.create_email_body(context_data)

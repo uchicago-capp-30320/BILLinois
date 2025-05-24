@@ -7,7 +7,7 @@
         <ul>
             {% if user.number_of_notifications > 5 %}
                 <p>You have {{ number_of_notifications }} updated bills.</p>
-                <p>Visit Billinois to see them.</p>
+                <p>Visit your favorites page to see them: {{ favorites_url }}</p>
             {% else %}
             {% for bill in bills %}
                 <li>
