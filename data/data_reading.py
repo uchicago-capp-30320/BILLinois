@@ -63,17 +63,13 @@ for i in range(1, max_pages + 1):
         + arguments_bills
     )
     cur.execute(
-        """
-        INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES
-        """
-        + " "
+        # ruff: noqa: E501
+        "INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES "
         + arguments_sponsors
     )
     cur.execute(
-        """
-        INSERT INTO actions_table (action_id, bill_id, description, chamber, date, category) VALUES
-        """
-        + " "
+        # ruff: noqa: E501
+        "INSERT INTO actions_table (action_id, bill_id, description, chamber, date, category) VALUES "
         + arguments_actions
     )
 
