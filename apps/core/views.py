@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.db.models import Exists, OuterRef, Subquery
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 
 from .models import ActionsTable, BillsTable, FavoritesTable
 from .utils import bill_number_for_url, normalize_bill_number
@@ -76,7 +77,7 @@ def search(request: HttpRequest) -> HttpResponse:
     # if query provided we look for keyword on filtered (if topic) or unfiltered table
     if query:
         bill_number_pattern = r"^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+"
-
+        
         # If the user has searched by bill number, only search the number field
         # This is to avoid returning unrelated results for bill numbers
         if re.fullmatch(bill_number_pattern, query.upper()):
@@ -115,9 +116,6 @@ def search(request: HttpRequest) -> HttpResponse:
 
 @login_required
 def toggle_favorite(request, bill_id):
-    """
-    Toggle a bill as favorite for the logged-in user via a form submission.
-    """
     if request.method == "POST":
         # Django expects an object to be passed to a ForeignKey field, not a string
         user = request.user
@@ -125,11 +123,23 @@ def toggle_favorite(request, bill_id):
 
         # Use get_or_create with the related objects
         favorite, created = FavoritesTable.objects.get_or_create(user_id=user, bill_id=bill)
-
         if not created:
             favorite.delete()
+            is_favorite = False
+        else:
+            is_favorite = True
 
-    return redirect(request.META.get("HTTP_REFERER", "search"))
+        # Render the partial template of updated button HTML
+        button_html = render_to_string(
+            "partials/favorite_button.html",
+            {"bill": bill, "is_favorite": is_favorite},
+            request=request,
+        )
+
+        return HttpResponse(button_html)
+
+    else:
+        raise Http404("Unable to update favorites.")
 
 
 def bill_page(
@@ -221,7 +231,7 @@ def bill_page(
         "topics": [{"topic": t.topic} for t in bill.topicstable_set.all()],
         "status": [
             {
-                "date": a.date.isoformat(),
+                "date": a.date,
                 "status": a.category,
                 "status_desc": a.description,
             }
@@ -285,3 +295,15 @@ def favorites_page(request):
         "favorites.html",
         {"favorited_bills": bills_qs, "sort_option": sort_option},
     )
+
+
+def privacy_policy(request: HttpRequest) -> HttpResponse:
+    """
+    Render the privacy policy page.
+
+    Args:
+        request (HttpRequest): An HTTP request object.
+    Returns:
+        HttpResponse: The rendered HTML privacy policy page.
+    """
+    return render(request, "privacy_policy.html")

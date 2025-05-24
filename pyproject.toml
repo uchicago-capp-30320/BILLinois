@@ -26,6 +26,9 @@ dependencies = [
     "twilio>=9.6.0",
     "whitenoise>=6.9.0,<7",
     "pytest-playwright>=0.7.0",
+    "gunicorn>=23.0.0",
+    "environ>=1.0",
+    "structlog>=25.2.0",
 ]
 
 [tool.ruff]

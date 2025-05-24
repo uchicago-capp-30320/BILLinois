@@ -64,7 +64,7 @@ repos:
     rev: v0.4.10
     hooks:
       - id: ruff
-        types_or: [python,pyi]
+        types_or: [python, pyi]
         args:
           - --fix
           - --target-version=py311
@@ -72,7 +72,7 @@ repos:
           - --line-length=80
           - --ignore=E203,E402,E501,E261
       - id: ruff-format
-        types_or: [ python,pyi]
+        types_or: [python, pyi]
         args:
           - --target-version=py311
           - --line-length=80
