@@ -45,7 +45,7 @@ DATABASES = {"default": _DEFAULT_DB}
 vars().update(EMAIL_CONFIG)
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 INTERNAL_IPS = ["127.0.0.1"]
 
 # Debug Toolbar
