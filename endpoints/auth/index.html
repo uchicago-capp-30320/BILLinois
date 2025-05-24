@@ -471,6 +471,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#accountsdelete_account" class="md-nav__link">
+    <span class="md-ellipsis">
+      /accounts/delete_account
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accountsaccount_goodbye" class="md-nav__link">
+    <span class="md-ellipsis">
+      /accounts/account_goodbye
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -590,6 +608,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#accountsdelete_account" class="md-nav__link">
+    <span class="md-ellipsis">
+      /accounts/delete_account
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accountsaccount_goodbye" class="md-nav__link">
+    <span class="md-ellipsis">
+      /accounts/account_goodbye
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -622,7 +658,7 @@
 </ul>
 <p>Response: HTML confirmation page</p>
 <h2 id="accountslogin">/accounts/login/</h2>
-<p>Parameters: </p>
+<p>Parameters:</p>
 <ul>
 <li>email: <code>str</code></li>
 <li>remember_me: <code>bool</code></li>
@@ -643,6 +679,14 @@
 <li>email: <code>str</code></li>
 </ul>
 <p>Response: HTML password reset page, sends an email to the user upon form submit.</p>
+<h2 id="accountsdelete_account">/accounts/delete_account</h2>
+<p>Parameters:</p>
+<ul>
+<li>password: <code>str</code></li>
+</ul>
+<p>Response: Redirect to goodbye page on success, error message on failure</p>
+<h2 id="accountsaccount_goodbye">/accounts/account_goodbye</h2>
+<p>Response: HTML goodbye page</p>
 
 
 
