@@ -65,12 +65,12 @@ class Command(BaseCommand):
                 "title": "CONGRATS-RONALD MCDONALD HOUSE",
                 "number": "HR 191",
                 "summary": """
-                Congratulates Ronald McDonald House Charities on its 50th anniversary. 
-                Commends the organization for its commitment to Illinois families and 
-                children in their times of need. Thanks Ronald McDonald House Charities, 
-                its partners, its employees, and its volunteers for their dedication to 
-                providing a caring and compassionate environment where families can rest, 
-                find support, and heal together. Wishes the organization continued success 
+                Congratulates Ronald McDonald House Charities on its 50th anniversary.
+                Commends the organization for its commitment to Illinois families and
+                children in their times of need. Thanks Ronald McDonald House Charities,
+                its partners, its employees, and its volunteers for their dedication to
+                providing a caring and compassionate environment where families can rest,
+                find support, and heal together. Wishes the organization continued success
                 in its mission.
                 """,
                 "status": "Added Co-Sponsor Rep. Anne Stava-Murray",
