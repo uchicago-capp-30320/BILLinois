@@ -36,7 +36,7 @@ jobs:
         run: ruff format
 
       - name: Run Ruff check
-        run: ruff check
+        run: ruff check --fix
 
       - name: Commit Ruff + prettier fixes
         uses: stefanzweifel/git-auto-commit-action@v5

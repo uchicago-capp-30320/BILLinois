@@ -3,9 +3,9 @@
 ```mermaid
 erDiagram
     USERS 1 to zero or more FAVORITES : has
-    FAVORITES zero or more optionally to 1 BILLS : marks    
+    FAVORITES zero or more optionally to 1 BILLS : marks
     SPONSORS one or more optionally to one or more BILLS : introduces
-	BILLS 1 to zero or more ACTIONS : has    
+	BILLS 1 to zero or more ACTIONS : has
 	BILLS one or more to one or more TOPICS : has
 ```
 
@@ -15,7 +15,7 @@ erDiagram
 
 ### Has Connections From:
 
-* Favorites
+- Favorites
 
 | Name     | Type                       | Description          |
 | -------- | -------------------------- | -------------------- |
@@ -31,15 +31,15 @@ erDiagram
 
 ### Connects to:
 
-* Bills (on bill_id ForeignKey)
+- Bills (on bill_id ForeignKey)
 
-| Name        | Type                        | Description                                                  |
-| ----------- | --------------------------- | ------------------------------------------------------------ |
-| action_id   | Varchar, PrimaryKey, unique | Id of the action                                             |
-| description | Varchar                     | Description of action, e.g. (“First Reading”)                |
-| date        | Timestamp  with time zone   | Date of action                                               |
+| Name        | Type                        | Description                                                                           |
+| ----------- | --------------------------- | ------------------------------------------------------------------------------------- |
+| action_id   | Varchar, PrimaryKey, unique | Id of the action                                                                      |
+| description | Varchar                     | Description of action, e.g. (“First Reading”)                                         |
+| date        | Timestamp with time zone    | Date of action                                                                        |
 | category    | varchar, nullable           | Category of action. Used to group actions into broader types for tracking bill status |
-| bill_id     | ForeignKey                  | `bill_id` from the bills_table for the bill associated with this action |
+| bill_id     | ForeignKey                  | `bill_id` from the bills_table for the bill associated with this action               |
 
 ## Bills
 
@@ -47,10 +47,10 @@ erDiagram
 
 ### Has Connections From:
 
-* Actions
-* Favorites
-* Sponsors
-* Topics
+- Actions
+- Favorites
+- Sponsors
+- Topics
 
 | Name    | Type                        | Description                                 |
 | ------- | --------------------------- | ------------------------------------------- |
@@ -64,15 +64,15 @@ erDiagram
 
 ::: apps.core.models.FavoritesTable
 
-### Connects to: 
+### Connects to:
 
-* Bills (on bill_id ForeignKey)
-* Users (on user_id ForeignKey)
+- Bills (on bill_id ForeignKey)
+- Users (on user_id ForeignKey)
 
-| Name    | Type                | Description                                                  |
-| ------- | ------------------- | ------------------------------------------------------------ |
-| id      | Bigint, PrimaryKey  | Internal ID for a favorite                                   |
-| bill_id | Varchar, ForeignKey | `bill_id` from the bills_table for the bill favorited        |
+| Name    | Type                | Description                                                     |
+| ------- | ------------------- | --------------------------------------------------------------- |
+| id      | Bigint, PrimaryKey  | Internal ID for a favorite                                      |
+| bill_id | Varchar, ForeignKey | `bill_id` from the bills_table for the bill favorited           |
 | user_id | Varchar, ForeignKey | `user_id` from the users table for the user favoriting the bill |
 
 ## Sponsors
@@ -81,16 +81,16 @@ erDiagram
 
 ### Connects to:
 
-* Bills (on bill_id ForeignKey)
+- Bills (on bill_id ForeignKey)
 
-| Name         | Type                        | Description                                                  |
-| ------------ | --------------------------- | ------------------------------------------------------------ |
+| Name         | Type                        | Description                                                                                              |
+| ------------ | --------------------------- | -------------------------------------------------------------------------------------------------------- |
 | id           | Varchar, PrimaryKey, unique | Internal id of the sponsor. Separate from sponsor_id as sponsor_id comes from OpenStates and may be null |
-| sponsor_id   | Varchar                     | sponsor_id from OpenStates                                   |
-| sponsor_name | Varchar                     | Name of the bill sponsor                                     |
-| bill_id      | Varchar, ForeignKey         | `bill_id` from the bills table, the bill that the sponsor has sponsored |
-| position     | Varchar, nullable           | The position: (e.g., Member of the State House, Member of the State Senate) that the sponsor occupies |
-| party        | Varchar, nullable           | The political party of the sponsor                           |
+| sponsor_id   | Varchar                     | sponsor_id from OpenStates                                                                               |
+| sponsor_name | Varchar                     | Name of the bill sponsor                                                                                 |
+| bill_id      | Varchar, ForeignKey         | `bill_id` from the bills table, the bill that the sponsor has sponsored                                  |
+| position     | Varchar, nullable           | The position: (e.g., Member of the State House, Member of the State Senate) that the sponsor occupies    |
+| party        | Varchar, nullable           | The political party of the sponsor                                                                       |
 
 ## Topics
 
@@ -98,24 +98,26 @@ erDiagram
 
 ### Connects to:
 
-* Bills (on bill_id ForeignKey)
+- Bills (on bill_id ForeignKey)
 
-| Name    | Type                | Description                                                  |
-| ------- | ------------------- | ------------------------------------------------------------ |
-| id      | Bigint, PrimaryKey  | ID of the topic                                              |
-| topic   | Varchar             | Topic name                                                   |
+| Name    | Type                | Description                                                           |
+| ------- | ------------------- | --------------------------------------------------------------------- |
+| id      | Bigint, PrimaryKey  | ID of the topic                                                       |
+| topic   | Varchar             | Topic name                                                            |
 | bill_id | Varchar, ForeignKey | `bill_id` from the bills table, the bill the topic is associated with |
 
 ## Most Recent Upload
+
 ::: apps.core.models.MostRecentUpload
 
 ### Connects To:
+
 None
 
-| Name    | Type                | Description                                                  |
-| ------- | ------------------- | ------------------------------------------------------------ |
-| id      | Bigint, PrimaryKey  | ID of the upload                                              |
-| last_upload_date   | Date             | Date of the last successful bill upload                                                   |
+| Name             | Type               | Description                             |
+| ---------------- | ------------------ | --------------------------------------- |
+| id               | Bigint, PrimaryKey | ID of the upload                        |
+| last_upload_date | Date               | Date of the last successful bill upload |
 
 ## User Notification Queue
 
@@ -123,12 +125,12 @@ None
 
 ## Connects To:
 
-* Users (on user_id)
+- Users (on user_id)
 
-| Name    | Type                | Description                                                  |
-| ------- | ------------------- | ------------------------------------------------------------ |
-| id      | Bigint, PrimaryKey  | ID of the queue entry                                              |
-| number_of_notifications   | Int             | Number of notifications for a user on a given day |
-| bills_to_notify | Array | A list of the bill ids that the user needs to be updated on |
-| is_notified | Boolean | Whether or not a notification email has been sent to the user |
-| user_id | ForeignKey | The user_id of the user to be notified |
+| Name                    | Type               | Description                                                   |
+| ----------------------- | ------------------ | ------------------------------------------------------------- |
+| id                      | Bigint, PrimaryKey | ID of the queue entry                                         |
+| number_of_notifications | Int                | Number of notifications for a user on a given day             |
+| bills_to_notify         | Array              | A list of the bill ids that the user needs to be updated on   |
+| is_notified             | Boolean            | Whether or not a notification email has been sent to the user |
+| user_id                 | ForeignKey         | The user_id of the user to be notified                        |

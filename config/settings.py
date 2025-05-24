@@ -269,12 +269,11 @@ LOGGING = {
             "filename": "_logs/email_notifications.log",
             "formatter": "key_value",
         },
-
         "to_email_queue": {
             "class": "logging.handlers.WatchedFileHandler",
             "filename": "_logs/to_email_queue.log",
             "formatter": "key_value",
-        }
+        },
     },
     "loggers": {
         "django_structlog": {
@@ -291,12 +290,11 @@ LOGGING = {
             "level": "DEBUG",
             "propagate": False,
         },
-
         "to_email_queue": {
             "handlers": ["to_email_queue"],
-            "level" : "DEBUG",
+            "level": "DEBUG",
             "propagate": False,
-        }
+        },
         # Modify this to match the name of your application.
         # to configure different logging for your app vs. Django's
         # internals.

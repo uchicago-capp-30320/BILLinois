@@ -85,7 +85,8 @@ for p in range(1, total_pages_updated + 1):
     cur.execute(
         "INSERT INTO bills_table (bill_id, number, title, summary, status, state, session) VALUES "
         + arguments_bills_updated
-        + " ON CONFLICT (bill_id) DO UPDATE SET title=EXCLUDED.title, summary=EXCLUDED.summary, status=EXCLUDED.status;"
+        + " ON CONFLICT (bill_id) DO UPDATE SET"
+        + " title=EXCLUDED.title, summary=EXCLUDED.summary, status=EXCLUDED.status;"
     )
     cur.execute(
         """
@@ -104,9 +105,9 @@ for p in range(1, total_pages_updated + 1):
     if updates:
         cur.execute(
             """
-            INSERT INTO updates_table(bill_id, category, description, chamber, action_id, date) VALUES
+            INSERT INTO updates_table(bill_id, category, description, chamber, action_id, date)
             """
-            + " "
+            + " VALUES "
             + arguments_updates
         )
 
