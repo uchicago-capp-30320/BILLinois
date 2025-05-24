@@ -23,7 +23,7 @@ EXPOSE 9000
 
 # set env variables
 # see https://docs.docker.com/compose/how-tos/environment-variables/set-environment-variables/
-ENV DEBUG=true 
+ENV DEBUG=false 
 
 # run application
 CMD ["gunicorn", "config.wsgi", "-b", "0.0.0.0:9000"]

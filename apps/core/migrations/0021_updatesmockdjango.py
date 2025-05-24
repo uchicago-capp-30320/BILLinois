@@ -11,42 +11,42 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name="UpdatesMockDjango",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("description", models.CharField()),
-                ("date", models.DateTimeField()),
-                ("category", models.CharField(null=True)),
-                ("chamber", models.CharField()),
-                (
-                    "action_id",
-                    models.ForeignKey(
-                        db_column="action_id",
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="core.actionsmockdjango",
-                    ),
-                ),
-                (
-                    "bill_id",
-                    models.ForeignKey(
-                        db_column="bill_id",
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="core.billsmockdjango",
-                    ),
-                ),
-            ],
-            options={
-                "db_table": "updates_mock",
-                "unique_together": {("action_id", "bill_id")},
-            },
-        ),
+        # migrations.CreateModel(
+        #     name="UpdatesMockDjango",
+        #     fields=[
+        #         (
+        #             "id",
+        #             models.BigAutoField(
+        #                 auto_created=True,
+        #                 primary_key=True,
+        #                 serialize=False,
+        #                 verbose_name="ID",
+        #             ),
+        #         ),
+        #         ("description", models.CharField()),
+        #         ("date", models.DateTimeField()),
+        #         ("category", models.CharField(null=True)),
+        #         ("chamber", models.CharField()),
+        #         (
+        #             "action_id",
+        #             models.ForeignKey(
+        #                 db_column="action_id",
+        #                 on_delete=django.db.models.deletion.CASCADE,
+        #                 to="core.actionsmockdjango",
+        #             ),
+        #         ),
+        #         (
+        #             "bill_id",
+        #             models.ForeignKey(
+        #                 db_column="bill_id",
+        #                 on_delete=django.db.models.deletion.CASCADE,
+        #                 to="core.billsmockdjango",
+        #             ),
+        #         ),
+        #     ],
+        #     options={
+        #         "db_table": "updates_mock",
+        #         "unique_together": {("action_id", "bill_id")},
+        #     },
+        # ),
     ]
