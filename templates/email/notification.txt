@@ -6,7 +6,7 @@ Take a look at your favorited bills that have updated in the past day:
 
 {% if number_of_notifications > 5 %}
 You have {{ number_of_notifications }} updated bills.
-Visit Billinois to see them.
+Visit your favorites page to see them: {{ favorites_url }}
 
 {% else %}
 {% for bill in bills %}
