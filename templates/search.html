@@ -1,48 +1,66 @@
-<!DOCTYPE html>
-<html data-theme = "light">
+<!doctype html>
+<html data-theme="light">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Search Results</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
-     <!-- Link to custom CSS -->
-     <link rel="stylesheet" href="../static/css/custom.css">
-     <script src="https://unpkg.com/htmx.org"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
+    />
+    <!-- Link to custom CSS -->
+    <link rel="stylesheet" href="../static/css/custom.css" />
+    <script src="https://unpkg.com/htmx.org"></script>
   </head>
   <body>
     <section class="section">
-      <div class="container" style="max-width: 100%;">
-        <div class="columns is-vcentered is-mobile" style="margin: 0;">
+      <div class="container" style="max-width: 100%">
+        <div class="columns is-vcentered is-mobile" style="margin: 0">
           <!-- Title Column -->
-          <div class="column is-narrow" style="padding-left: 0; flex-grow: 0;">
-            <a href="/"><h1 class="title is-1 custom-text-dark">BILLinois</h1>
+          <div class="column is-narrow" style="padding-left: 0; flex-grow: 0">
+            <a href="/"
+              ><h1 class="title is-1 custom-text-dark">BILLinois</h1>
             </a>
           </div>
           <!-- Search Column -->
-          <div class="column" style="flex-grow: 1;">
+          <div class="column" style="flex-grow: 1">
             <!-- Search Bar -->
             <div class="container is-max-tablet">
               <form method="GET" action="/search">
                 <div class="field">
                   <div class="control has-icons-left">
-                    <input class="input" type="text" name="query" placeholder="Search bills by name or topic..." />
+                    <input
+                      class="input"
+                      type="text"
+                      name="query"
+                      placeholder="Search bills by name or topic..."
+                    />
                     <span class="icon is-small is-left">
                       <i class="fas fa-search"></i>
                     </span>
-                    <input type="submit" value="Search" class="button is-hidden">
+                    <input
+                      type="submit"
+                      value="Search"
+                      class="button is-hidden"
+                    />
                   </div>
                 </div>
               </form>
             </div>
           </div>
           <!-- Dropdown Menu -->
-          <nav class="navbar" role="navigation" aria-label="dropdown navigation">
+          <nav
+            class="navbar"
+            role="navigation"
+            aria-label="dropdown navigation"
+          >
             <div id="navbarMenu" class="navbar-menu">
               <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link is-size-5">
-                  Menu
-                </a>
+                <a class="navbar-link is-size-5"> Menu </a>
                 <div class="navbar-dropdown is-right is-boxed">
                   <a href="/" class="navbar-item">Home</a>
                   {% if user.is_authenticated %}
@@ -50,85 +68,108 @@
                   <a href="/accounts/logout" class="navbar-item">Sign Out</a>
                   {% else %}
                   <a href="/accounts/login" class="navbar-item">Log In</a>
-                  <a href="/accounts/signup/" class="navbar-item">Sign Up</a> 
+                  <a href="/accounts/signup/" class="navbar-item">Sign Up</a>
                   {% endif %}
                 </div>
               </div>
             </div>
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+            <a
+              role="button"
+              class="navbar-burger"
+              aria-label="menu"
+              aria-expanded="false"
+              data-target="navbarMenu"
+            >
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
             </a>
-          </nav>    
+          </nav>
         </div>
       </div>
     </section>
     {% if results %}
     <section class="section">
-        <div class="title is-4 mb-6 custom-text-dark">Search results for "{{ query }}"</div>
-        <table class="table bg-light is-hoverable">
-            <thead>
-                <tr>
-                <th class="is-size-5 custom-text-dark">Bill Number</th>
-                <th class="is-size-5 has-text-centered custom-text-dark">Bill Title</th>
-                <th class="is-size-5 has-text-centered custom-text-dark">Latest Status</th>
-                <th class="is-size-5 has-text-centered custom-text-dark">Topics</th>
-                <th class="is-size-5 has-text-centered custom-text-dark">Favorite</th>
-                </tr>
-            </thead>
-              {% for bill in results %}
-                <tr>
-                  <td class="py-5 custom-text-dark">{{ bill.number }}</td>
-                  <td class= "has-text-centered py-5 custom-text-dark"><a href="/bill/{{bill.bill_id}}/">{{bill.title}}</a></td>
-                  <td class="has-text-centered py-5 status-column custom-text-dark">{{ bill.status }}</td>
-                  <td class="has-text-centered py-5">
-                    <!-- Add multiple tags here -->
-                     <div class="grid">
-                      {% for topic in bill.topics %}
-                      <span class="
-                      {% if topic == 'Education' %}button-blue
-                      {% elif topic == 'Energy/Environment' %}button-green
-                      {% elif topic == 'Health' %}button-red
-                      {% elif topic == 'Transportation' %}button-purple
-                      {% elif topic == 'Housing' %}button-pink
-                      {% elif topic == 'LGBTQIA' %}button-yellow
-                      {% endif %}
-                      tag is-rounded is-medium">{{ topic }} </span>
-                      {% endfor %}
-                  </div>
-                  </td>
-                  <td class="has-text-centered py-5">
-                    {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}          
-                  </td>     
-                </tr>
+      <div class="title is-4 mb-6 custom-text-dark">
+        Search results for "{{ query }}"
+      </div>
+      <table class="table bg-light is-hoverable">
+        <thead>
+          <tr>
+            <th class="is-size-5 custom-text-dark">Bill Number</th>
+            <th class="is-size-5 has-text-centered custom-text-dark">
+              Bill Title
+            </th>
+            <th class="is-size-5 has-text-centered custom-text-dark">
+              Latest Status
+            </th>
+            <th class="is-size-5 has-text-centered custom-text-dark">Topics</th>
+            <th class="is-size-5 has-text-centered custom-text-dark">
+              Favorite
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bill in results %}
+          <tr>
+            <td class="py-5 custom-text-dark">{{ bill.number }}</td>
+            <td class="has-text-centered py-5 custom-text-dark">
+              <a href="/bill/{{bill.bill_id}}/">{{bill.title}}</a>
+            </td>
+            <td class="has-text-centered py-5 status-column custom-text-dark">
+              {{ bill.status }}
+            </td>
+            <td class="has-text-centered py-5">
+              <!-- Add multiple tags here -->
+              <div class="grid">
+                {% for topic in bill.topics %}
+                <span
+                  class="{% if topic == 'Education' %}button-blue {% elif topic == 'Energy/Environment' %}button-green {% elif topic == 'Health' %}button-red {% elif topic == 'Transportation' %}button-purple {% elif topic == 'Housing' %}button-pink {% elif topic == 'LGBTQIA' %}button-yellow {% endif %} tag is-rounded is-medium"
+                  >{{ topic }}
+                </span>
                 {% endfor %}
-              </tbody>
-        </table>
-        <div class="pagination">
-          <!-- Pagination controls -->
-    <span class="step-links">
-        {% if results.has_previous %}
-            <a href="?page=1&query={{ query }}">&laquo; first</a>
-            <a href="?page={{ results.previous_page_number }}&query={{ query }}">previous</a>
-        {% endif %}
+              </div>
+            </td>
+            <td class="has-text-centered py-5">
+              {% include "partials/favorite_button.html" with bill=bill
+              is_favorite=bill.favorite %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="pagination">
+        <!-- Pagination controls -->
+        <span class="step-links">
+          {% if results.has_previous %}
+          <a href="?page=1&query={{ query }}">&laquo; first</a>
+          <a href="?page={{ results.previous_page_number }}&query={{ query }}"
+            >previous</a
+          >
+          {% endif %}
 
-        <span class="current">
+          <span class="current">
             Page {{ results.number }} of {{ results.paginator.num_pages }}.
-        </span>
+          </span>
 
-        {% if results.has_next %}
-            <a href="?page={{ results.next_page_number }}&query={{ query }}">next</a>
-            <a href="?page={{ results.paginator.num_pages }}&query={{ query }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
-        {% else %}
-            <p class="has-text-centered custom-text-dark">Please enter a search term.</p>
-        {% endif %}
-      </section>
+          {% if results.has_next %}
+          <a href="?page={{ results.next_page_number }}&query={{ query }}"
+            >next</a
+          >
+          <a href="?page={{ results.paginator.num_pages }}&query={{ query }}"
+            >last &raquo;</a
+          >
+          {% endif %}
+        </span>
+      </div>
+      {% else %}
+      <p class="has-text-centered custom-text-dark">
+        Please enter a search term.
+      </p>
+      {% endif %}
+    </section>
     <!-- JS for burger menu -->
     <script src="../static/js/burger.js"></script>
-    </body>
-  </html>
+  </body>
+</html>
