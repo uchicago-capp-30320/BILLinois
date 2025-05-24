@@ -8,7 +8,7 @@ User = get_user_model()
 class ActionsMockDjango(models.Model):
     """
     A mock model for the actions table.
-    Meant to store mock data for actions taken on legislation.
+    Used for testing mock data for actions taken on legislation. Deprecated.
     """
 
     bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
@@ -46,7 +46,7 @@ class ActionsTable(models.Model):
 class BillsMockDjango(models.Model):
     """
     A mock model for the bills table.
-    Meant to store mock data for bills.
+    Used for testing mock data. Deprecated.
     """
 
     bill_id = models.CharField(unique=True, primary_key=True)
@@ -84,7 +84,7 @@ class BillsTable(models.Model):
 class FavoritesMockDjango(models.Model):
     """
     A mock model for the favorites table.
-    Meant to store mock data for user favorites.
+    Used for testing mock data for user favorites. Deprecated.
     """
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
@@ -118,7 +118,7 @@ class FavoritesTable(models.Model):
 class SponsorsMockDjango(models.Model):
     """
     A mock model for the sponsors table.
-    Meant to store mock data for bill sponsors.
+    Used for testing mock data for sponsors of legislation. Deprecated.
     """
 
     id = models.CharField(unique=True, primary_key=True)
@@ -153,7 +153,7 @@ class SponsorsTable(models.Model):
 class TopicsMockDjango(models.Model):
     """
     A mock model for the topics table.
-    Meant to store mock data for bill topics.
+    Used for testing mock data for topics of legislation. Deprecated.
     """
 
     bill_id = models.ForeignKey("BillsMockDjango", on_delete=models.CASCADE, db_column="bill_id")
@@ -182,7 +182,7 @@ class TopicsTable(models.Model):
 class UpdatesMockDjango(models.Model):
     """
     A mock model for the updates table.
-    Meant to store mock data for periodic updates on bills.
+    Used for testing mock data for periodic updates on legislation. Deprecated.
     """
 
     action_id = models.ForeignKey(
@@ -219,7 +219,7 @@ class UpdatesTable(models.Model):
 class UsersMockDjango(models.Model):
     """
     A mock model for the users table.
-    Meant to store mock data for users.
+    Used for testing mock data. Deprecated.
     """
 
     user_id = models.CharField(unique=True, primary_key=True, null=False)
