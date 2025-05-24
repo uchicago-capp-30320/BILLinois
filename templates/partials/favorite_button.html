@@ -1,16 +1,15 @@
 <!-- Partial template to toggle favorites without reloading the page. -->
-<button 
-  type="button" 
-  class="icon custom-yellow" 
-  hx-post="{% url 'toggle_favorite' bill.bill_id %}" 
-  hx-trigger="click" 
-  hx-swap="outerHTML" 
-  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<button
+  type="button"
+  class="icon custom-yellow"
+  hx-post="{% url 'toggle_favorite' bill.bill_id %}"
+  hx-trigger="click"
+  hx-swap="outerHTML"
+  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+>
   {% if is_favorite %}
-    <i class="fa-solid fa-star fa-xl"></i>
+  <i class="fa-solid fa-star fa-xl"></i>
   {% else %}
-    <i class="fa-regular fa-star fa-xl"></i>
+  <i class="fa-regular fa-star fa-xl"></i>
   {% endif %}
 </button>
-
-

@@ -3,7 +3,7 @@ import re
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Exists, OuterRef, Subquery
-from django.contrib.postgres.aggregates import ArrayAgg 
+from django.contrib.postgres.aggregates import ArrayAgg
 from django.http import Http404, HttpRequest, HttpResponse
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.auth import get_user_model
@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 
 from .models import ActionsTable, BillsTable, FavoritesTable
 from .utils import bill_number_for_url, normalize_bill_number
+
 
 def home(request: HttpRequest) -> HttpResponse:
     """
@@ -88,9 +89,9 @@ def search(request: HttpRequest) -> HttpResponse:
 
     if state:
         results = results.filter(state=state)
-    
+
     results = results.annotate(rank=SearchRank(search_vector, search_query)).order_by("-rank")
-    results = results.annotate(topics = ArrayAgg("topicstable__topic", distinct=True))
+    results = results.annotate(topics=ArrayAgg("topicstable__topic", distinct=True))
 
     if request.user.is_authenticated:
         user_id = request.user.id
@@ -135,7 +136,7 @@ def toggle_favorite(request, bill_id):
         button_html = render_to_string(
             "partials/favorite_button.html",
             {"bill": bill, "is_favorite": is_favorite},
-            request=request
+            request=request,
         )
 
         return HttpResponse(button_html)
@@ -295,6 +296,7 @@ def favorites_page(request):
         "favorites.html",
         {"favorited_bills": bills_qs, "sort_option": sort_option},
     )
+
 
 def privacy_policy(request: HttpRequest) -> HttpResponse:
     """

@@ -39,10 +39,9 @@ class Command(BaseCommand):
             updates_table = UpdatesMockDjango
         else:
             updates_table = UpdatesTable
-        
+
         current_date = datetime.now(tz=ZoneInfo("America/Chicago")).date()
-        most_recent_date = MostRecentUpload.objects.latest(
-                "last_upload_date").last_upload_date
+        most_recent_date = MostRecentUpload.objects.latest("last_upload_date").last_upload_date
 
         logger.info(f"Current date: {current_date}")
         # Check if bills have successfully been uploaded today. If not, exit.
@@ -53,14 +52,11 @@ class Command(BaseCommand):
             print(f"most_recent_date: {repr(most_recent_date)}")
             print(f"Equal? {current_date == most_recent_date}")
 
-
             sys.exit(1)
 
         favorite_updates = (
             FavoritesTable.objects.filter(
-                bill_id__in=updates_table.objects.values(
-                    "bill_id"
-                ),
+                bill_id__in=updates_table.objects.values("bill_id"),
                 user_id__in=User.objects.filter(is_subscribed=True).values("id"),
             )
             .values("user_id")

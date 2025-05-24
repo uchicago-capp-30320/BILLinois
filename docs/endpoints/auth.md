@@ -4,9 +4,9 @@
 
 Parameters:
 
-* email: `str`
-* phone number: `str`
-* password: `str`
+- email: `str`
+- phone number: `str`
+- password: `str`
 
 Response: HTML sign-up page, success message upon successful registration, failure message upon failed registration
 
@@ -14,16 +14,16 @@ Response: HTML sign-up page, success message upon successful registration, failu
 
 Parameters:
 
-* code: `str` a confirmation code sent to the user's email to confirm signup
+- code: `str` a confirmation code sent to the user's email to confirm signup
 
 Response: HTML confirmation page
 
 ## /accounts/login/
 
-Parameters: 
+Parameters:
 
-* email: `str`
-* remember_me: `bool`
+- email: `str`
+- remember_me: `bool`
 
 Response: HTML login page, redirect to confirmation page, failure message upon failed login.
 
@@ -31,7 +31,7 @@ Response: HTML login page, redirect to confirmation page, failure message upon f
 
 Parameters:
 
-* code: `str`
+- code: `str`
 
 Response: Redirect to home page `/` after successful confirmation, failure message upon failed confirmation.
 
@@ -45,7 +45,7 @@ Response: Redirect to home page `/` after successful logout.
 
 Parameters:
 
-* email: `str`
+- email: `str`
 
 Response: HTML password reset page, sends an email to the user upon form submit.
 
@@ -53,7 +53,7 @@ Response: HTML password reset page, sends an email to the user upon form submit.
 
 Parameters:
 
-* password: `str`
+- password: `str`
 
 Response: Redirect to goodbye page on success, error message on failure
 

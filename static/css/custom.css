@@ -1,157 +1,159 @@
 /* Status column in the table returned by search results */
-th.status-column, td.status-column {
-    width: 290px; 
-    white-space: wrap; /* text wrapping */
+th.status-column,
+td.status-column {
+  width: 290px;
+  white-space: wrap; /* text wrapping */
 }
 body {
-    overflow-x: auto; /* Adds a horizontal scroll bar if content overflows */
-    background-color: #F5F5F5;
+  overflow-x: auto; /* Adds a horizontal scroll bar if content overflows */
+  background-color: #f5f5f5;
 }
 /* Ensure the background color extends to the full page */
-html, body {
-    height: 100%; /* Make the html and body elements fill the viewport height */
+html,
+body {
+  height: 100%; /* Make the html and body elements fill the viewport height */
 }
 /* Make title on home page larger */
 .bigger-title {
-    font-size: 5rem;
-    font-weight: bold;
-    letter-spacing: 2px;
+  font-size: 5rem;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 /* Set the navbar background color */
 .navbar {
-    background-color: #F5F5F5; /* Match the page background color */
-    border: none; 
+  background-color: #f5f5f5; /* Match the page background color */
+  border: none;
 }
 /* Change the color of the dropdown arrow */
 .navbar-link::after {
-    border-color: #4269D0;
+  border-color: #4269d0;
 }
 /* Color palette */
 /* Background color for webpages */
 .bg-light {
-    background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 /* Text colors*/
 .custom-text-dark {
-    color: #3D474A;
+  color: #3d474a;
 }
 .custom-green {
-    color: #4BAB68;
+  color: #4bab68;
 }
 .custom-red {
-    color: #C73223;
+  color: #c73223;
 }
 .custom-pink {
-    color: #ECC6E3;
+  color: #ecc6e3;
 }
 .custom-blue {
-    color: #4269D0;
+  color: #4269d0;
 }
 .custom-yellow {
-    color: #FFAB0D;
+  color: #ffab0d;
 }
 .custom-purple {
-    color: #A12FA7;
+  color: #a12fa7;
 }
 /* Button colors */
 .button-green {
-    background-color: #4BAB68;
-    color: #F5F5F5;
+  background-color: #4bab68;
+  color: #f5f5f5;
 }
 .button-blue {
-    background-color: #4269D0;
-    color: #F5F5F5;
+  background-color: #4269d0;
+  color: #f5f5f5;
 }
 .button-purple {
-    background-color: #A12FA7;
-    color: #F5F5F5;
+  background-color: #a12fa7;
+  color: #f5f5f5;
 }
 .button-pink {
-    background-color: #ECC6E3;
-    color: #3D474A;
+  background-color: #ecc6e3;
+  color: #3d474a;
 }
 .button-yellow {
-    background-color: #FFAB0D;
-    color: #3D474A;
+  background-color: #ffab0d;
+  color: #3d474a;
 }
 .button-red {
-    background-color: #C73223;
-    color: #F5F5F5;
+  background-color: #c73223;
+  color: #f5f5f5;
 }
 
 /* The subscription toggle */
-/* From Uiverse.io by AbanoubMagdy1 */ 
+/* From Uiverse.io by AbanoubMagdy1 */
 .switch {
-    --circle-dim: 1em;
-    font-size: 14px;
-    position: relative;
-    display: inline-block;
-    width: 2.5em;
-    height: 1.5em;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  /* The actual toggle */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #f5aeae;
-    transition: .4s;
-    border-radius: 30px;
-  }
-  
-  .slider-card {
-    position: absolute;
-    content: "";
-    height: var(--circle-dim);
-    width: var(--circle-dim);
-    border-radius: 20px;
-    left: 0.2em;
-    bottom: 0.2em;
-    transition: .4s;
-    pointer-events: none;
-  }
-  
-  .slider-card-face {
-    position: absolute;
-    inset: 0;
-    backface-visibility: hidden;
-    perspective: 1000px;
-    border-radius: 50%;
-    transition: .4s transform;
-  }
-  
-  .slider-card-front {
-    background-color: #C73223;
-  }
-  
-  .slider-card-back {
-    background-color: #4BAB68;
-    transform: rotateY(180deg);
-  }
-  
-  input:checked ~ .slider-card .slider-card-back {
-    transform: rotateY(0);
-  }
-  
-  input:checked ~ .slider-card .slider-card-front {
-    transform: rotateY(-180deg);
-  }
-  
-  input:checked ~ .slider-card {
-    transform: translateX(1em);
-  }
-  
-  input:checked ~ .slider {
-    background-color: #9ed99c;
-  }
+  --circle-dim: 1em;
+  font-size: 14px;
+  position: relative;
+  display: inline-block;
+  width: 2.5em;
+  height: 1.5em;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The actual toggle */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f5aeae;
+  transition: 0.4s;
+  border-radius: 30px;
+}
+
+.slider-card {
+  position: absolute;
+  content: "";
+  height: var(--circle-dim);
+  width: var(--circle-dim);
+  border-radius: 20px;
+  left: 0.2em;
+  bottom: 0.2em;
+  transition: 0.4s;
+  pointer-events: none;
+}
+
+.slider-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  border-radius: 50%;
+  transition: 0.4s transform;
+}
+
+.slider-card-front {
+  background-color: #c73223;
+}
+
+.slider-card-back {
+  background-color: #4bab68;
+  transform: rotateY(180deg);
+}
+
+input:checked ~ .slider-card .slider-card-back {
+  transform: rotateY(0);
+}
+
+input:checked ~ .slider-card .slider-card-front {
+  transform: rotateY(-180deg);
+}
+
+input:checked ~ .slider-card {
+  transform: translateX(1em);
+}
+
+input:checked ~ .slider {
+  background-color: #9ed99c;
+}
