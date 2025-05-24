@@ -1,6 +1,6 @@
 # BILLinois
 
-A friendly civic engagement tool that notifies users about their favorite bills. BILLinois allows users to search bills by topic, view additional information about each bill, and login to add bills of interest and sign up for notifications about those bills of interest.
+A friendly civic engagement tool that notifies users about their favorite bills. BILLinois allows users to search bills by topic, view additional information about each bill, and login to add bills of interest and sign up for notifications about those bills of interest. The live site is now available at [billinois.unnamed.computer](https://billinois.unnamed.computer/).
 
 BILLinois's initial focus is on the Illinois General Assembly, but a long-term goal of the project is to expand either to additional states or to additional levels of government.
 
@@ -10,7 +10,9 @@ BILLinois's initial focus is on the Illinois General Assembly, but a long-term g
 
 ## Contributing
 
-This project uses uv to manage dependencies.
+This project uses uv to manage dependencies. 
+
+View [documentation](https://uchicago-capp-30320.github.io/BILLinois/) for this repository.
 
 ### Setup
 
