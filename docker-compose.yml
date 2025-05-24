@@ -1,3 +1,5 @@
 services:
+    build: .
   webapp:
-    env_file: ".env"
+    ports:
+      - 8020:9000
