@@ -1,14 +1,14 @@
 name: Run all tests with pytest
 on:
   push:
-    branches: [ main, dev ]
+    branches: [main, dev]
   pull_request:
-    branches: [ main, dev ]
+    branches: [main, dev]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env: 
+    env:
       DEBUG: "true"
       PHONE_DEBUG: "True"
       ALLOWED_HOSTS: "127.0.0.1,localhost"
@@ -27,31 +27,31 @@ jobs:
       TWILIO_FROM_NUMBER: ${{ secrets.TWILIO_FROM_NUMBER }}
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Install uv
-      uses: astral-sh/setup-uv@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version-file: "pyproject.toml"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
 
-    - name: Install the project
-      run: uv sync
+      - name: Install the project
+        run: uv sync
 
-    - name: Install playwright
-      run: uv run playwright install
+      - name: Install playwright
+        run: uv run playwright install
 
-    - name: Launch app
-      run: uv run python manage.py runserver & # run in background and continue to next step
+      - name: Launch app
+        run: uv run python manage.py runserver & # run in background and continue to next step
 
-    - name: Wait for server to be ready
-      run: |
-        for i in {1..10; do
-          curl -sSf http://127.0.0.1:8000/ && break
-          sleep 1
-        done
+      - name: Wait for server to be ready
+        run: |
+          for i in {1..10; do
+            curl -sSf http://127.0.0.1:8000/ && break
+            sleep 1
+          done
 
-    - name: Run tests
-      run: uv run pytest tests
+      - name: Run tests
+        run: uv run pytest tests
