@@ -27,7 +27,7 @@ def home(request: HttpRequest) -> HttpResponse:
             The rendered HTML home page, redirect to `/search/` page
             upon search submission.
     """
-    return render(request, "home.html")
+    return render(request, "home.html", {"states": STATES})
 
 
 def search(request: HttpRequest) -> HttpResponse:
