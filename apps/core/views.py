@@ -112,6 +112,7 @@ def search(request: HttpRequest) -> HttpResponse:
         "search.html",
         {
             "query": query,
+            "state": state,
             "results": page_obj,
         },
     )

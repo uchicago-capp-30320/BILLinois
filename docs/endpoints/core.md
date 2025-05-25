@@ -4,7 +4,7 @@
 
 ::: apps.core.views.home
 
-## /search?query='{query}'
+## /search?query='{query}'&state='{state}'
 
 ::: apps.core.views.search
 
