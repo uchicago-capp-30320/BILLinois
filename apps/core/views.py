@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 
 from .models import ActionsTable, BillsTable, FavoritesTable
 from .utils import bill_number_for_url, normalize_bill_number
+from .states import STATES
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -113,6 +114,8 @@ def search(request: HttpRequest) -> HttpResponse:
         {
             "query": query,
             "results": page_obj,
+            "states": STATES,
+            "state": state
         },
     )
 
