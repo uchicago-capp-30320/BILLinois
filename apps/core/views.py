@@ -111,12 +111,7 @@ def search(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "search.html",
-        {
-            "query": query,
-            "results": page_obj,
-            "states": STATES,
-            "state": state
-        },
+        {"query": query, "results": page_obj, "states": STATES, "state": state},
     )
 
 
