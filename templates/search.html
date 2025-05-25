@@ -115,7 +115,8 @@
                 {% endfor %}
               </tbody>
         </table>
-      <div class="pagination">
+        </section>
+      <section class="section">
         <!-- Pagination controls -->
         <nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
           {% if results.has_previous %}
@@ -162,11 +163,11 @@
             {% endif %}
           </ul>
         </nav>
-      </div>
         {% else %}
-            <p class="has-text-centered custom-text-dark">No results found. Please try a different search term.</p>
+          <p class="has-text-centered custom-text-dark">No results found. Please try a different search term.</p>
         {% endif %}
-      </section>
+        </section>
+      
     <!-- JS for burger menu -->
     <script src="../static/js/burger.js"></script>
     </body>
