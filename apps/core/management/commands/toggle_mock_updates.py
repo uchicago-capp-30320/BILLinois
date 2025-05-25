@@ -61,6 +61,7 @@ class Command(BaseCommand):
 
         bill, _ = BillsMockDjango.objects.get_or_create(
             bill_id="ocd-bill/4ff0212a-8087-422f-b395-a9f3b707b059",
+            # ruff: noqa: E501
             defaults={
                 "title": "CONGRATS-RONALD MCDONALD HOUSE",
                 "number": "HR 191",

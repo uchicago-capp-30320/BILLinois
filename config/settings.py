@@ -45,8 +45,10 @@ DATABASES = {"default": _DEFAULT_DB}
 vars().update(EMAIL_CONFIG)
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 INTERNAL_IPS = ["127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["https://billinois.unnamed.computer/", "https://billinoisapp.com/"]
+
 
 # Debug Toolbar
 IS_TESTING = "test" in sys.argv or "pytest" in sys.argv
@@ -269,6 +271,11 @@ LOGGING = {
             "filename": "_logs/email_notifications.log",
             "formatter": "key_value",
         },
+        "to_email_queue": {
+            "class": "logging.handlers.WatchedFileHandler",
+            "filename": "_logs/to_email_queue.log",
+            "formatter": "key_value",
+        },
     },
     "loggers": {
         "django_structlog": {
@@ -282,6 +289,11 @@ LOGGING = {
         },
         "email_notifications": {
             "handlers": ["email_notifications"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "to_email_queue": {
+            "handlers": ["to_email_queue"],
             "level": "DEBUG",
             "propagate": False,
         },

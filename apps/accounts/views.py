@@ -45,6 +45,7 @@ def make_account_page(request: HttpRequest) -> HttpResponse:
     """
     return render(request, "signup.html")
 
+
 def unsubscribe(request: HttpRequest) -> HttpResponse:
     """
     Renders the unsubscribe view.
@@ -56,27 +57,24 @@ def unsubscribe(request: HttpRequest) -> HttpResponse:
         if user.is_subscribed:
             user.is_subscribed = False
 
-            messages.success(
-                request, "You have successfully unsubscribed from updates."
-            )
-            
+            messages.success(request, "You have successfully unsubscribed from updates.")
+
         else:
             user.is_subscribed = True
 
-            messages.success(
-                request, "You have successfully subscribed to updates."
-            )
+            messages.success(request, "You have successfully subscribed to updates.")
         user.save()
 
         return redirect(request.META.get("HTTP_REFERER", "favorites"))
-    
+
+
 def delete_account(request: HttpRequest) -> HttpResponse:
     """
     Deletes the user's account.
 
     Args:
         request (HttpRequest): The HTTP request object.
-    
+
     Returns:
         HttpResponse: The rendered delete account page.
     """
@@ -97,12 +95,12 @@ def delete_account(request: HttpRequest) -> HttpResponse:
             logout(request)
             user.delete()
             return redirect("account_goodbye")
-        
-        except Exception as e:
-            messages.error(
-                request, "An error occurred while deleting your account.")
-    
+
+        except Exception:
+            messages.error(request, "An error occurred while deleting your account.")
+
     return render(request, "account/delete_account.html")
+
 
 def account_goodbye(request: HttpRequest) -> HttpResponse:
     """
@@ -110,7 +108,7 @@ def account_goodbye(request: HttpRequest) -> HttpResponse:
 
     Args:
         request (HttpRequest): The HTTP request object.
-    
+
     Returns:
         HttpResponse: The rendered goodbye page.
     """

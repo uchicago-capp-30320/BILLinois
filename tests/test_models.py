@@ -37,12 +37,16 @@ def test_bill():
 
 @pytest.mark.django_db
 def test_bill_created(test_bill):
-    assert (test_bill.bill_id, test_bill.state, test_bill._meta.db_table) == ("123", "IL", "bills_table")
+    assert (test_bill.bill_id, test_bill.state, test_bill._meta.db_table) == (
+        "123",
+        "IL",
+        "bills_table",
+    )
 
 
 @pytest.mark.django_db
 def test_get_bill_from_number(test_bill):
-    bill = BillsTable.objects.get(number="AB 123", state = "IL", session = "104th")
+    bill = BillsTable.objects.get(number="AB 123", state="IL", session="104th")
     assert bill.bill_id == "123"
 
 
@@ -55,7 +59,7 @@ def test_action(test_bill):
         description="Passed House",
         date=timezone.make_aware(datetime(2025, 5, 13, 8, 22, 0)),
         category="",
-        chamber="House"
+        chamber="House",
     )
 
 
@@ -107,9 +111,7 @@ def test_clean_email(test_user):
 # %% Favorites model tests
 @pytest.fixture
 def test_favorite(test_bill, test_user):
-    return FavoritesTable.objects.create(
-        user_id=test_user, 
-        bill_id=test_bill)
+    return FavoritesTable.objects.create(user_id=test_user, bill_id=test_bill)
 
 
 @pytest.mark.django_db
@@ -140,10 +142,12 @@ def test_topics(test_bill):
 @pytest.mark.django_db
 def test_topics_created(test_topics):
     educ, health = test_topics
-    assert (educ.topic, educ._meta.db_table, \
-            health.topic, health._meta.db_table) == \
-            ("Education", "topics_table", \
-                "Health", "topics_table")
+    assert (educ.topic, educ._meta.db_table, health.topic, health._meta.db_table) == (
+        "Education",
+        "topics_table",
+        "Health",
+        "topics_table",
+    )
 
 
 @pytest.mark.django_db

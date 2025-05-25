@@ -1,14 +1,14 @@
 site_name: BILLinois
-site_url: 
+site_url:
 theme:
   name: material
 plugins:
-- search
-- mermaid2
-- mkdocstrings:
-    enabled: !ENV [ENABLE_MKDOCSTRINGS, true]
-    default_handler: python
-    handlers:
-      python:
-        options:
-          show_root_toc_entry: false
+  - search
+  - mermaid2
+  - mkdocstrings:
+      enabled: !ENV [ENABLE_MKDOCSTRINGS, true]
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_root_toc_entry: false
