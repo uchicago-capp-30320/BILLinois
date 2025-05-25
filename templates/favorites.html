@@ -133,12 +133,7 @@
                         {% endfor %}
                       </div>
                       <div class = "column is-narrow">
-                        <form method = "POST" action = "{% url 'toggle_favorite' bill.bill_id|urlencode %}">
-                          {% csrf_token %}
-                          <button type="submit" class="icon custom-yellow">
-                              <i class="fa-solid fa-star fa-xl"></i>
-                          </button>
-                        </form>
+                        {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}
                       </div>
                     </div>
                   </div>
