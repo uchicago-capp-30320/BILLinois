@@ -34,20 +34,25 @@
                   <p class="control">
                     <span class="select">
                       <select name="state">
-                        <option value="" disabled selected>Select a state</option>
-                        {% for abbr, name in states %}                     
+                        <option value="" disabled selected>
+                          Select a state
+                        </option>
+                        {% for abbr, name in states %}
                         <option value="{{ name }}">{{ name }}</option>
                         {% endfor %}
                       </select>
                     </span>
                   </p>
                   <p class="control is-expanded">
-                    <input class="input" type="text" name="query" placeholder="Search bills by name or topic..."/>
+                    <input
+                      class="input"
+                      type="text"
+                      name="query"
+                      placeholder="Search bills by name or topic..."
+                    />
                   </p>
                   <p class="control">
-                    <button class="button">
-                      Search
-                    </button>
+                    <button class="button">Search</button>
                   </p>
                 </div>
               </form>
@@ -93,11 +98,8 @@
     {% if results %}
     <section class="section">
       <div class="title is-4 mb-6 custom-text-dark">
-        {% if state %}
-        Search results for "{{ query }}" in {{state}}.
-        {% else %}
-        Search results for "{{ query }}" in all states.
-        {% endif %}
+        {% if state %} Search results for "{{ query }}" in {{state}}. {% else %}
+        Search results for "{{ query }}" in all states. {% endif %}
       </div>
       <table class="table bg-light is-hoverable">
         <thead>

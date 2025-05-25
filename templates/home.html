@@ -69,36 +69,39 @@
           Get started by searching a custom bill topic or clicking on a bill
           topic below.
         </p>
-          <!--Search Bar -->
-          <div class="column" style="flex-grow: 1">
-            <div class="container is-max-tablet">
-              <form method="GET" action="/search">
-                <div class="field has-addons">
-                  <p class="control">
-                    <span class="select">
-                      <select name="state">
-                        <option value="" disabled selected>Select a state</option>
-                        {% for abbr, name in states %}                     
-                        <option value="{{ name }}">{{ name }}</option>
-                        {% endfor %}
-                      </select>
-                    </span>
-                  </p>
-                  <p class="control is-expanded">
-                    <input class="input" type="text" name="query" placeholder="Search bills by name or topic..."/>
-                  </p>
-                  <p class="control">
-                    <button class="button">
-                      Search
-                    </button>
-                  </p>
-                </div>
-              </form>
-            </div>
+        <!--Search Bar -->
+        <div class="column" style="flex-grow: 1">
+          <div class="container is-max-tablet">
+            <form method="GET" action="/search">
+              <div class="field has-addons">
+                <p class="control">
+                  <span class="select">
+                    <select name="state">
+                      <option value="" disabled selected>Select a state</option>
+                      {% for abbr, name in states %}
+                      <option value="{{ name }}">{{ name }}</option>
+                      {% endfor %}
+                    </select>
+                  </span>
+                </p>
+                <p class="control is-expanded">
+                  <input
+                    class="input"
+                    type="text"
+                    name="query"
+                    placeholder="Search bills by name or topic..."
+                  />
+                </p>
+                <p class="control">
+                  <button class="button">Search</button>
+                </p>
+              </div>
+            </form>
           </div>
+        </div>
       </div>
-      <br>
-      <br>
+      <br />
+      <br />
       <div class="container is-max-tablet">
         <div class="grid buttons is-column-gap-7">
           <a
