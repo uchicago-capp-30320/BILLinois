@@ -47,7 +47,7 @@ vars().update(EMAIL_CONFIG)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 INTERNAL_IPS = ["127.0.0.1"]
-CSRF_TRUSTED_ORIGINS = ['https://billinois.unnamed.computer/', 'https://billinoisapp.com/']
+CSRF_TRUSTED_ORIGINS = ["https://billinois.unnamed.computer/", "https://billinoisapp.com/"]
 
 
 # Debug Toolbar
