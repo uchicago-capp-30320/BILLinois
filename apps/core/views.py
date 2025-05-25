@@ -2,8 +2,8 @@ import re
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Exists, OuterRef, Subquery
-from django.contrib.postgres.aggregates import ArrayAgg 
+from django.db.models import Exists, OuterRef, Subquery, Value, BooleanField
+from django.contrib.postgres.aggregates import ArrayAgg
 from django.http import Http404, HttpRequest, HttpResponse
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.auth import get_user_model
@@ -270,6 +270,9 @@ def favorites_page(request):
     favorite_bill_ids = favorite_qs.values("bill_id")
 
     bills_qs = BillsTable.objects.filter(bill_id__in=Subquery(favorite_bill_ids))
+
+    # Annote bills with a favorite status = true for use with htmx
+    bills_qs = bills_qs.annotate(is_favorite=Value(True, output_field=BooleanField()))
 
     if sort_option == "action_date":
         # get most recent relevant action (i.e. with a category) for bills
