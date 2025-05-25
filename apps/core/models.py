@@ -260,6 +260,7 @@ class UserNotificationQueue(models.Model):
     class Meta:
         db_table = "user_notification_queue"
 
+
 class MostRecentUpload(models.Model):
     """
     A table that stores the most recent bill upload date.

@@ -43,8 +43,7 @@
               aria-label="dropdown navigation"
             >
               <div id="navbarMenu" class="navbar-menu">
-                <div class="navbar-item has-dropdown is-hoverable navbar-end">
-                  <a class="navbar-link"> Menu </a>
+                  <a class="navbar-link is-size-5"> Menu </a>
                   <div class="navbar-dropdown is-right is-boxed">
                     <a href="/" class="navbar-item">Home</a>
                     {% if user.is_authenticated %}
@@ -202,7 +201,9 @@
                       Accidentally Favorited Act
                     </a>
                   </div>
-                  <div class="column is-narrow"></div>
+                  <div class="column is-narrow">
+                    <!--TOOD: What is this empty column for?-->
+                  </div>
                   <div class="column is-narrow">
                     <span class="icon has-text-warning">
                       <i class="fa-regular fa-star"></i>
@@ -211,6 +212,7 @@
                 </div>
               </div>
             </div>
+            <!-- </div> -->
           </div>
         </div>
       </div>

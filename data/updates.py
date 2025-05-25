@@ -20,9 +20,10 @@ conn = psycopg2.connect(os.getenv("DATABASE_URL"))
 state = sys.argv[1]
 session = sys.argv[2]
 
-# Set up cursor, and clear updates_table
+# Set up cursor, and clear updates_table/most_recent_upload
 cur = conn.cursor()
 cur.execute("DELETE FROM updates_table;")
+cur.execute("DELETE FROM most_recent_upload;")
 
 # Setting up date, total pages, and number of inserts
 today_date = date.today()
@@ -42,10 +43,9 @@ for p in range(1, total_pages_updated + 1):
         id_to_delete = record["id"]
 
         # NOTE: Cannot delete bills as that would get rid of people's favorites
-        sponsors_delete_statement = """DELETE FROM sponsors_table WHERE bill_id = (%s)"""
-        actions_delete_statement = """DELETE FROM actions_table WHERE bill_id = (%s)"""
-        # NOTE: Re-running topic assignment allows us to use most updated summary/title
-        topics_delete_statement = """DELETE FROM topics_table WHERE bill_id = (%s)"""
+        sponsors_delete_statement = "DELETE FROM sponsors_table WHERE bill_id = (%s)"
+        actions_delete_statement = "DELETE FROM actions_table WHERE bill_id = (%s)"  # NOTE: Re-running topic assignment allows us to use most updated summary/title
+        topics_delete_statement = "DELETE FROM topics_table WHERE bill_id = (%s)"
 
         # Deleting from actions/sponsors first as PK issue
         cur.execute(actions_delete_statement, (id_to_delete,))
@@ -81,31 +81,27 @@ for p in range(1, total_pages_updated + 1):
         cur.mogrify("(%s, %s)", topic_pair).decode("utf-8") for topic_pair in topics
     )
 
+    # ruff: noqa: E501
     cur.execute(
         "INSERT INTO bills_table (bill_id, number, title, summary, status, state, session) VALUES "
         + arguments_bills_updated
         + " ON CONFLICT (bill_id) DO UPDATE SET title=EXCLUDED.title, summary=EXCLUDED.summary, status=EXCLUDED.status;"
     )
+    # ruff: noqa: E501
     cur.execute(
-        """
-        INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES
-        """
-        + " "
+        "INSERT INTO sponsors_table (id, bill_id, sponsor_id, sponsor_name, party, position) VALUES "
         + arguments_sponsors_updated
     )
+    # ruff: noqa: E501
     cur.execute(
-        """
-        INSERT INTO actions_table (action_id, bill_id, description, chamber, date, category) VALUES
-        """
-        + " "
+        "INSERT INTO actions_table (action_id, bill_id, description, chamber, date, category) VALUES "
         + arguments_actions_updated
     )
+
     if updates:
+        # ruff: noqa: E501
         cur.execute(
-            """
-            INSERT INTO updates_table(bill_id, category, description, chamber, action_id, date) VALUES
-            """
-            + " "
+            "INSERT INTO updates_table(bill_id, category, description, chamber, action_id, date) VALUES "
             + arguments_updates
         )
 
@@ -121,6 +117,9 @@ for p in range(1, total_pages_updated + 1):
     time.sleep(6)
 
 # Close out
+today_string = str(today_date)
+date_insert_statement = "INSERT INTO most_recent_upload (last_upload_date) VALUES (%s)"
+cur.execute(date_insert_statement, (today_string,))
 conn.commit()
 cur.close()
 conn.close()
