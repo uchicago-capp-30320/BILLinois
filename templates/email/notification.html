@@ -1,25 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <body>
-    <h1>Your Updated Bills</h1>
-    <p>Dear {{ full_name|default:"Billinois Subscriber" }}</p>
-    <p>
-      Take a look at your favorited bills that have updated in the past day:
-    </p>
-    <ul>
-      {% if user.number_of_notifications > 5 %}
-      <p>You have {{ number_of_notifications }} updated bills.</p>
-      <p>Visit Billinois to see them.</p>
-      {% else %} {% for bill in bills %}
-      <li>
-        <p>{{ bill.title }}</p>
-        <p>Description: {{ bill.summary }}</p>
-        <p>New Status: {{ bill.update_description }}</p>
-        <p>Updated At: {{ bill.updated_at }}</p>
-      </li>
-      {% endfor %} {% endif %}
-    </ul>
+    <body>
+        <h1>Your Updated Bills</h1>
+        <p> Dear {{ full_name|default:"Billinois Subscriber" }}</p>
+        <p>Take a look at your favorited bills that have updated in the past day:</p>
+        <ul>
+            {% if user.number_of_notifications > 5 %}
+                <p>You have {{ number_of_notifications }} updated bills.</p>
+                <p>Visit Billinois to see them.</p>
+            {% else %}
+            {% for bill in bills %}
+                <li>
+                    <p>{{ bill.title }}</p>
+                    <p>Description: {{ bill.summary }}</p>
+                    <p>New Status: {{ bill.update_description }}</p>
+                    <p> Updated At: {{ bill.updated_at }} </p>
+                </li>
+            {% endfor %}
+            {% endif %}
+        </ul>
 
-    <p>Tired of updates? Unsubscribe here: {{ unsubscribe_url }}</p>
-  </body>
+        <p>Tired of updates? Unsubscribe here: {{ unsubscribe_url }}</p>
+    </body>
 </html>

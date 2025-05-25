@@ -4,15 +4,15 @@ The goal of BILLinois is to enable everyone in Illinois to learn about and track
 
 ## What User Data Do We Store?
 
-We collect the following pieces of information from users:
+We collect the following pieces of information from users: 
 
 - Email
 - Phone number
 - Name
 
-All of this information is stored in a protected, remote server accessible to BILLinois developers only. Your password is encrypted before it enters our databases, meaning we never have access to your login credential.
+All of this information is stored in a protected, remote server accessible to BILLinois developers only. Your password is encrypted before it enters our databases, meaning we never have access to your login credential. 
 
-All of this data is stored until you delete your account. Upon deletion, all of your information is deleted from our application and databases.
+All of this data is stored until you delete your account. Upon deletion, all of your information is deleted from our application and databases. 
 
 ## How Do We Use Your Data?
 
@@ -20,4 +20,4 @@ We use your email to notify you when your favorited bills have important updates
 
 ## Additional Information
 
-If you have any questions about our data collection practices, please contact our team at billinois.app@gmail.com
+If you have any questions about our data collection practices, please contact our team at billinois.app@gmail.com 

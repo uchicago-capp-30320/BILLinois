@@ -18,7 +18,8 @@ This project uses uv to manage dependencies.
 2. Run `uv sync` to sync your local `.venv` with the requirements in `pyprojects.toml`
 3. Run `uv tool install ruff` to install the [Ruff](https://github.com/astral-sh/ruff) linter
 4. Run `uv add --dev pytest` to get setup with testing (this is a development package not included in the requirements)
-5. Before pushing commits, run `ruff format` and `ruff check` to ensure you don't get shamed by Ruff 6. Currently GitHub Actions will automatically run this step for you, pending advice from James
+5. Before pushing commits, run `ruff format` and `ruff check` to ensure you don't get shamed by Ruff
+    6. Currently GitHub Actions will automatically run this step for you, pending advice from James
 
 ### Creating your own branch
 
@@ -33,9 +34,10 @@ After cloning the repository:
 
 ## Repository Layout
 
-- `project`: includes main app script (frontend and backend)
-- `data`: contains data files used in project
-- `tests`: contains all tests related to the project
+* `project`: includes main app script (frontend and backend)
+* `data`: contains data files used in project
+* `tests`: contains all tests related to the project
+
 
 ## Development
 
