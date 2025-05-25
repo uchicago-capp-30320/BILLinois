@@ -272,7 +272,7 @@ def favorites_page(request):
     bills_qs = BillsTable.objects.filter(bill_id__in=Subquery(favorite_bill_ids))
 
     # Annote bills with a favorite status = true for use with htmx
-    bills_qs = bills_qs.annotate(is_favorite=Value(True, output_field=BooleanField()))
+    bills_qs = bills_qs.annotate(favorite=Value(True, output_field=BooleanField()))
 
     if sort_option == "action_date":
         # get most recent relevant action (i.e. with a category) for bills
