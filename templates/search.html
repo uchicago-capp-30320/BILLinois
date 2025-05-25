@@ -137,38 +137,60 @@
             </td>
           </tr>
           {% endfor %}
-        </tbody>
-      </table>
-      <div class="pagination">
+          </tbody>
+        </table>
+      </section>
+      <section class="section">
         <!-- Pagination controls -->
-        <span class="step-links">
+        <nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
           {% if results.has_previous %}
-          <a href="?page=1&query={{ query }}">&laquo; first</a>
-          <a href="?page={{ results.previous_page_number }}&query={{ query }}"
-            >previous</a
-          >
+            <a class="pagination-previous" href="?page={{ results.previous_page_number }}&query={{ query }}">Previous</a>
+          {% else %}
+            <a class="pagination-previous" disabled>Previous</a>
           {% endif %}
-
-          <span class="current">
-            Page {{ results.number }} of {{ results.paginator.num_pages }}.
-          </span>
 
           {% if results.has_next %}
-          <a href="?page={{ results.next_page_number }}&query={{ query }}"
-            >next</a
-          >
-          <a href="?page={{ results.paginator.num_pages }}&query={{ query }}"
-            >last &raquo;</a
-          >
+            <a class="pagination-next" href="?page={{ results.next_page_number }}&query={{ query }}">Next</a>
+          {% else %}
+            <a class="pagination-next" disabled>Next</a>
           {% endif %}
-        </span>
-      </div>
-      {% else %}
-      <p class="has-text-centered custom-text-dark">
-        Please enter a search term.
-      </p>
-      {% endif %}
-    </section>
+
+          <ul class="pagination-list">
+            {% if results.number > 3 %}
+              <li><a class="pagination-link" href="?page=1&query={{ query }}">1</a></li>
+              {% if results.number > 4 %}
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+              {% endif %}
+            {% endif %}
+
+            {% for num in results.paginator.page_range %}
+              {% if num >= results.number|add:'-2' and num <= results.number|add:'2' %}
+                {% if num == results.number %}
+                  <li>
+                    <a class="pagination-link is-current" aria-label="Page {{ num }}" aria-current="page">{{ num }}</a>
+                  </li>
+                {% else %}
+                  <li>
+                    <a class="pagination-link" href="?page={{ num }}&query={{ query }}" aria-label="Goto page {{ num }}">{{ num }}</a>
+                  </li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+            {% if results.number < results.paginator.num_pages|add:'-2' %}
+              {% if results.number < results.paginator.num_pages|add:'-3' %}
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+              {% endif %}
+              <li>
+                <a class="pagination-link" href="?page={{ results.paginator.num_pages }}&query={{ query }}">{{ results.paginator.num_pages }}</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% else %}
+          <p class="has-text-centered custom-text-dark">No results found. Please try a different search term.</p>
+        {% endif %}
+      </section>
     <!-- JS for burger menu -->
     <script src="../static/js/burger.js"></script>
   </body>
