@@ -108,14 +108,14 @@ build/
 dist/
 wheels/
 *.egg-info
-.DS_Store
+*/.DS_Store
 
 # project files
 _staticfiles/
 _logs/
 db.sqlite3
 .env
-*/.DS_Store
+.vscode/settings.json
 /node_modules
 package-lock.json
 package.json

@@ -104,9 +104,10 @@
         <!-- Bill Tracker -->
         <h2 class="title is-4 mt-5 custom-text-dark">Bill Tracker</h2>
         {% for status in bill_data.status %}
+        <!-- prettier-ignore -->
         <li>
-          <strong>{{ status.date|date:"M j, Y" }}</strong>: {{
-          status.status_desc }}<br />
+          <strong> {{ status.date|date:"M j, Y" }} </strong>: {{ status.status_desc }}
+          <br />
           <em></em>
         </li>
         {% empty %}
