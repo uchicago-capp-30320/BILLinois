@@ -95,7 +95,7 @@
       <div class="columns">
         <div class="box column is-three-quarters-desktop">
           <h1 class="title is-4 custom-text-dark">
-            {{bill_data.number}} — {{bill_data.title}}
+            {{bill_data.state_abbr}} {{bill_data.number}} — {{bill_data.title}}
           </h1>
         </div>
         <div class="column">
@@ -129,10 +129,12 @@
             >View a
             <a
               class="custom-blue"
-              href="https://www.aclu-il.org/sites/default/files/how_a_bill_becomes_a_law_one_pager.pdf"
+              target="_blank" 
+              rel="noopener noreferrer"
+              href={{bill_data.state_link}}
               >detailed flow chart</a
             >
-            for more information on how a bill becomes law in Illinois.</i
+            for more information on how a bill becomes law in {{ bill_data.state }}.</i
           >
         </p>
         <!-- Bill Sponsors -->
