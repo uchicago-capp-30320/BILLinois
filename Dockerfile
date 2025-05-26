@@ -25,5 +25,7 @@ EXPOSE 9000
 # see https://docs.docker.com/compose/how-tos/environment-variables/set-environment-variables/
 ENV DEBUG=false 
 
+RUN uv run python manage.py collectstatic --noinput
+
 # run application
 CMD ["gunicorn", "config.wsgi", "-b", "0.0.0.0:9000"]
