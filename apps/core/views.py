@@ -215,6 +215,17 @@ def bill_page(
     else:
         raise Http404("Insufficient information to find bill.")
 
+    if request.user.is_authenticated:
+        user_id = request.user.id
+
+        favorites_query = FavoritesTable.objects.filter(
+            user_id=user_id, bill_id=bill.bill_id
+        )
+
+        bill.favorite = favorites_query.exists()
+    else:
+        bill.favorite = False
+
     data = {
         "bill_id": bill.bill_id,
         "number": bill.number,
@@ -238,6 +249,7 @@ def bill_page(
             }
             for a in bill.actionstable_set.exclude(category=None).order_by("date")
         ],
+        "favorite": bill.favorite
     }
 
     return render(request, "bill_page.html", {"bill_data": data,
