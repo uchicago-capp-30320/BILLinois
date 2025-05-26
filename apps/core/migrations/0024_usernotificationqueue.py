@@ -39,6 +39,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 "db_table": "user_notification_queue",
+                "managed": False,
             },
         ),
     ]
