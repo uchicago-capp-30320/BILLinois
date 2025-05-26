@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme ="light">
+<html data-theme="light">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,25 +67,29 @@
             <div class = "cell">
               <div class = "card">
                 <div class = "card-content ">
-                  <h2 class = "title is-4 m- custom-text-dark" >Regular Arko</h1>
-                  <p class = "subtitle is-6 m-2 custom-text-dark"> arkoreg@internet.com </p>
+                  {% if user.full_name %}
+                  <h2 class = "title is-4 m-2 custom-text-dark" >{{user.full_name}}</h1>
+                  {% else %}
+                  <h2 class = "title is-4 m-2 custom-text-dark" >Hello, User!</h1>
+                  {% endif %}
+                  <p class = "subtitle is-6 m-2 custom-text-dark">{{user.email}}</p>
                   <br>
                   <!-- Alerts Toggle -->
-        <div class="is-flex is-align-items-center">
-            <p class="subtitle is-6 m-2"><strong>Alerts: </strong></p>
-            <form action="{% url 'unsubscribe' %}" method="post">
-                {% csrf_token %}
-                <label class="switch">
-                    <input type="checkbox" name="is_subscribed" value="true" 
-                          onchange="this.form.submit()" {% if user.is_subscribed %}checked{% endif %}>
-                    <div class="slider"></div>
-                    <div class="slider-card">
-                        <div class="slider-card-face slider-card-front"></div>
-                        <div class="slider-card-face slider-card-back"></div>
-                    </div>
-                </label>
-            </form>
-        </div>
+                  <div class="is-flex is-align-items-center">
+                      <p class="subtitle is-6 m-2"><strong>Alerts: </strong></p>
+                      <form action="{% url 'unsubscribe' %}" method="post">
+                          {% csrf_token %}
+                          <label class="switch">
+                              <input type="checkbox" name="is_subscribed" value="true" 
+                                    onchange="this.form.submit()" {% if user.is_subscribed %}checked{% endif %}>
+                              <div class="slider"></div>
+                              <div class="slider-card">
+                                  <div class="slider-card-face slider-card-front"></div>
+                                  <div class="slider-card-face slider-card-back"></div>
+                              </div>
+                          </label>
+                      </form>
+                  </div>
                   <br>
                   <!-- Card Footer -->
                   <div class="card-footer has-text-left">
@@ -101,68 +105,47 @@
             <div class = "cell is-col-span-3">
               <div class = "card pb-2">
                 <h1 class = "card-content title is-4 custom-text-dark">Favorites</h1>
-                <!-- <div class = "container"> -->
-                  <div class = "card m-2">
-                    <div class = "card-content">
-                      <div class = "columns is-vcentered">
-                        <div class = "column is-narrow">
-                          <h2 class = "title is-size-6 custom-text-dark"> HB 1642 </h1>
-                        </div>
-                        <div class = "column">
-                          <a href = "#" class = "title is-size-6 has-text-link"> Clean Transportation Standard Act</a>
-                        </div>
-                        <div class = "column is-narrow">
-                          <span class="tag is-rounded is-success button-green">Energy</span>
-                          <span class="tag is-rounded is-link button-blue">Transportation</span>
-                        </div>
-                        <div class = "column is-narrow">
-                          <span class="icon has-text-warning">
-                            <i class="fa-solid fa-star"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div> 
+                {% for bill in favorited_bills %}
                 <div class = "card m-2">
                   <div class = "card-content">
                     <div class = "columns is-vcentered">
                       <div class = "column is-narrow">
-                        <h2 class = "title is-size-6 custom-text-dark"> HB 1642 </h1>
+                        <h2 class = "title is-size-6 custom-text-dark">{{ bill.state }}</h1>
+                      </div>
+                      <div class = "column is-narrow">
+                        <h2 class = "title is-size-6 custom-text-dark">{{ bill.number }}</h1>
                       </div>
                       <div class = "column">
-                        <a href = "#" class = "title is-size-6 has-text-link"> Illinois Appliance Standards Act</a>
+                        <a href = "#" class = "title is-size-6 has-text-link">{{ bill.title}}</a>
+                      </div>
+                      <div class = "column is-narrow grid">
+                        {% for topic in bill.topics %}
+                        <span class="
+                        {% if topic == 'Education' %}button-blue
+                        {% elif topic == 'Energy/Environment' %}button-green
+                        {% elif topic == 'Health' %}button-red
+                        {% elif topic == 'Transportation' %}button-purple
+                        {% elif topic == 'Housing' %}button-pink
+                        {% elif topic == 'LGBTQIA' %}button-yellow
+                        {% endif %}
+                        tag is-rounded is-medium">{{ topic }} 
+                      </span>
+                        {% endfor %}
                       </div>
                       <div class = "column is-narrow">
-                        <span class="tag is-rounded is-success button-green">Energy</span>
-                        <span class="tag is-rounded is-info button-purple">Housing</span>
-                      </div>
-                      <div class = "column is-narrow">
-                        <span class="icon has-text-warning">
-                          <i class="fa-solid fa-star"></i>
-                        </span>
+                        <form method = "POST" action = "{% url 'toggle_favorite' bill.bill_id|urlencode %}">
+                          {% csrf_token %}
+                          <button type="submit" class="icon custom-yellow">
+                              <i class="fa-solid fa-star fa-xl"></i>
+                          </button>
+                        </form>
                       </div>
                     </div>
                   </div>
                 </div> 
-                <div class = "card m-2">
-                  <div class = "card-content">
-                    <div class = "columns is-vcentered">
-                      <div class = "column is-narrow">
-                        <h2 class = "title is-size-6 custom-text-dark"> HB 1234 </h1>
-                      </div>
-                      <div class = "column">
-                        <a href = "#" class = "title is-size-6 has-text-link"> Accidentally Favorited Act </a>
-                      </div>
-                      <div class = "column is-narrow">
-                      </div>
-                      <div class = "column is-narrow">
-                        <span class="icon has-text-warning">
-                          <i class="fa-regular fa-star"></i>
-                        </span>
-                      </div>
-                    </div>
-                </div>
-              </div> 
+                {% empty %}
+                <p class="m-2 card-content custom-text-dark"><em>No favorited bills found. <a href = "/search"> Search </a> for bills to add them to your favorites!</em></p>
+                {% endfor %}
             <!-- </div> -->
             </div>
             </div>
