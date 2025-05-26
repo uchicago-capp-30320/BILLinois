@@ -99,10 +99,10 @@
         <div class="column">
           <div class="icon-text ml-2 is-align-items-center">
             <span class="icon custom-yellow mr-3">
-              <i class="fa-regular fa-star fa-2x"></i>
+              {% include "partials/favorite_button.html" with bill=bill_data is_favorite=bill_data.favorite %}
             </span>
             <span class="has-text-grey">
-              <em>Add bill to favorites</em>
+              <em>{% if bill_data.is_favorite %}Remove bill from favorites{% else %}Add bill to favorites{% endif %}</em>
             </span>
           </div>
         </div>
