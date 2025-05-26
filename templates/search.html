@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
      <!-- Link to custom CSS -->
      <link rel="stylesheet" href="../static/css/custom.css">
+     <script src="https://unpkg.com/htmx.org"></script>
   </head>
   <body>
     <section class="section">
@@ -77,7 +78,6 @@
                 <th class="is-size-5 has-text-centered custom-text-dark">Favorite</th>
                 </tr>
             </thead>
-            <tbody>
               {% for bill in results %}
                 <tr>
                   <td class="py-5 custom-text-dark">{{ bill.number }}</td>
@@ -100,17 +100,8 @@
                   </div>
                   </td>
                   <td class="has-text-centered py-5">
-                    <form method = "POST" action = "{% url 'toggle_favorite' bill.bill_id|urlencode %}">
-                      {% csrf_token %}
-                      <button type="submit" class="icon custom-yellow">
-                        {% if bill.favorite %}
-                          <i class="fa-solid fa-star fa-xl"></i>
-                          {% else %}
-                          <i class="fa-regular fa-star fa-xl"></i>
-                          {% endif %}
-                      </button>
-                    </form>
-                  </td>
+                    {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}          
+                  </td>     
                 </tr>
                 {% endfor %}
               </tbody>
