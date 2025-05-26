@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 
 from .models import ActionsTable, BillsTable, FavoritesTable
 from .utils import bill_number_for_url, normalize_bill_number
-from .states import STATES
+from .states import STATES, STATE_NAME_TO_ABBR, STATE_LINKS
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -220,6 +220,9 @@ def bill_page(
         "number": bill.number,
         "title": bill.title,
         "summary": bill.summary,
+        "state": bill.state,
+        "state_abbr": STATE_NAME_TO_ABBR[bill.state],
+        "state_link": STATE_LINKS[bill.state],
         "sponsors": [
             {
                 "sponsor_id": s.sponsor_id,
@@ -240,9 +243,9 @@ def bill_page(
         ],
     }
 
+
     return render(request, "bill_page.html", {"bill_data": data,
-                                              "states": STATES,
-                                              "state": state})
+                                              "states": STATES})
 
 
 @login_required
