@@ -243,9 +243,7 @@ def bill_page(
         ],
     }
 
-
-    return render(request, "bill_page.html", {"bill_data": data,
-                                              "states": STATES})
+    return render(request, "bill_page.html", {"bill_data": data, "states": STATES})
 
 
 @login_required
