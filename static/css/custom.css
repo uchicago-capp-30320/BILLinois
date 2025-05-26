@@ -79,7 +79,6 @@ html, body {
     color: #F5F5F5;
 }
 
-/* The subscription toggle */
 /* From Uiverse.io by AbanoubMagdy1 */ 
 .switch {
     --circle-dim: 1em;
@@ -97,7 +96,7 @@ html, body {
     height: 0;
   }
   
-  /* The actual toggle */
+  /* The slider */
   .slider {
     position: absolute;
     cursor: pointer;
