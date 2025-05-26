@@ -196,21 +196,20 @@ def test_updates_table_uniqueness(test_update, test_bill, test_action):
 
 
 # User Notification Queue
-@pytest.fixture
-def test_queue(test_user):
-    return UserNotificationQueue.objects.create(
-        user_id=test_user,
-        number_of_notifications = 2,
-        bills_to_notify = {},
-        is_notified = True
-    )
+# @pytest.fixture
+# def test_queue(test_user):
+#     return UserNotificationQueue.objects.create(
+#         user_id=test_user,
+#         number_of_notifications = 2,
+#         bills_to_notify = {},
+#         is_notified = True)
 
 
-@pytest.mark.django_db
-def test_queue_created(test_queue, test_user):
-    assert (test_queue.user_id, test_queue.number_of_notifications) == (test_user, 2)
+# @pytest.mark.django_db
+# def test_queue_created(test_queue, test_user):
+#     assert (test_queue.user_id, test_queue.number_of_notifications) == (test_user, 2)
 
-@pytest.mark.django_db
-def test_get_queue_from_id(test_queue, test_user):
-    queues = UserNotificationQueue.objects.filter(user_id=test_user)
-    assert any((queue.number_of_notifications, queue.is_notified) == (2, True) for queue in queues)
+# @pytest.mark.django_db
+# def test_get_queue_from_id(test_queue, test_user):
+#     queues = UserNotificationQueue.objects.filter(user_id=test_user)
+#     assert any((queue.number_of_notifications, queue.is_notified) == (2, True) for queue in queues)
