@@ -120,3 +120,4 @@ db.sqlite3
 package-lock.json
 package.json
 .vscode/settings.json
+_logs/log.json

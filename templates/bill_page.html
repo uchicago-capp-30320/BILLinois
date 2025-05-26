@@ -64,7 +64,7 @@
                 <div class="navbar-dropdown is-right is-boxed">
                   <a href="/" class="navbar-item">Home</a>
                   {% if user.is_authenticated %}
-                  <a href="" class="navbar-item">My Account</a>
+                  <a href="/favorites" class="navbar-item">My Account</a>
                   <a href="/accounts/logout" class="navbar-item">Sign Out</a>
                   {% else %}
                   <a href="/accounts/login" class="navbar-item">Log In</a>
