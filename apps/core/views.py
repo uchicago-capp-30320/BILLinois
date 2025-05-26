@@ -2,7 +2,7 @@ import re
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Exists, OuterRef, Subquery
+from django.db.models import Exists, OuterRef, Subquery, Value, BooleanField
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.http import Http404, HttpRequest, HttpResponse
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 
 from .models import ActionsTable, BillsTable, FavoritesTable
 from .utils import bill_number_for_url, normalize_bill_number
+from .states import STATES
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -26,7 +27,7 @@ def home(request: HttpRequest) -> HttpResponse:
             The rendered HTML home page, redirect to `/search/` page
             upon search submission.
     """
-    return render(request, "home.html")
+    return render(request, "home.html", {"states": STATES})
 
 
 def search(request: HttpRequest) -> HttpResponse:
@@ -110,10 +111,7 @@ def search(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "search.html",
-        {
-            "query": query,
-            "results": page_obj,
-        },
+        {"query": query, "results": page_obj, "states": STATES, "state": state},
     )
 
 
@@ -242,7 +240,9 @@ def bill_page(
         ],
     }
 
-    return render(request, "bill_page.html", {"bill_data": data})
+    return render(request, "bill_page.html", {"bill_data": data,
+                                              "states": STATES,
+                                              "state": state})
 
 
 @login_required
@@ -271,6 +271,9 @@ def favorites_page(request):
     favorite_bill_ids = favorite_qs.values("bill_id")
 
     bills_qs = BillsTable.objects.filter(bill_id__in=Subquery(favorite_bill_ids))
+
+    # Annote bills with a favorite status = true for use with htmx
+    bills_qs = bills_qs.annotate(favorite=Value(True, output_field=BooleanField()))
 
     if sort_option == "action_date":
         # get most recent relevant action (i.e. with a category) for bills

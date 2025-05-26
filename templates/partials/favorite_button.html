@@ -2,7 +2,7 @@
 <button
   type="button"
   class="icon custom-yellow"
-  hx-post="{% url 'toggle_favorite' bill.bill_id %}"
+  hx-post="{% url 'toggle_favorite' bill.bill_id|urlencode %}"
   hx-trigger="click"
   hx-swap="outerHTML"
   hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
