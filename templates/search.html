@@ -98,8 +98,15 @@
     {% if results %}
     <section class="section">
       <div class="title is-4 mb-6 custom-text-dark">
-        {% if state %} Search results for "{{ query }}" in {{state}}. {% else %}
-        Search results for "{{ query }}" in all states. {% endif %}
+        {% if state %}           
+          Search results for "{{ query }}" in {{ state }}.
+        {% else %}
+          {% if topic %}
+            Search results for "{{ topic }}" in all states.
+          {% else %}
+          Search results for "{{ query }}" in all states. 
+          {% endif %}
+        {% endif %}
       </div>
       <table class="table bg-light is-hoverable">
         <thead>
