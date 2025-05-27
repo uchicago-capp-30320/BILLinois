@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html data-theme="light">
   <head>
@@ -13,8 +14,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
     <!-- Link to custom CSS -->
-    <link rel="stylesheet" href="../static/css/custom.css" />
     <script src="https://unpkg.com/htmx.org"></script>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+    <!-- <link rel="stylesheet" href="../static/css/custom.css" /> -->
   </head>
   <body>
     <section class="section">
@@ -187,6 +189,7 @@
       </div>
     </section>
     <!-- JS for burger menu -->
-    <script src="../static/js/burger.js"></script>
+    <script src="{% static 'js/burger.js' %}"></script>
+    <!-- <script src="../static/js/burger.js"></script> -->
   </body>
 </html>

@@ -1,18 +1,18 @@
 import re
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.postgres.aggregates import ArrayAgg
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator
 from django.db.models import Exists, OuterRef, Subquery, Value, BooleanField
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.http import Http404, HttpRequest, HttpResponse
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 
 from .models import ActionsTable, BillsTable, FavoritesTable
 from .utils import bill_number_for_url, normalize_bill_number
-from .states import STATES
+from .states import STATES, STATE_NAME_TO_ABBR, STATE_LINKS
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -32,7 +32,10 @@ def home(request: HttpRequest) -> HttpResponse:
 
 def search(request: HttpRequest) -> HttpResponse:
     """
-    Handle search requests.
+    Handle search requests. Includes options for:
+        search on keyword
+        search on topic
+        search for keywords on a specified topic
 
     Args:
         request (HttpRequest): An HTTP request object.
@@ -52,58 +55,53 @@ def search(request: HttpRequest) -> HttpResponse:
             - topics: TO BE IMPLEMENTED
             - favorite: TO BE IMPLEMENTED
 
-    Example:
-
-    `http://127.0.0.1:8000/search/?query=environment`
-
-    ```json
-    [{
-        "bill_id": '123',
-        "number": "HB-001",
-        "title": "Test Bill",
-        "summary": "Tests a bill.",
-        "status": "Submitted",
-        "topics": ['Environment', 'Education'],
-        "sponsors": ['Rep. Patel', 'Rep. Wilks']
-    }]
-    ```
+    `http://127.0.0.1:8000/search/?topic=housing&query=affordable`
     """
 
     query = request.GET.get("query", "")
+    topic = request.GET.get("topic", None)
     state = request.GET.get("state", None)
-    # topic = request.GET.get("topic", None)
+    session = request.GET.get("session", None)
 
-    results = []
+    results = BillsTable.objects
 
-    bill_number_pattern = r"^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+"
+    # when topic provided we start by filtering results on it
+    if topic:
+        results = results.filter(topicstable__topic__iexact=topic)
 
-    # If the user has searched by bill number, only search the number field
-    # This is to avoid returning unrelated results for bill numbers
-    if re.fullmatch(bill_number_pattern, query.strip().upper()):
-        search_vector = SearchVector("number", config="english")
-
-    else:
-        search_vector = SearchVector("title", "summary", "number", config="english")
-
-    search_query = SearchQuery(query, config="english")
-    results = BillsTable.objects.annotate(search=search_vector).filter(search=search_query)
-
+    # likewise with state and session
     if state:
-        results = results.filter(state=state)
+        results = results.filter(state__iexact=state)
 
-    results = results.annotate(rank=SearchRank(search_vector, search_query)).order_by("-rank")
+    if session:
+        results = results.filter(session__iexact=session)
+
+    # if query provided we look for keyword on filtered (if topic) or unfiltered table
+    if query:
+        bill_number_pattern = r"^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+"
+        
+        # If the user has searched by bill number, only search the number field
+        # This is to avoid returning unrelated results for bill numbers
+        if re.fullmatch(bill_number_pattern, query.upper()):
+            search_vector = SearchVector("number", config="english")
+        else:
+            search_vector = SearchVector("title", "summary", "number", config="english")
+
+        search_query = SearchQuery(query, config="english")
+        results = results.annotate(search=search_vector).filter(search=search_query)
+        results = results.annotate(rank=SearchRank(search_vector, search_query)).order_by("-rank")
+
     results = results.annotate(topics=ArrayAgg("topicstable__topic", distinct=True))
 
+    # include "favorited" status if the user is logged in
     if request.user.is_authenticated:
         user_id = request.user.id
-
         favorites_query = FavoritesTable.objects.filter(
             user_id=user_id, bill_id=OuterRef("bill_id")
         )
-
         results = results.annotate(favorite=Exists(favorites_query))
 
-    # Paginate the results to avoid overwhelming the frontend
+    # Paginate the results
     paginator = Paginator(results, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -231,6 +229,9 @@ def bill_page(
         "number": bill.number,
         "title": bill.title,
         "summary": bill.summary,
+        "state": bill.state,
+        "state_abbr": STATE_NAME_TO_ABBR[bill.state],
+        "state_link": STATE_LINKS[bill.state],
         "sponsors": [
             {
                 "sponsor_id": s.sponsor_id,
@@ -252,9 +253,7 @@ def bill_page(
         "favorite": bill.favorite
     }
 
-    return render(request, "bill_page.html", {"bill_data": data,
-                                              "states": STATES,
-                                              "state": state})
+    return render(request, "bill_page.html", {"bill_data": data, "states": STATES})
 
 
 @login_required
@@ -282,7 +281,9 @@ def favorites_page(request):
     favorite_qs = FavoritesTable.objects.filter(user_id=user_id)
     favorite_bill_ids = favorite_qs.values("bill_id")
 
-    bills_qs = BillsTable.objects.filter(bill_id__in=Subquery(favorite_bill_ids))
+    bills_qs = BillsTable.objects.filter(bill_id__in=Subquery(favorite_bill_ids)).prefetch_related(
+        "topicstable_set"
+    )
 
     # Annote bills with a favorite status = true for use with htmx
     bills_qs = bills_qs.annotate(favorite=Value(True, output_field=BooleanField()))
