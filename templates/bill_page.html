@@ -14,8 +14,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
     />
     <!-- Link to custom CSS -->
+    <script src="https://unpkg.com/htmx.org"></script>
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
-    <!-- <link rel="stylesheet" href="../static/css/custom.css" /> -->
+    <!-- <link rel="stylesheet" href="../../../../static/css/custom.css" /> -->
   </head>
   <body class="bg-light">
     <section class="section">
@@ -101,10 +102,10 @@
         <div class="column">
           <div class="icon-text ml-2 is-align-items-center">
             <span class="icon custom-yellow mr-3">
-              <i class="fa-regular fa-star fa-2x"></i>
+              {% include "partials/favorite_button.html" with bill=bill_data is_favorite=bill_data.favorite %}
             </span>
             <span class="has-text-grey">
-              <em>Add bill to favorites</em>
+              <em> Add/Remove from favorites</em>
             </span>
           </div>
         </div>
