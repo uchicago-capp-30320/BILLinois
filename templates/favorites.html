@@ -99,18 +99,8 @@
                 <form action="{% url 'unsubscribe' %}" method="post">
                   {% csrf_token %}
                   <label class="switch">
-                    <input
-                      type="checkbox"
-                      name="is_subscribed"
-                      value="true"
-                      onchange="this.form.submit()"
-                      {%
-                      if
-                      user.is_subscribed
-                      %}checked{%
-                      endif
-                      %}
-                    />
+                    <!-- prettier-ignore -->
+                    <input type="checkbox" name="is_subscribed" value="true" onchange="this.form.submit()"{% if user.is_subscribed %}checked{% endif %} />
                     <div class="slider"></div>
                     <div class="slider-card">
                       <div class="slider-card-face slider-card-front"></div>
