@@ -43,6 +43,9 @@ jobs:
       - name: Install playwright
         run: uv run playwright install
 
+      - name: Create necessary log file
+        run: touch _logs/flat.log
+
       - name: Launch app
         run: uv run python manage.py runserver & # run in background and continue to next step
 
