@@ -19,30 +19,44 @@ Please follow the following steps to add unit tests for the analyses you are wor
 ## General Notes
 
 **Testing Frameworks**
-pytest
-Playwright
+pytest-django
+pytest-playwright
 
-This documentation file is inspired by [that of last year’s New Arrivals project](https://github.com/uchicago-capp-30320/new-arrivals-chi/tree/main/tests). For more detailed notes on how each of last year’s teams set up their tests and what tools they use to potentially inform your choices, see the [“Notes on Prior Tests”](https://docs.google.com/document/d/1XJ0zdywhg9n6gdFrzgn_YjdU6KER-1qwdsTALVIPi1Q/edit?tab=t.0) file in the Google Drive.
-
-The QA team will largely handle integration tests, please let us know if there are any that you think it would be particularly valuable to be sure to include, and if there are any that you have already completed.
+This documentation file is inspired by [that of the Spring 2024 New Arrivals project](https://github.com/uchicago-capp-30320/new-arrivals-chi/tree/main/tests).
 
 ## List of Tests
 
-### API call Tests
+### Models Tests
 
-test_XXX.py
+test_models.py
 
-### Data -> Backend Integration Tests
+- Bill model tests: test_bill_created, test_get_bill_from_number
 
-test_XXX.py
+   Test that bills can be created with the correct fields
 
-### Backend Tests
+   Test that a bill can be searched for by number
 
-test_XXX.py
+- Action model tests: test_action_created, test_action_from_id
 
-### Backend -> Frontend Integration Tests
+   Test that actions can be created with the correct ID and fields
 
-test_XXX.py
+   Test pulling an action from a bill ID and action ID
+
+- User model tests: test_user_name, test_get_full_name, test_get_short_name, test_clean_email
+
+   Test that users can be created with the correct fields
+
+   Test fields of user name and short name
+
+   Test the cleaning function for user email inputs
+
+- Favorites model tests: test_get_favorite_from_user_and_bill, test_favorites_table_uniqueness
+
+- 
+
+### Views Tests
+
+test_views.py
 
 ### Frontend/Website Tests
 
