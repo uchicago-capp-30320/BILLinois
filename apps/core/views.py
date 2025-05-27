@@ -49,13 +49,18 @@ def search(request: HttpRequest) -> HttpResponse:
             bill information about searched bills.
             The fields correspond to the columns in the database's bills table:
 
-            - bill_id: The unique identifier for the bill
-            - number: The bill number
-            - title: The bill title
-            - summary: The bill summary
-            - status: The bill status
-            - topics: TO BE IMPLEMENTED
-            - favorite: TO BE IMPLEMENTED
+            - bill_id: The unique identifier for the bill.
+            - number: The bill number assigned by the legislative chamber where it was introduced.
+            - title: The bill title.
+            - summary: The bill summary.
+            - status: The bill status, including current and all previous statuses.
+                - dates: Date of the change of status.
+                - description: Description of the change of status.
+            - topics: Pre-determined topics extracted from the summary using keyword match.
+            - sponsors: Any registered sponsor for the bill.
+                - sponsor_id: unique identification number for sponsor
+                - party: the political party the sponsor represents
+                - position: sponsor's role in the legislature
 
     Example:
 
@@ -182,23 +187,23 @@ def bill_page(
         session (str): The legislative session.
         bill_number (str): The assigned bill number.
 
-
     Returns:
         HttpResponse: A Django context variable with the data from the query.
         Results: Contains the following columns from database's table:
 
-            - bill_id: The unique identifier for the bill.
-            - number: The bill number assigned by the legislative chamber where it was introduced.
-            - title: The bill title.
-            - summary: The bill summary.
-            - status: The bill status, including current and all previous statuses.
-                - dates: Date of the change of status.
-                - description: Description of the change of status.
-            - topics: Pre-determined topics extracted from the summary using keyword match.
-            sponsors: Any registered sponsor for the bill.
-                - sponsor_id: unique identification number for sponsor
-                - party: the political party the sponsor represents
-                - position: sponsor's role in the legislature
+            - bill_data:
+                - bill_id: The unique identifier for the bill.
+                - number: The bill number assigned by the legislative chamber where it was introduced.
+                - title: The bill title.
+                - summary: The bill summary.
+                - status: The bill status, including current and all previous statuses.
+                    - dates: Date of the change of status.
+                    - description: Description of the change of status.
+                - topics: Pre-determined topics extracted from the summary using keyword match.
+                - sponsors: Any registered sponsor for the bill.
+                    - sponsor_id: unique identification number for sponsor
+                    - party: the political party the sponsor represents
+                    - position: sponsor's role in the legislature
 
     Example:
 
@@ -295,8 +300,8 @@ def favorites_page(request):
             - favorited_bills (QuerySet): Bills favorited by the user.
             - sort_option (str): The current sort option in use ("action_date" or "favorite_id").
 
-    An array of JSON objects from the Postgres database, containing bill information about favorited bills:
-
+    Example:
+    `http://billinois.unnamed.computer/favorites/?sort=action_date`
     ```json
     [
         {
