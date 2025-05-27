@@ -158,10 +158,19 @@
         <h2 class="title is-4 mt-5 custom-text-dark">Topic(s)</h2>
         <div class="buttons">
           {% for topic in bill_data.topics %}
-          <span
-            class="button {% if topic.topic == 'Education' %} button-blue {% elif topic.topic == 'Energy/Environment' %} button-green {% elif topic.topic == 'Health' %} button-red {% elif topic.topic == 'Transportation' %} button-purple {% elif topic.topic == 'Housing' %} button-pink {% elif topic.topic == 'LGBTQIA' %} button-yellow {% endif %} is-rounded"
-            >{{ topic.topic }}</span
-          >
+            {% if topic.topic == 'Education' %}
+            <a href="../../../../search/?topic=education" class="button button-blue is-rounded">{{ topic.topic }}</a>
+            {% elif topic.topic == 'Energy/Environment' %}  
+            <a href="../../../../search/?topic=energy" class="button button-green is-rounded">{{ topic.topic }}</a>
+            {% elif topic.topic == 'Health' %}  
+            <a href="../../../../search/?topic=health" class="button button-red is-rounded">{{ topic.topic }}</a>
+            {% elif topic.topic == 'Transportation' %}  
+            <a href="../../../../search/?topic=transportation" class="button button-purple is-rounded">{{ topic.topic }}</a>
+            {% elif topic.topic == 'Housing' %}  
+            <a href="../../../../search/?topic=housing" class="button button-pink is-rounded">{{ topic.topic }}</a>
+            {% elif topic.topic == 'LGBTQIA' %}  
+            <a href="../../../../search/?topic=LGBTQIA" class="button button-yellow is-rounded">{{ topic.topic }}</a>
+            {% endif %}
           {% empty %}
           <span>No topics available.</span>
           {% endfor %}
