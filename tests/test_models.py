@@ -8,19 +8,6 @@ from datetime import datetime
 from django.db import IntegrityError
 from django.utils import timezone
 
-# User = get_user_model()
-
-# uv venv
-# source .venv/bin/activate
-# uv run python manage.py runserver
-# DJANGO_SETTINGS_MODULE=config.settings pytest tests/test_models.py -v
-
-# unset EMAIL_URL
-# export EMAIL_URL="consolemail://"
-# unset DATABASE_URL
-# export DATABASE_URL="postgres://billinois:orange-49280-shrimp-coordination@138.201.16.221:5432/billinois"
-
-
 # %% Bill model tests
 @pytest.fixture
 def test_bill():
@@ -193,23 +180,3 @@ def test_updates_table_uniqueness(test_update, test_bill, test_action):
             category="",
             chamber="House",
         )
-
-
-# User Notification Queue
-# @pytest.fixture
-# def test_queue(test_user):
-#     return UserNotificationQueue.objects.create(
-#         user_id=test_user,
-#         number_of_notifications = 2,
-#         bills_to_notify = {},
-#         is_notified = True)
-
-
-# @pytest.mark.django_db
-# def test_queue_created(test_queue, test_user):
-#     assert (test_queue.user_id, test_queue.number_of_notifications) == (test_user, 2)
-
-# @pytest.mark.django_db
-# def test_get_queue_from_id(test_queue, test_user):
-#     queues = UserNotificationQueue.objects.filter(user_id=test_user)
-#     assert any((queue.number_of_notifications, queue.is_notified) == (2, True) for queue in queues)
