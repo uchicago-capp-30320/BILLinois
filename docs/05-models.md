@@ -33,7 +33,9 @@ erDiagram
 
 ::: apps.core.models.TopicsTable
 
+## Updates
 
+::: apps.core.models.UpdatesTable
 
 ## Most Recent Upload
 
