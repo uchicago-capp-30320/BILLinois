@@ -1,12 +1,20 @@
 import pytest
 from django.contrib.auth import get_user_model
 
-from apps.core.models import BillsTable, ActionsTable, FavoritesTable, TopicsTable, UpdatesTable, UserNotificationQueue
+from apps.core.models import (
+    BillsTable,
+    ActionsTable,
+    FavoritesTable,
+    TopicsTable,
+    UpdatesTable,
+    UserNotificationQueue,
+)
 from apps.accounts.models import User
 
 from datetime import datetime
 from django.db import IntegrityError
 from django.utils import timezone
+
 
 # %% Bill model tests
 @pytest.fixture

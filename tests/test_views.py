@@ -6,6 +6,7 @@ from apps.accounts.models import User
 from datetime import datetime
 from django.utils import timezone
 
+
 # Home view tests
 @pytest.fixture
 def test_home(client):
@@ -76,29 +77,30 @@ def test_create_search_real(test_search_real):
 
 @pytest.mark.django_db
 def test_search_content_real(test_search_real, test_bill):
-    bytes = [b"BILLinois", b"Menu", b"123", b"Transportation Test Bill",
-             b"Illinois", b"Indiana"]
+    bytes = [b"BILLinois", b"Menu", b"123", b"Transportation Test Bill", b"Illinois", b"Indiana"]
     assert all(byte in test_search_real.content for byte in bytes)
 
 
 # Test specifically by state
 @pytest.fixture
 def test_search_by_state(client, test_bill):
-    return client.get("/search/", {"query": "Transportation",
-                                   "state": "Illinois"})
+    return client.get("/search/", {"query": "Transportation", "state": "Illinois"})
+
 
 # Test that search by state worked
 @pytest.mark.django_db
 def test_create_search_by_state(test_search_by_state):
     assert test_search_by_state.status_code == 200
 
+
 # Test that the filtering works
 @pytest.mark.django_db
 def test_search_content_by_state_real(test_search_by_state, test_bill):
     bytes = [b"BILLinois", b"Menu", b"123", b"Transportation Test Bill (Illinois)"]
     no_bytes = [b"Transportation Test Bill (Indiana)"]
-    assert all(byte in test_search_by_state.content for byte in bytes) and \
-        not all(byte in test_search_by_state.content for byte in no_bytes)
+    assert all(byte in test_search_by_state.content for byte in bytes) and not all(
+        byte in test_search_by_state.content for byte in no_bytes
+    )
 
 
 # test user
@@ -113,6 +115,7 @@ def test_user():
         date_joined=timezone.make_aware(datetime(2025, 5, 13, 8, 22, 0)),
     )
 
+
 # Bill page view tests: query by bill_id
 @pytest.fixture
 def test_bill_view_id(client, test_bill):
@@ -121,6 +124,7 @@ def test_bill_view_id(client, test_bill):
     url = reverse("bill_by_id", kwargs={"bill_id": test_bill_il.bill_id})
     response = client.get(url, follow=True)
     return response
+
 
 @pytest.mark.django_db
 def test_create_bill_view_by_id(client, test_bill_view_id):
@@ -134,14 +138,17 @@ def test_bill_view_info(client, test_bill):
     print("Status code:", response.status_code)
     return response
 
+
 @pytest.mark.django_db
 def test_create_bill_view(test_bill_view_info):
     assert test_bill_view_info.status_code == 200
+
 
 # Test the privacy policy works
 @pytest.fixture
 def test_privacy_policy(client):
     return client.get("/privacy_policy/")
+
 
 @pytest.mark.django_db
 def test_privacy_policy_works(test_privacy_policy):
