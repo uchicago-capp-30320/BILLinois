@@ -66,7 +66,7 @@ class BillsTable(models.Model):
     Stores data for each bill.
 
     This table is queried by frontend views that show bill information, such
-    as the search view, and individual bill pages.
+    as the search view and individual bill pages.
     """
 
     bill_id = models.CharField(unique=True, primary_key=True)
@@ -202,6 +202,9 @@ class UpdatesMockDjango(models.Model):
 class UpdatesTable(models.Model):
     """
     A table storing periodic updates for bills.
+    
+    This table is included in addition to the ActionsTable to provide a simple way to
+    to use the most recent action for notifications.
     """
 
     action_id = models.ForeignKey("ActionsTable", on_delete=models.CASCADE, db_column="action_id")
