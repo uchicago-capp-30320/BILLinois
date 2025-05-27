@@ -23,7 +23,7 @@ EXPOSE 9000
 
 # set env variables
 # see https://docs.docker.com/compose/how-tos/environment-variables/set-environment-variables/
-ENV DEBUG=false 
+ENV DEBUG=true 
 
 RUN uv run python manage.py collectstatic --noinput
 

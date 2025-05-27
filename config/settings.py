@@ -31,7 +31,7 @@ env.read_env(BASE_DIR / ".env")
 # The default settings in DEBUG are suitable for production
 #  (a local SQLite DB, unsafe secret key, and console logged email)
 # but in production all of these should be made explicit.
-DEBUG = env.bool("DEBUG", True)
+DEBUG = env.bool("DEBUG", False)
 
 if DEBUG:
     SECRET_KEY = env.str("SECRET_KEY", "needs-to-be-set-in-prod")
