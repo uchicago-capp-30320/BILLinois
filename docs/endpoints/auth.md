@@ -2,13 +2,9 @@
 
 ## /accounts/signup/
 
-Parameters:
+<!-- ::: apps.accounts.views.make_account_page -->
 
-- email: `str`
-- phone number: `str`
-- password: `str`
-
-Response: HTML sign-up page, success message upon successful registration, failure message upon failed registration
+::: apps.accounts.views.CustomUserManager.create_user
 
 ## /accounts/confirm-email/
 
@@ -51,12 +47,12 @@ Response: HTML password reset page, sends an email to the user upon form submit.
 
 ## /accounts/delete_account
 
-Parameters:
-
-- password: `str`
-
-Response: Redirect to goodbye page on success, error message on failure
+::: apps.accounts.views.delete_account
 
 ## /accounts/account_goodbye
 
-Response: HTML goodbye page
+::: apps.accounts.views.account_goodbye
+
+## /accounts/unsubscribe/
+
+::: apps.accounts.views.unsubscribe

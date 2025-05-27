@@ -33,7 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     Has connections from:
 
     - Favorites
-    
+
     Attributes:
         email (Email, unique): This doubles as the username.
         phone (Varchar): User's phone number, used for notifications and dual authentication.
@@ -122,7 +122,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class PhoneVerification(models.Model):
     """
-    A table storing phone verfification codes for users.
+    A table storing phone verification codes for users.
+
+    Attributes:
+        user (ForeignKey): The user associated with the verification code.
+        code (Varchar): The verification code sent to the user's phone.
+        created_at (DateTime): The timestamp when the verification code was created.
     """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
