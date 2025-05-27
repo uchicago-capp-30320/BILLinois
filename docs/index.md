@@ -17,10 +17,8 @@ For new contributors to get familiarized with the repository.
 +---config # setup and read in .env
 +---docs # documentation on API, databases, and architecture
 ▒   +---endpoints # API endpoint documentation
-+---project # to remove
-▒   +---data # move to top level directory
-▒   ▒   +---samples # test data for development
-▒   +---frontend # move to templates
++---data # move to top level directory
+▒   +---samples # test data for development
 +---static # non-variable frontend files (CSS, images)
 ▒   +---css
 ▒   +---root
