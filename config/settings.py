@@ -335,7 +335,7 @@ STORAGES = {
 }
 
 STATIC_ROOT = BASE_DIR / "_staticfiles"
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 # this directory is served at project root (for favicon.ico/robots.txt/etc.)
 WHITENOISE_ROOT = BASE_DIR / "static" / "root"
