@@ -536,20 +536,32 @@
 <p>Start here for an overview of the applications we use to support BILLinois.</p>
 <h2 id="backend-architecture">Backend architecture</h2>
 <ul>
-<li><strong>Data source</strong>: <a href="https://docs.openstates.org/api-v3/">OpenStates API</a></li>
+<li><strong>Data source</strong>: <a href="https://docs.openstates.org/api-v3/">OpenStates API</a><ul>
 <li>OpenStates is a standardized data model for legislation from all 50 states.</li>
-<li><strong>Database</strong>: <a href="https://www.postgresql.org/">PostgreSQL</a></li>
+</ul>
+</li>
+<li><strong>Database</strong>: <a href="https://www.postgresql.org/">PostgreSQL</a><ul>
 <li>Postgres can be less expensive than alternatives like AWS for our use case.</li>
-<li><strong>Backend</strong>: <a href="https://docs.djangoproject.com/en/5.2/">Django</a></li>
+</ul>
+</li>
+<li><strong>Backend</strong>: <a href="https://docs.djangoproject.com/en/5.2/">Django</a><ul>
 <li>Django uses the model-view-controller paradigm, which helps for moderately complicated variable views.</li>
-<li><strong>Authentication</strong>: <a href="https://docs.djangoproject.com/en/5.2/topics/auth/default/">Django</a></li>
+</ul>
+</li>
+<li><strong>Authentication</strong>: <a href="https://docs.djangoproject.com/en/5.2/topics/auth/default/">Django</a><ul>
 <li>Django has built-in flows for authentication</li>
-<li><strong>Frontend</strong>: <a href="https://bulma.io/">Bulma</a></li>
+</ul>
+</li>
+<li><strong>Frontend</strong>: <a href="https://bulma.io/">Bulma</a><ul>
 <li>We use a CSS framework to simplify and standardize design.</li>
-<li><strong>Scheduling</strong>: <a href="https://en.wikipedia.org/wiki/Cron">cron</a> (a builtin Linux feature)</li>
+</ul>
+</li>
+<li><strong>Scheduling</strong>: <a href="https://en.wikipedia.org/wiki/Cron">cron</a> (a builtin Linux feature)<ul>
 <li>Runs scripts once a day to:<ul>
 <li>Ingest updates to legislation from the API</li>
 <li>Notify users of any updates to their saved bills</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -557,7 +569,7 @@
 <h2 id="user-flow">User flow</h2>
 <p>Overview of the user experience supported by the application architecture, for reference.</p>
 <p>Users can search and filter bills as either an authenticated user or a guest, but users must be logged in to get notifications for bills.</p>
-<p><img alt="User flow diagram" src="../image-20250501112926582.png" /></p>
+<p><img alt="User flow diagram" src="../userflow.png" /></p>
 
 
 
