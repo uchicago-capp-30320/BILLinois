@@ -116,19 +116,6 @@ def test_search_content_by_state_real(test_search_by_state, test_bill):
     )
 
 
-# test user
-@pytest.fixture
-def test_user():
-    return User.objects.create(
-        email="test@gmail.COM",
-        username="david_test",
-        full_name="David Test",
-        is_staff=False,
-        is_active=True,
-        date_joined=timezone.make_aware(datetime(2025, 5, 13, 8, 22, 0)),
-    )
-
-
 # Bill page view tests: query by bill_id
 @pytest.fixture
 def test_bill_view_id(client, test_bill):
