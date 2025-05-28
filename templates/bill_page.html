@@ -107,8 +107,8 @@
         <div class="column">
           <div class="icon-text ml-2 is-align-items-center">
             <span class="icon custom-yellow mr-3">
-              {% include "partials/favorite_button.html" with bill=bill_data
-              is_favorite=bill_data.favorite %}
+              <!-- prettier-ignore -->
+              {% include "partials/favorite_button.html" with bill=bill_data is_favorite=bill_data.favorite %}
             </span>
             <span class="has-text-grey">
               <em> Add/Remove from favorites</em>
@@ -121,9 +121,10 @@
         <!-- Bill Tracker -->
         <h2 class="title is-4 mt-5 custom-text-dark">Bill Tracker</h2>
         {% for status in bill_data.status %}
-        <!-- prettier-ignore -->
         <li>
-          <strong> {{ status.date|date:"M j, Y" }} </strong>: {{ status.status_desc }}
+          <!-- prettier-ignore -->
+          <strong> {{ status.date|date:"M j, Y" }} </strong>: {{
+          status.status_desc }}
           <br />
           <em></em>
         </li>
@@ -141,8 +142,8 @@
               href="{{bill_data.state_link}}"
               >detailed flow chart</a
             >
-            for more information on how a bill becomes law in {{ bill_data.state
-            }}.</i
+            <!-- prettier-ignore -->
+            for more information on how a bill becomes law in {{ bill_data.state }}.</i
           >
         </p>
         <!-- Bill Sponsors -->
@@ -165,8 +166,8 @@
         <!-- Bill Topics -->
         <h2 class="title is-4 mt-5 custom-text-dark">Topic(s)</h2>
         <div class="buttons">
-          {% for topic in bill_data.topics %} {% if topic.topic == 'Education'
-          %}
+          <!-- prettier-ignore -->
+          {% for topic in bill_data.topics %} {% if topic.topic == 'Education' %}
           <a
             href="../../../../search/?topic=education"
             class="button button-blue is-rounded"
