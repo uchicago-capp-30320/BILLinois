@@ -104,9 +104,7 @@
                       <a href="/bill/{{ bill.bill_id }}/" class="is-size-6 has-text-link">{{ bill.title }}</a>
                     </div>
                     <div class="column is-narrow">
-                      {% for topic in bill.topics %}
-                      <span class="{% if topic == 'Education' %}button-blue {% elif topic == 'Energy/Environment' %}button-green {% elif topic == 'Health' %}button-red {% elif topic == 'Transportation' %}button-purple {% elif topic == 'Housing' %}button-pink {% elif topic == 'LGBTQIA' %}button-yellow {% endif %} tag is-rounded is-medium">{{ topic }}</span>
-                      {% endfor %}
+                      <!-- for loop for bill Topics will go here -->
                     </div>
                     <div class="column is-narrow">
                       {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}
