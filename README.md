@@ -10,13 +10,13 @@ On the initial landing page, users can either search for a bill by name or topic
 
 ![Landing page](docs/frontend1.png)
 
-On the search results page, all bills meeting the search criteria are displayed with information including their bill number, bill title, latest status, and relevant topics. Users can also add a bill to their favorites from this page if they are logged in.
+On the search results page, all bills meeting the search criteria are displayed with information including their bill number, bill title, latest status, and relevant topics. Users can also add a bill to their favorites from this page if they are logged in. The same search bar as on the landing page is available at the top of this page and of all pages in the tool.
 
-<!-- ![Search page](docs/frontend2.png) -->
+![Search page](docs/frontend2.png)
 
 On the page for each bill, more detailed information is displayed including a summary of the bill's contents, a tracker of each major action that has occurred for the bill, and a list of the bill's sponsors. Users can also add a bill to their favorites from this page if they are logged in.
 
-<!-- ![Bills page](docs/frontend3.png) -->
+![Bills page](docs/frontend3.png)
 
 Once logged in, users can also access a profile page where they will see their profile information and a list of their favorited bills. On this page, users can also edit their personal information, change whether they are receiving notifications about their favorited bills, and access the pages for any of their favorited bills directly.
 
