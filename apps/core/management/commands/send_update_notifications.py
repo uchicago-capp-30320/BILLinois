@@ -157,4 +157,3 @@ class Command(BaseCommand):
             if success:
                 queue.is_notified = True
                 queue.save()
-                logger.info(f"Email sent to {user.email} at {timezone.now()}")
