@@ -14,7 +14,12 @@
     />
     <!-- Link to custom CSS -->
     <link rel="stylesheet" href="../static/css/custom.css" />
-    <script src="https://unpkg.com/htmx.org"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.dataTables.css" />
+
+    <!-- DataTables Customization -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.3/css/bulma.min.css"/>
+    <link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel = "stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.bulma.css"/>  
   </head>
   <body>
     <section class="section">
@@ -101,7 +106,7 @@
         {% if state %} Search results for "{{ query }}" in {{state}}. {% else %}
         Search results for "{{ query }}" in all states. {% endif %}
       </div>
-      <table class="table bg-light is-hoverable">
+      <table id="search" class="table bg-light is-hoverable">
         <thead>
           <tr>
             <th class="is-size-5 custom-text-dark">Bill Number</th>
@@ -147,7 +152,7 @@
           </tbody>
         </table>
       </section>
-      <section class="section">
+      <section class="section"> 
         <!-- Pagination controls -->
         <nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
           {% if results.has_previous %}
@@ -200,5 +205,17 @@
       </section>
     <!-- JS for burger menu -->
     <script src="../static/js/burger.js"></script>
+
+    <!-- JS for DataTable -->
+    {% if results %}
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.1/js/dataTables.bulma.js"></script>
+    <script src="../static/js/datatable.js"></script>
+    {% endif %}
+
+    <!-- HTMX Script -->
+    <script src="https://unpkg.com/htmx.org"></script>
+
   </body>
 </html>
