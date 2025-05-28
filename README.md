@@ -20,7 +20,7 @@ On the page for each bill, more detailed information is displayed including a su
 
 Once logged in, users can also access a profile page where they will see their profile information and a list of their favorited bills. On this page, users can also edit their personal information, change whether they are receiving notifications about their favorited bills, and access the pages for any of their favorited bills directly.
 
-<!-- ![Profile/Favories page](docs/frontend4.png) -->
+![Profile/Favories page](docs/frontend4.png)
 
 ## Contributing to BILLinois
 
