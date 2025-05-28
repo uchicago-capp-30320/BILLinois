@@ -102,7 +102,12 @@
         <div class="column">
           <div class="icon-text ml-2 is-align-items-center">
             <span class="icon custom-yellow mr-3">
+              <!-- Prettier Ignore -->
+              {% if user.is_authenticated %}
               {% include "partials/favorite_button.html" with bill=bill_data is_favorite=bill_data.favorite %}
+              {% else %}
+              <a href="/accounts/login" class="icon custom-yellow"><i class="fa-regular fa-star fa-xl"></i></a>
+              {% endif %}
             </span>
             <span class="has-text-grey">
               <em> Add/Remove from favorites</em>
