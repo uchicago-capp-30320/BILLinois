@@ -17,6 +17,7 @@ class CustomUserManager(BaseUserManager):
         Args:
             username (str): The username.
             email (str): The email address of the user.
+            phone (str): The user's phone number.
             password (str): The user's password.
 
         Returns:
@@ -41,7 +42,9 @@ def make_account_page(request: HttpRequest) -> HttpResponse:
         request (HttpRequest): The HTTP request object.
 
     Returns:
-        HttpResponse: The rendered account creation page.
+        HttpResponse: 
+            HTML sign-up page, success message upon successful registration, 
+            failure message upon failed registration
     """
     return render(request, "signup.html")
 
@@ -49,6 +52,12 @@ def make_account_page(request: HttpRequest) -> HttpResponse:
 def unsubscribe(request: HttpRequest) -> HttpResponse:
     """
     Renders the unsubscribe view.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: Redirects to the account page with a success message.
     """
 
     if request.method == "POST":
@@ -74,9 +83,10 @@ def delete_account(request: HttpRequest) -> HttpResponse:
 
     Args:
         request (HttpRequest): The HTTP request object.
+        password (str): The password of the user to confirm account deletion.
 
     Returns:
-        HttpResponse: The rendered delete account page.
+        HttpResponse: Redirect to goodbye page on success, error message on failure
     """
 
     if not request.user.is_authenticated:
