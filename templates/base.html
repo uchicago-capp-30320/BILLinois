@@ -9,6 +9,11 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-    <main class="container">{% block content %} {% endblock %}</main>
+    <main
+      class="container"
+      style="width: max(500px, 50%); margin-left: auto; margin-right: auto"
+    >
+      {% block content %} {% endblock %}
+    </main>
   </body>
 </html>

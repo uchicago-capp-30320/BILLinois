@@ -157,3 +157,9 @@ input:checked ~ .slider-card {
 input:checked ~ .slider {
   background-color: #9ed99c;
 }
+
+@media only screen and (max-width: 800px) {
+  .bigger-title {
+    font-size: 50px !important;
+  }
+}
