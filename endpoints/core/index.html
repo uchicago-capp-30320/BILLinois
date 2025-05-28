@@ -696,7 +696,10 @@ upon search submission.</p>
 
     <div class="doc doc-contents first">
 
-        <p>Handle search requests.</p>
+        <p>Handle search requests. Includes options for:
+    search on keyword
+    search on topic
+    search for keywords on a specified topic</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -764,13 +767,22 @@ upon search submission.</p>
 bill information about searched bills.
 The fields correspond to the columns in the database's bills table:</p>
 <ul>
-<li>bill_id: The unique identifier for the bill</li>
-<li>number: The bill number</li>
-<li>title: The bill title</li>
-<li>summary: The bill summary</li>
-<li>status: The bill status</li>
-<li>topics: TO BE IMPLEMENTED</li>
-<li>favorite: TO BE IMPLEMENTED</li>
+<li>bill_id: The unique identifier for the bill.</li>
+<li>number: The bill number assigned by the legislative chamber where it was introduced.</li>
+<li>title: The bill title.</li>
+<li>summary: The bill summary.</li>
+<li>status: The bill status, including current and all previous statuses.<ul>
+<li>dates: Date of the change of status.</li>
+<li>description: Description of the change of status.</li>
+</ul>
+</li>
+<li>topics: Pre-determined topics extracted from the summary using keyword match.</li>
+<li>sponsors: Any registered sponsor for the bill.<ul>
+<li>sponsor_id: unique identification number for sponsor</li>
+<li>party: the political party the sponsor represents</li>
+<li>position: sponsor's role in the legislature</li>
+</ul>
+</li>
 </ul>
               </div>
             </td>
@@ -886,9 +898,29 @@ The fields correspond to the columns in the database's bills table:</p>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
-<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handle search requests.</span>
+<span class="sd">    Handle search requests. Includes options for:</span>
+<span class="sd">        search on keyword</span>
+<span class="sd">        search on topic</span>
+<span class="sd">        search for keywords on a specified topic</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        request (HttpRequest): </span>
@@ -905,13 +937,18 @@ The fields correspond to the columns in the database's bills table:</p>
 <span class="sd">            bill information about searched bills.</span>
 <span class="sd">            The fields correspond to the columns in the database&#39;s bills table:</span>
 
-<span class="sd">            - bill_id: The unique identifier for the bill</span>
-<span class="sd">            - number: The bill number</span>
-<span class="sd">            - title: The bill title</span>
-<span class="sd">            - summary: The bill summary</span>
-<span class="sd">            - status: The bill status</span>
-<span class="sd">            - topics: TO BE IMPLEMENTED</span>
-<span class="sd">            - favorite: TO BE IMPLEMENTED</span>
+<span class="sd">            - bill_id: The unique identifier for the bill.</span>
+<span class="sd">            - number: The bill number assigned by the legislative chamber where it was introduced.</span>
+<span class="sd">            - title: The bill title.</span>
+<span class="sd">            - summary: The bill summary.</span>
+<span class="sd">            - status: The bill status, including current and all previous statuses.</span>
+<span class="sd">                - dates: Date of the change of status.</span>
+<span class="sd">                - description: Description of the change of status.</span>
+<span class="sd">            - topics: Pre-determined topics extracted from the summary using keyword match.</span>
+<span class="sd">            - sponsors: Any registered sponsor for the bill.</span>
+<span class="sd">                - sponsor_id: unique identification number for sponsor</span>
+<span class="sd">                - party: the political party the sponsor represents</span>
+<span class="sd">                - position: sponsor&#39;s role in the legislature</span>
 
 <span class="sd">    Example:</span>
 
@@ -934,40 +971,49 @@ The fields correspond to the columns in the database's bills table:</p>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">query</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;query&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">topic</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;topic&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">state</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="c1"># topic = request.GET.get(&quot;topic&quot;, None)</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">BillsTable</span><span class="o">.</span><span class="n">objects</span>
 
-    <span class="n">bill_number_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+&quot;</span>
+    <span class="c1"># when topic provided we start by filtering results on it</span>
+    <span class="k">if</span> <span class="n">topic</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">topicstable__topic__iexact</span><span class="o">=</span><span class="n">topic</span><span class="p">)</span>
 
-    <span class="c1"># If the user has searched by bill number, only search the number field</span>
-    <span class="c1"># This is to avoid returning unrelated results for bill numbers</span>
-    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">bill_number_pattern</span><span class="p">,</span> <span class="n">query</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()):</span>
-        <span class="n">search_vector</span> <span class="o">=</span> <span class="n">SearchVector</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">)</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">search_vector</span> <span class="o">=</span> <span class="n">SearchVector</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;summary&quot;</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">)</span>
-
-    <span class="n">search_query</span> <span class="o">=</span> <span class="n">SearchQuery</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">)</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">BillsTable</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">search</span><span class="o">=</span><span class="n">search_vector</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">search</span><span class="o">=</span><span class="n">search_query</span><span class="p">)</span>
-
+    <span class="c1"># likewise with state and session</span>
     <span class="k">if</span> <span class="n">state</span><span class="p">:</span>
-        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">state__iexact</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>
 
-    <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="n">SearchRank</span><span class="p">(</span><span class="n">search_vector</span><span class="p">,</span> <span class="n">search_query</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;-rank&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">session</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">session__iexact</span><span class="o">=</span><span class="n">session</span><span class="p">)</span>
+
+    <span class="c1"># if query provided we look for keyword on filtered (if topic) or unfiltered table</span>
+    <span class="k">if</span> <span class="n">query</span><span class="p">:</span>
+        <span class="n">bill_number_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+&quot;</span>
+
+        <span class="c1"># If the user has searched by bill number, only search the number field</span>
+        <span class="c1"># This is to avoid returning unrelated results for bill numbers</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">bill_number_pattern</span><span class="p">,</span> <span class="n">query</span><span class="o">.</span><span class="n">upper</span><span class="p">()):</span>
+            <span class="n">search_vector</span> <span class="o">=</span> <span class="n">SearchVector</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">search_vector</span> <span class="o">=</span> <span class="n">SearchVector</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;summary&quot;</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">)</span>
+
+        <span class="n">search_query</span> <span class="o">=</span> <span class="n">SearchQuery</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">search</span><span class="o">=</span><span class="n">search_vector</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">search</span><span class="o">=</span><span class="n">search_query</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="n">SearchRank</span><span class="p">(</span><span class="n">search_vector</span><span class="p">,</span> <span class="n">search_query</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;-rank&quot;</span><span class="p">)</span>
+
     <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">topics</span><span class="o">=</span><span class="n">ArrayAgg</span><span class="p">(</span><span class="s2">&quot;topicstable__topic&quot;</span><span class="p">,</span> <span class="n">distinct</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
+    <span class="c1"># include &quot;favorited&quot; status if the user is logged in</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
         <span class="n">user_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span>
-
         <span class="n">favorites_query</span> <span class="o">=</span> <span class="n">FavoritesTable</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
             <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">bill_id</span><span class="o">=</span><span class="n">OuterRef</span><span class="p">(</span><span class="s2">&quot;bill_id&quot;</span><span class="p">)</span>
         <span class="p">)</span>
-
         <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">favorite</span><span class="o">=</span><span class="n">Exists</span><span class="p">(</span><span class="n">favorites_query</span><span class="p">))</span>
 
-    <span class="c1"># Paginate the results to avoid overwhelming the frontend</span>
+    <span class="c1"># Paginate the results</span>
     <span class="n">paginator</span> <span class="o">=</span> <span class="n">Paginator</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">page_number</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;page&quot;</span><span class="p">)</span>
     <span class="n">page_obj</span> <span class="o">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">get_page</span><span class="p">(</span><span class="n">page_number</span><span class="p">)</span>
@@ -1120,6 +1166,7 @@ The fields correspond to the columns in the database's bills table:</p>
               <div class="doc-md-description">
                 <p>Contains the following columns from database's table:</p>
 <ul>
+<li>bill_data:<ul>
 <li>bill_id: The unique identifier for the bill.</li>
 <li>number: The bill number assigned by the legislative chamber where it was introduced.</li>
 <li>title: The bill title.</li>
@@ -1129,11 +1176,13 @@ The fields correspond to the columns in the database's bills table:</p>
 <li>description: Description of the change of status.</li>
 </ul>
 </li>
-<li>topics: Pre-determined topics extracted from the summary using keyword match.
-sponsors: Any registered sponsor for the bill.<ul>
+<li>topics: Pre-determined topics extracted from the summary using keyword match.</li>
+<li>sponsors: Any registered sponsor for the bill.<ul>
 <li>sponsor_id: unique identification number for sponsor</li>
 <li>party: the political party the sponsor represents</li>
 <li>position: sponsor's role in the legislature</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1162,24 +1211,7 @@ sponsors: Any registered sponsor for the bill.<ul>
 
             <details class="quote">
               <summary>Source code in <code>apps\core\views.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
@@ -1272,7 +1304,27 @@ sponsors: Any registered sponsor for the bill.<ul>
 <span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
-<span class="normal">275</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">bill_page</span><span class="p">(</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">bill_page</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span>
     <span class="n">bill_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1292,23 +1344,23 @@ sponsors: Any registered sponsor for the bill.<ul>
 <span class="sd">        session (str): The legislative session.</span>
 <span class="sd">        bill_number (str): The assigned bill number.</span>
 
-
 <span class="sd">    Returns:</span>
 <span class="sd">        HttpResponse: A Django context variable with the data from the query.</span>
 <span class="sd">        Results: Contains the following columns from database&#39;s table:</span>
 
-<span class="sd">            - bill_id: The unique identifier for the bill.</span>
-<span class="sd">            - number: The bill number assigned by the legislative chamber where it was introduced.</span>
-<span class="sd">            - title: The bill title.</span>
-<span class="sd">            - summary: The bill summary.</span>
-<span class="sd">            - status: The bill status, including current and all previous statuses.</span>
-<span class="sd">                - dates: Date of the change of status.</span>
-<span class="sd">                - description: Description of the change of status.</span>
-<span class="sd">            - topics: Pre-determined topics extracted from the summary using keyword match.</span>
-<span class="sd">            sponsors: Any registered sponsor for the bill.</span>
-<span class="sd">                - sponsor_id: unique identification number for sponsor</span>
-<span class="sd">                - party: the political party the sponsor represents</span>
-<span class="sd">                - position: sponsor&#39;s role in the legislature</span>
+<span class="sd">            - bill_data:</span>
+<span class="sd">                - bill_id: The unique identifier for the bill.</span>
+<span class="sd">                - number: The bill number assigned by the legislative chamber where it was introduced.</span>
+<span class="sd">                - title: The bill title.</span>
+<span class="sd">                - summary: The bill summary.</span>
+<span class="sd">                - status: The bill status, including current and all previous statuses.</span>
+<span class="sd">                    - dates: Date of the change of status.</span>
+<span class="sd">                    - description: Description of the change of status.</span>
+<span class="sd">                - topics: Pre-determined topics extracted from the summary using keyword match.</span>
+<span class="sd">                - sponsors: Any registered sponsor for the bill.</span>
+<span class="sd">                    - sponsor_id: unique identification number for sponsor</span>
+<span class="sd">                    - party: the political party the sponsor represents</span>
+<span class="sd">                    - position: sponsor&#39;s role in the legislature</span>
 
 <span class="sd">    Example:</span>
 
@@ -1362,6 +1414,9 @@ sponsors: Any registered sponsor for the bill.<ul>
         <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">bill</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
         <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">bill</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
         <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="n">bill</span><span class="o">.</span><span class="n">summary</span><span class="p">,</span>
+        <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">bill</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
+        <span class="s2">&quot;state_abbr&quot;</span><span class="p">:</span> <span class="n">STATE_NAME_TO_ABBR</span><span class="p">[</span><span class="n">bill</span><span class="o">.</span><span class="n">state</span><span class="p">],</span>
+        <span class="s2">&quot;state_link&quot;</span><span class="p">:</span> <span class="n">STATE_LINKS</span><span class="p">[</span><span class="n">bill</span><span class="o">.</span><span class="n">state</span><span class="p">],</span>
         <span class="s2">&quot;sponsors&quot;</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span>
                 <span class="s2">&quot;sponsor_id&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">sponsor_id</span><span class="p">,</span>
@@ -1382,7 +1437,7 @@ sponsors: Any registered sponsor for the bill.<ul>
         <span class="p">],</span>
     <span class="p">}</span>
 
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;bill_page.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;bill_data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;states&quot;</span><span class="p">:</span> <span class="n">STATES</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">state</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;bill_page.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;bill_data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;states&quot;</span><span class="p">:</span> <span class="n">STATES</span><span class="p">})</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -1461,7 +1516,8 @@ Otherwise, the list is sorted by <code>favorite_id</code> (order in which user f
           </tr>
       </tbody>
     </table>
-        <p>An array of JSON objects from the Postgres database, containing bill information about favorited bills:</p>
+        <p>Example:
+<code>http://billinois.unnamed.computer/favorites/?sort=action_date</code></p>
 <pre><code class="language-json">[
     {
         &quot;bill_id&quot;: &quot;123&quot;,
@@ -1479,27 +1535,7 @@ Otherwise, the list is sorted by <code>favorite_id</code> (order in which user f
 
             <details class="quote">
               <summary>Source code in <code>apps\core\views.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">298</span>
 <span class="normal">299</span>
 <span class="normal">300</span>
 <span class="normal">301</span>
@@ -1552,7 +1588,29 @@ Otherwise, the list is sorted by <code>favorite_id</code> (order in which user f
 <span class="normal">348</span>
 <span class="normal">349</span>
 <span class="normal">350</span>
-<span class="normal">351</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@login_required</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@login_required</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">favorites_page</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a list of bills favorited by the current user, with optional sorting.</span>
@@ -1572,8 +1630,8 @@ Otherwise, the list is sorted by <code>favorite_id</code> (order in which user f
 <span class="sd">            - favorited_bills (QuerySet): Bills favorited by the user.</span>
 <span class="sd">            - sort_option (str): The current sort option in use (&quot;action_date&quot; or &quot;favorite_id&quot;).</span>
 
-<span class="sd">    An array of JSON objects from the Postgres database, containing bill information about favorited bills:</span>
-
+<span class="sd">    Example:</span>
+<span class="sd">    `http://billinois.unnamed.computer/favorites/?sort=action_date`</span>
 <span class="sd">    ```json</span>
 <span class="sd">    [</span>
 <span class="sd">        {</span>
@@ -1597,7 +1655,9 @@ Otherwise, the list is sorted by <code>favorite_id</code> (order in which user f
     <span class="n">favorite_qs</span> <span class="o">=</span> <span class="n">FavoritesTable</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
     <span class="n">favorite_bill_ids</span> <span class="o">=</span> <span class="n">favorite_qs</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s2">&quot;bill_id&quot;</span><span class="p">)</span>
 
-    <span class="n">bills_qs</span> <span class="o">=</span> <span class="n">BillsTable</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">bill_id__in</span><span class="o">=</span><span class="n">Subquery</span><span class="p">(</span><span class="n">favorite_bill_ids</span><span class="p">))</span>
+    <span class="n">bills_qs</span> <span class="o">=</span> <span class="n">BillsTable</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">bill_id__in</span><span class="o">=</span><span class="n">Subquery</span><span class="p">(</span><span class="n">favorite_bill_ids</span><span class="p">))</span><span class="o">.</span><span class="n">prefetch_related</span><span class="p">(</span>
+        <span class="s2">&quot;topicstable_set&quot;</span>
+    <span class="p">)</span>
 
     <span class="c1"># Annote bills with a favorite status = true for use with htmx</span>
     <span class="n">bills_qs</span> <span class="o">=</span> <span class="n">bills_qs</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">favorite</span><span class="o">=</span><span class="n">Value</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_field</span><span class="o">=</span><span class="n">BooleanField</span><span class="p">()))</span>
@@ -1678,16 +1738,16 @@ Otherwise, the list is sorted by <code>favorite_id</code> (order in which user f
 
             <details class="quote">
               <summary>Source code in <code>apps\core\views.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">354</span>
-<span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span>
-<span class="normal">358</span>
-<span class="normal">359</span>
-<span class="normal">360</span>
-<span class="normal">361</span>
-<span class="normal">362</span>
-<span class="normal">363</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">privacy_policy</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">privacy_policy</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Render the privacy policy page.</span>
 

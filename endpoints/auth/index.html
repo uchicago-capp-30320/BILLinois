@@ -828,12 +828,14 @@
     </div>
 
 </div><h2 id="accountsconfirm-email">/accounts/confirm-email/</h2>
+<p>Handled by Django's <code>allauth</code> module.</p>
 <p>Parameters:</p>
 <ul>
 <li>code: <code>str</code> a confirmation code sent to the user's email to confirm signup</li>
 </ul>
 <p>Response: HTML confirmation page</p>
 <h2 id="accountslogin">/accounts/login/</h2>
+<p>Handled by Django's <code>allauth</code> module.</p>
 <p>Parameters:</p>
 <ul>
 <li>email: <code>str</code></li>
@@ -841,15 +843,18 @@
 </ul>
 <p>Response: HTML login page, redirect to confirmation page, failure message upon failed login.</p>
 <h2 id="accountslogincodeconfirm">/accounts/login/code/confirm/</h2>
+<p>Handled by Django's <code>allauth</code> module.</p>
 <p>Parameters:</p>
 <ul>
 <li>code: <code>str</code></li>
 </ul>
 <p>Response: Redirect to home page <code>/</code> after successful confirmation, failure message upon failed confirmation.</p>
 <h2 id="accountslogout">/accounts/logout</h2>
+<p>Handled by Django's <code>allauth</code> module.</p>
 <p>Parameters:</p>
 <p>Response: Redirect to home page <code>/</code> after successful logout.</p>
 <h2 id="accountspasswordreset">/accounts/password/reset/</h2>
+<p>Handled by Django's <code>allauth</code> module.</p>
 <p>Parameters:</p>
 <ul>
 <li>email: <code>str</code></li>

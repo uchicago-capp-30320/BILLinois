@@ -347,11 +347,15 @@
 <h1 id="postgres-tables">Postgres Tables</h1>
 <div class="mermaid">erDiagram
     USERS 1 to zero or more FAVORITES : has
-    FAVORITES zero or more optionally to 1 BILLS : marks
-    SPONSORS one or more optionally to one or more BILLS : introduces
-    BILLS 1 to zero or more ACTIONS : has
-    BILLS one or more to one or more TOPICS : has
+    FAVORITES zero or more to 1 BILLS : marks
+    SPONSORS one or more to one or more BILLS : introduces
+    BILLS 1 to one or more ACTIONS : has
+    BILLS zero or more to zero or more TOPICS : has
+    UPDATES 1 to 1 BILLS : has
+    USER_NOTIFICATION_QUEUE 1 to 1 USERS : has
+    MOST_RECENT_UPLOAD
 </div>
+<p>Note: Django auto-creates an <code>id</code> primary key if one does not already exist in the table.</p>
 <h2 id="users">Users</h2>
 <div class="doc doc-object doc-class">
 <div class="doc doc-contents first">
@@ -1146,8 +1150,8 @@ bills they have favorited.</p>
 <div class="doc doc-contents first">
 <p class="doc doc-class-bases">
               Bases: <code><span title="django.db.models.Model">Model</span></code></p>
-<p>Stores data for sponsors of bills. Represents a one-to-many relationship:
-one bill may have many sponsors.</p>
+<p>Stores data for sponsors of bills. Represents a many-to-many relationship:
+one bill may have many sponsors, and one sponsor may have many bills.</p>
 <p>This table is queried by frontend views that show bill information,
 including sponsor information.</p>
 <p>Connects to:</p>
@@ -1272,8 +1276,8 @@ of the State Senate) that the sponsor occupies.</p>
 <span class="normal">210</span>
 <span class="normal">211</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SponsorsTable</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Stores data for sponsors of bills. Represents a one-to-many relationship:</span>
-<span class="sd">    one bill may have many sponsors.</span>
+<span class="sd">    Stores data for sponsors of bills. Represents a many-to-many relationship:</span>
+<span class="sd">    one bill may have many sponsors, and one sponsor may have many bills.</span>
 
 <span class="sd">    This table is queried by frontend views that show bill information,</span>
 <span class="sd">    including sponsor information.</span>
@@ -1695,7 +1699,7 @@ if there was an error uploading the bills.</p>
 <div class="doc doc-contents first">
 <p class="doc doc-class-bases">
               Bases: <code><span title="django.db.models.Model">Model</span></code></p>
-<p>A table to store user notifications.</p>
+<p>A table to store user notifications in a queue, with all bills to update on bundled in a single notification.</p>
 <p>Connects to:</p>
 <ul>
 <li>Users (on user_id)</li>
@@ -1793,7 +1797,7 @@ if there was an error uploading the bills.</p>
 <span class="normal">374</span>
 <span class="normal">375</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UserNotificationQueue</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    A table to store user notifications.</span>
+<span class="sd">    A table to store user notifications in a queue, with all bills to update on bundled in a single notification.</span>
 
 <span class="sd">    Connects to:</span>
 
