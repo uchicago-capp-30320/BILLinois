@@ -53,6 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         _("phone number"),
         max_length=20,
         blank=True,
+        null=True,
         unique=True,
     )
 
