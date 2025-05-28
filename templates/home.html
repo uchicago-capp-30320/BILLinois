@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html data-theme="light">
   <head>
@@ -13,7 +14,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
     <!-- Link to custom CSS -->
-    <link rel="stylesheet" href="../static/css/custom.css" />
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+    <!-- <link rel="stylesheet" href="../static/css/custom.css" /> -->
   </head>
   <body>
     <section class="section">
@@ -26,10 +28,10 @@
         <div class="navbar-end">
           <div id="navbarMenu" class="navbar-menu is-right">
             <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link is-size-5"> Menu </a>
+              <a class="navbar-link"> Menu </a>
               <div class="navbar-dropdown is-boxed">
                 {% if user.is_authenticated %}
-                <a href="" class="navbar-item">My Account</a>
+                <a href="/favorites" class="navbar-item">My Account</a>
                 <a href="/accounts/logout" class="navbar-item">Sign Out</a>
                 {% else %}
                 <a href="/accounts/login" class="navbar-item">Log In</a>
@@ -69,51 +71,68 @@
           Get started by searching a custom bill topic or clicking on a bill
           topic below.
         </p>
-        <form method="GET" action="./search">
-          <div class="field has-addons has-addons-centered">
-            <div class="control has-icons-left is-expanded">
-              <input
-                class="input"
-                type="text"
-                name="query"
-                placeholder="Search bills by name or topic..."
-              />
-              <span class="icon is-small is-left">
-                <i class="fas fa-magnifying-glass"></i>
-              </span>
-            </div>
+        <!--Search Bar -->
+        <div class="column" style="flex-grow: 1">
+          <div class="container is-max-tablet">
+            <form method="GET" action="/search">
+              <div class="field has-addons">
+                <p class="control">
+                  <span class="select">
+                    <select name="state">
+                      <option value="" disabled selected>Select a state</option>
+                      {% for abbr, name in states %}
+                      <option value="{{ name }}">{{ name }}</option>
+                      {% endfor %}
+                    </select>
+                  </span>
+                </p>
+                <p class="control is-expanded">
+                  <input
+                    class="input"
+                    type="text"
+                    name="query"
+                    placeholder="Search bills by name or topic..."
+                  />
+                </p>
+                <p class="control">
+                  <button class="button">Search</button>
+                </p>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
+      <br />
+      <br />
       <div class="container is-max-tablet">
         <div class="grid buttons is-column-gap-7">
           <a
-            href="./search/?query=education"
+            href="./search/?topic=education"
             class="cell button is-medium button-blue"
             >Education</a
           >
           <a
-            href="./search/?query=energy"
+            href="./search/?topic=energy"
             class="cell button is-medium button-green"
             >Energy/Environment</a
           >
           <a
-            href="./search/?query=health"
+            href="./search/?topic=health"
             class="cell button is-medium button-red is-row-start-2"
             >Health</a
           >
           <a
-            href="./search/?query=transportation"
+            href="./search/?topic=transportation"
             class="cell button is-medium button-purple is-row-start-2"
             >Transportation</a
           >
           <a
-            href="./search/?query=housing"
+            href="./search/?topic=housing"
             class="cell button is-medium button-pink is-row-start-3"
             >Housing</a
           >
           <a
-            href="./search/?query=LGBTQIA"
+            href="./search/?topic=LGBTQIA"
             class="cell button is-medium button-yellow is-row-start-3"
             >LGBTQIA</a
           >
@@ -121,6 +140,7 @@
       </div>
     </section>
     <!-- JS for burger menu -->
-    <script src="../static/js/burger.js"></script>
+    <script src="{% static 'js/burger.js' %}"></script>
+    <!-- <script src="../static/js/burger.js"></script> -->
   </body>
 </html>

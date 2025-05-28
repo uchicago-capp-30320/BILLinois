@@ -2,6 +2,8 @@
 
 To view these docs in the local server, run `mkdocs serve localhost:8080`
 
+To deploy to GitHub pages, run `mkdocs gh-deploy`
+
 ## Directory structure
 
 For new contributors to get familiarized with the repository.
@@ -15,10 +17,8 @@ For new contributors to get familiarized with the repository.
 +---config # setup and read in .env
 +---docs # documentation on API, databases, and architecture
 ▒   +---endpoints # API endpoint documentation
-+---project # to remove
-▒   +---data # move to top level directory
-▒   ▒   +---samples # test data for development
-▒   +---frontend # move to templates
++---data # move to top level directory
+▒   +---samples # test data for development
 +---static # non-variable frontend files (CSS, images)
 ▒   +---css
 ▒   +---root

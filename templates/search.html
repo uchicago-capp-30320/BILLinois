@@ -12,9 +12,14 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
     />
+    <!-- DataTables Customization -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.3/css/bulma.min.css"/>
+    <link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel = "stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.bulma.css"/>  
+
     <!-- Link to custom CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.dataTables.css" />
     <link rel="stylesheet" href="../static/css/custom.css" />
-    <script src="https://unpkg.com/htmx.org"></script>
   </head>
   <body>
     <section class="section">
@@ -26,28 +31,34 @@
               ><h1 class="title is-1 custom-text-dark">BILLinois</h1>
             </a>
           </div>
-          <!-- Search Column -->
+          <!--Search Bar -->
           <div class="column" style="flex-grow: 1">
-            <!-- Search Bar -->
             <div class="container is-max-tablet">
               <form method="GET" action="/search">
-                <div class="field">
-                  <div class="control has-icons-left">
+                <div class="field has-addons">
+                  <p class="control">
+                    <span class="select">
+                      <select name="state">
+                        <option value="" disabled selected>
+                          Select a state
+                        </option>
+                        {% for abbr, name in states %}
+                        <option value="{{ name }}">{{ name }}</option>
+                        {% endfor %}
+                      </select>
+                    </span>
+                  </p>
+                  <p class="control is-expanded">
                     <input
                       class="input"
                       type="text"
                       name="query"
                       placeholder="Search bills by name or topic..."
                     />
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-search"></i>
-                    </span>
-                    <input
-                      type="submit"
-                      value="Search"
-                      class="button is-hidden"
-                    />
-                  </div>
+                  </p>
+                  <p class="control">
+                    <button class="button">Search</button>
+                  </p>
                 </div>
               </form>
             </div>
@@ -64,7 +75,7 @@
                 <div class="navbar-dropdown is-right is-boxed">
                   <a href="/" class="navbar-item">Home</a>
                   {% if user.is_authenticated %}
-                  <a href="" class="navbar-item">My Account</a>
+                  <a href="/favorites" class="navbar-item">My Account</a>
                   <a href="/accounts/logout" class="navbar-item">Sign Out</a>
                   {% else %}
                   <a href="/accounts/login" class="navbar-item">Log In</a>
@@ -92,9 +103,17 @@
     {% if results %}
     <section class="section">
       <div class="title is-4 mb-6 custom-text-dark">
-        Search results for "{{ query }}"
+        {% if state %}           
+          Search results for "{{ query }}" in {{ state }}.
+        {% else %}
+          {% if topic %}
+            Search results for "{{ topic }}" in all states.
+          {% else %}
+          Search results for "{{ query }}" in all states. 
+          {% endif %}
+        {% endif %}
       </div>
-      <table class="table bg-light is-hoverable">
+      <table id="search" class="table bg-light is-hoverable">
         <thead>
           <tr>
             <th class="is-size-5 custom-text-dark">Bill Number</th>
@@ -113,7 +132,7 @@
         <tbody>
           {% for bill in results %}
           <tr>
-            <td class="py-5 custom-text-dark">{{ bill.number }}</td>
+            <td class="py-5 custom-text-dark has-text-weight-semibold">{{ bill.number }}</td>
             <td class="has-text-centered py-5 custom-text-dark">
               <a href="/bill/{{bill.bill_id}}/">{{bill.title}}</a>
             </td>
@@ -132,44 +151,82 @@
               </div>
             </td>
             <td class="has-text-centered py-5">
+              {% if user.is_authenticated %}
               <!-- prettier-ignore -->
               {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}
+              {% else %}
+              <a href="/accounts/login" class="icon custom-yellow"><i class="fa-regular fa-star fa-xl"></i></a>
+              {% endif %}
             </td>
           </tr>
           {% endfor %}
-        </tbody>
-      </table>
-      <div class="pagination">
+          </tbody>
+        </table>
+      </section>
+      <section class="section"> 
         <!-- Pagination controls -->
-        <span class="step-links">
+        <nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
           {% if results.has_previous %}
-          <a href="?page=1&query={{ query }}">&laquo; first</a>
-          <a href="?page={{ results.previous_page_number }}&query={{ query }}"
-            >previous</a
-          >
+            <a class="pagination-previous" href="?page={{ results.previous_page_number }}&query={{ query }}">Previous</a>
+          {% else %}
+            <a class="pagination-previous" disabled>Previous</a>
           {% endif %}
-
-          <span class="current">
-            Page {{ results.number }} of {{ results.paginator.num_pages }}.
-          </span>
 
           {% if results.has_next %}
-          <a href="?page={{ results.next_page_number }}&query={{ query }}"
-            >next</a
-          >
-          <a href="?page={{ results.paginator.num_pages }}&query={{ query }}"
-            >last &raquo;</a
-          >
+            <a class="pagination-next" href="?page={{ results.next_page_number }}&query={{ query }}">Next</a>
+          {% else %}
+            <a class="pagination-next" disabled>Next</a>
           {% endif %}
-        </span>
-      </div>
-      {% else %}
-      <p class="has-text-centered custom-text-dark">
-        Please enter a search term.
-      </p>
-      {% endif %}
-    </section>
+
+          <ul class="pagination-list">
+            {% if results.number > 3 %}
+              <li><a class="pagination-link" href="?page=1&query={{ query }}">1</a></li>
+              {% if results.number > 4 %}
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+              {% endif %}
+            {% endif %}
+
+            {% for num in results.paginator.page_range %}
+              {% if num >= results.number|add:'-2' and num <= results.number|add:'2' %}
+                {% if num == results.number %}
+                  <li>
+                    <a class="pagination-link is-current" aria-label="Page {{ num }}" aria-current="page">{{ num }}</a>
+                  </li>
+                {% else %}
+                  <li>
+                    <a class="pagination-link" href="?page={{ num }}&query={{ query }}" aria-label="Goto page {{ num }}">{{ num }}</a>
+                  </li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+            {% if results.number < results.paginator.num_pages|add:'-2' %}
+              {% if results.number < results.paginator.num_pages|add:'-3' %}
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+              {% endif %}
+              <li>
+                <a class="pagination-link" href="?page={{ results.paginator.num_pages }}&query={{ query }}">{{ results.paginator.num_pages }}</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% else %}
+          <p class="has-text-centered custom-text-dark">No results found. Please try a different search term.</p>
+        {% endif %}
+      </section>
     <!-- JS for burger menu -->
     <script src="../static/js/burger.js"></script>
+
+    <!-- JS for DataTable -->
+    {% if results %}
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.1/js/dataTables.bulma.js"></script>
+    <script src="../static/js/datatable.js"></script>
+    {% endif %}
+
+    <!-- HTMX Script -->
+    <script src="https://unpkg.com/htmx.org"></script>
+
   </body>
 </html>

@@ -47,7 +47,7 @@ vars().update(EMAIL_CONFIG)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 INTERNAL_IPS = ["127.0.0.1"]
-CSRF_TRUSTED_ORIGINS = ["https://billinois.unnamed.computer/", "https://billinoisapp.com/"]
+CSRF_TRUSTED_ORIGINS = ["https://billinois.unnamed.computer", "https://billinoisapp.com"]
 
 
 # Debug Toolbar
@@ -190,7 +190,7 @@ if DJOK_USER_TYPE in ("email", "email+username"):
     ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
     if DJOK_USER_TYPE == "email":
         ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-        ACCOUNT_SIGNUP_FIELDS = ["email*", "phone", "full_name"] + _PASSWORDS
+        ACCOUNT_SIGNUP_FIELDS = ["email*", "full_name"] + _PASSWORDS
     else:
         ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
         ACCOUNT_SIGNUP_FIELDS = ["email*", "username"] + _PASSWORDS
@@ -335,7 +335,7 @@ STORAGES = {
 }
 
 STATIC_ROOT = BASE_DIR / "_staticfiles"
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 # this directory is served at project root (for favicon.ico/robots.txt/etc.)
 WHITENOISE_ROOT = BASE_DIR / "static" / "root"

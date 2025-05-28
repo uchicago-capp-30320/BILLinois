@@ -11,12 +11,21 @@ class CustomSignupForm(SignupForm):
         widget=forms.TextInput(attrs={"placeholder": "Full Name"}),
     )
 
+    phone = forms.CharField(
+        label="Phone",
+        max_length=15,
+        required=False,
+        widget=forms.TextInput(attrs={"placeholder": "Phone Number"}),
+    )
+
     subscribe = forms.BooleanField(
         label="Subscribe to bill updates",
         required=False,
         initial=True,
         widget=forms.CheckboxInput(attrs={"checked": "checked"}),
     )
+
+    
 
     def clean_email(self) -> str:
         email = self.cleaned_data.get("email")

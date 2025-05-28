@@ -1,51 +1,81 @@
 # BILLinois Code Testing Documentation
 
-## Testing Process
-
-Please follow the following steps to add unit tests for the analyses you are working on to this folder:
-
-1. Create a file in the naming convention “test_COMPONENT.py” or “test_TYPE.py” to test a particular component of the project or to run a particular type of test. If this file already exists, add additional tests for the component in the same file, with a different name for each to avoid merge conflicts
-
-   a. The QA team defers to all of you on what makes the most sense to split out into separate .py files vs. what makes sense to keep in one file. A placeholder list is included below for convenience, but please feel free to ignore this.
-
-2. For a new file, add import pytest and any additional packages needed (e.g., playwright) at the top, then add the tests. For an existing file, please add at the bottom by default, or add where it makes the most sense in the flow of the tests.
-
-3. If there are any fixtures (e.g., client or DB connections) or constants/utils (e.g., file paths) that will be used across multiple sets of tests, consider including those in a separate file in the tests folder and referencing them from within each set of tests that will use them.
-
-4. Please update this file with a brief description of which tests are included in each file. As with all Git work, please be sure to only add to the sections you worked on to avoid merge conflicts on this file.
-
-   a. You don’t necessarily need to document every single test you write in this file, but it would be helpful to have a general sense of what types of things we are testing for each aspect.
-
-## General Notes
+## General Information
 
 **Testing Frameworks**
-pytest
-Playwright
+pytest-django
+pytest-playwright
 
-This documentation file is inspired by [that of last year’s New Arrivals project](https://github.com/uchicago-capp-30320/new-arrivals-chi/tree/main/tests). For more detailed notes on how each of last year’s teams set up their tests and what tools they use to potentially inform your choices, see the [“Notes on Prior Tests”](https://docs.google.com/document/d/1XJ0zdywhg9n6gdFrzgn_YjdU6KER-1qwdsTALVIPi1Q/edit?tab=t.0) file in the Google Drive.
-
-The QA team will largely handle integration tests, please let us know if there are any that you think it would be particularly valuable to be sure to include, and if there are any that you have already completed.
+This documentation file is inspired by [that of the Spring 2024 New Arrivals project](https://github.com/uchicago-capp-30320/new-arrivals-chi/tree/main/tests).
 
 ## List of Tests
 
-### API call Tests
+### Models Tests: test_models.py
 
-test_XXX.py
+- Bill model tests: test_bill_created, test_get_bill_from_number
 
-### Data -> Backend Integration Tests
+   Test that bills can be created with the correct fields
 
-test_XXX.py
+   Test that a bill can be searched for by number
 
-### Backend Tests
+- Action model tests: test_action_created, test_action_from_id
 
-test_XXX.py
+   Test that actions can be created with the correct ID and fields
 
-### Backend -> Frontend Integration Tests
+   Test pulling an action from a bill ID and action ID
 
-test_XXX.py
+- User model tests: test_user_name, test_get_full_name, test_get_short_name, test_clean_email
 
-### Frontend/Website Tests
+   Test that users can be created with the correct fields
 
-test_e2e.py
+   Test fields of user name and short name
+
+   Test the cleaning function for user email inputs
+
+- Favorites model tests: test_get_favorite_from_user_and_bill, test_favorites_table_uniqueness
+
+   Test that a favorite can be pulled from a user ID and a bill ID
+
+   Test the uniqueness constraint
+
+- Topics model tests: test_get_specific_topic_from_id, test_get_all_topic_from_id
+
+   Test getting a specific topic from the topics table for a bill
+
+   Test getting all the topics from the table for a bill
+
+- Updates table tests: test_update_created, test_get_update_from_id, test_updates_table_uniqueness
+
+   Test that updates can be created as expected
+
+   Test that an update can be searched for by bill and action IDs 
+
+   Test uniqueness constraint
+
+### Views Tests: test_views.py
+
+- Home view tests: test_home_status, test_home_content
+
+   Test that the home page loads
+
+   Test that the home page has the expected content
+
+- Search view tests: test_create_search, test_search_content, test_create_search_real, test_search_content_real, test_create_search_by_state, test_search_content_by_state_real
+
+   Test that searches worked, both for real and test queries and by state
+
+   Test that the test query returned no results as expected
+
+   Test that the real query returned the expected bills
+
+   Test that a real query limited by state returned the expected bill
+
+- Bill page view tests: test_create_bill_view_by_id, test_bill_view_by_id_content, test_create_bill_view_by_info, test_bill_view_by_info_content
+
+   Test that a bill page can be created, both by bill ID and by state/session/bill number
+
+   Test that the bill page loads the expected bill information, both when created by bill ID and when created by state/session/bill number
+
+### Frontend/Website Tests: test_e2e.py
 
 - test_playwright_working: test that playwright import works
