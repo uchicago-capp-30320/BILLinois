@@ -162,8 +162,4 @@ input:checked ~ .slider {
   .bigger-title {
     font-size: 50px !important;
   }
-
-  .is-column-gap-7 {
-    column-gap: 1rem !important;
-  }
 }
