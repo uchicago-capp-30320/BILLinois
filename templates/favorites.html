@@ -105,6 +105,18 @@
                     </div>
                     <div class="column is-narrow">
                       <!-- for loop for bill Topics will go here -->
+                       {% for topic in bill.topicstable_set.all %}
+                       <span
+                        class="{% if topic.topic == 'Education' %}button-blue 
+                               {% elif topic.topic == 'Energy/Environment' %}button-green 
+                               {% elif topic.topic == 'Health' %}button-red 
+                               {% elif topic.topic == 'Transportation' %}button-purple 
+                               {% elif topic.topic == 'Housing' %}button-pink 
+                               {% elif topic.topic == 'LGBTQIA' %}button-yellow 
+                               {% endif %} tag is-rounded is-medium"
+                        >{{ topic.topic }}
+                      </span>
+                      {% endfor %}
                     </div>
                     <div class="column is-narrow">
                       {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}
