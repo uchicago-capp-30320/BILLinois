@@ -5,7 +5,7 @@ from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator
 from django.db.models import Exists, OuterRef, Subquery, Value, BooleanField, DateTimeField
 from django.contrib.postgres.aggregates import ArrayAgg
-from django.http import Http404, HttpRequest, HttpResponse
+from django.http import Http404, HttpRequest, HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 
@@ -37,11 +37,11 @@ def search(request: HttpRequest) -> HttpResponse:
         search for keywords on a specified topic
 
     Args:
-        request (HttpRequest): 
+        request (HttpRequest):
             An HTTP request object containing GET parameters:
 
             - query (str): Search query string.
-            - state (str): 
+            - state (str):
                 State abbreviation (e.g., 'il' for Illinois) for the state in which legislation was introduced.
 
     Returns:
@@ -146,10 +146,28 @@ def search(request: HttpRequest) -> HttpResponse:
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
+    query_params = QueryDict(mutable=True)
+
+    if query:
+        query_params["query"] = query
+    if state:
+        query_params["state"] = state
+    if topic:
+        query_params["topic"] = topic
+
+    pagination_query = query_params.urlencode()
+
     return render(
         request,
         "search.html",
-        {"query": query, "results": page_obj, "states": STATES, "state": state, "topic": topic},
+        {
+            "query": query,
+            "results": page_obj,
+            "states": STATES,
+            "state": state,
+            "topic": topic,
+            "pagination_query": pagination_query,
+        },
     )
 
 
@@ -201,7 +219,7 @@ def bill_page(
 ) -> HttpResponse:
     """
     Return detailed bill data. At least one of the following must be provided:
-    
+
     - `bill_id`, or
     - All of: `state`, `session`, and `bill_number`.
 
@@ -334,7 +352,7 @@ def favorites_page(request):
 
     Returns:
         HttpResponse: A Django context variable with the data from the query. If the user is not logged in, redirect to the `/login/` endpoint.
-        
+
             - favorited_bills (QuerySet): Bills favorited by the user.
             - sort_option (str): The current sort option in use ("action_date" or "favorite_id").
 
