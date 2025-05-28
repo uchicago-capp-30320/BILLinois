@@ -29,6 +29,21 @@ class User(AbstractBaseUser, PermissionsMixin):
     A modification of the built-in Django user that:
         - switches first_name & last_name for username & full_name
         - keeps other admin-compliant options
+
+    Has connections from:
+
+    - Favorites
+
+    Attributes:
+        email (Email, unique): This doubles as the username.
+        phone (Varchar): User's phone number, used for notifications and dual authentication.
+        phone_verified (Boolean): Indicates whether the user's phone number is verified.
+        username (Varchar, unique): User's username, used for login and identification.
+        full_name (Varchar): User's full name, used for display purposes.
+        is_staff (Boolean): Indicates whether the user can log into the admin site.
+        is_active (Boolean): Indicates whether the user is active. Unselect this instead of deleting accounts.
+        is_subscribed (Boolean): Indicates whether the user is subscribed to notifications.
+        date_joined (DateTime): The date and time when the user joined the platform.
     """
 
     username_validator = UnicodeUsernameValidator()
@@ -38,6 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         _("phone number"),
         max_length=20,
         blank=True,
+        null=True,
         unique=True,
     )
 
@@ -107,7 +123,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class PhoneVerification(models.Model):
     """
-    A table storing phone verfification codes for users.
+    A table storing phone verification codes for users.
+
+    Attributes:
+        user (ForeignKey): The user associated with the verification code.
+        code (Varchar): The verification code sent to the user's phone.
+        created_at (DateTime): The timestamp when the verification code was created.
     """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

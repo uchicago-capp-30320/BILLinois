@@ -47,12 +47,14 @@ class CustomSignupForm(SignupForm):
     def save(self, request) -> object:
         user_model = get_user_model()
 
+        phone = self.cleaned_data.get("phone") or None
+
         user = user_model.objects.create_user(
             email=self.cleaned_data.get("email"),
             username=self.cleaned_data.get("email"),
             full_name=self.cleaned_data.get("full_name"),
             is_subscribed=self.cleaned_data.get("subscribe", True),
-            phone=self.cleaned_data.get("phone"),
+            phone=phone,
         )
 
         user.set_password(self.cleaned_data.get("password1"))

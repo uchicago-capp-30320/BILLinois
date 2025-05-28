@@ -79,3 +79,11 @@ This documentation file is inspired by [that of the Spring 2024 New Arrivals pro
 ### Frontend/Website Tests: test_e2e.py
 
 - test_playwright_working: test that playwright import works
+
+- test_home_exists: test that the homepage can be accessed
+
+- test_search: test the search functionality of the page
+
+- test_bill_page: test navigating to a specific bill page
+
+- test_sign_in: test signing in from the home page
