@@ -98,14 +98,20 @@
     {% if results %}
     <section class="section">
       <div class="title is-4 mb-6 custom-text-dark">
+        <!-- prettier-ignore -->
         {% if state %}           
           Search results for "{{ query }}" in {{ state }}.
+        <!-- prettier-ignore -->
         {% else %}
+          <!-- prettier-ignore -->
           {% if topic %}
             Search results for "{{ topic }}" in all states.
+          <!-- prettier-ignore -->
           {% else %}
           Search results for "{{ query }}" in all states. 
+          <!-- prettier-ignore -->
           {% endif %}
+        <!-- prettier-ignore -->
         {% endif %}
       </div>
       <table class="table bg-light is-hoverable">
@@ -137,6 +143,7 @@
             <td class="has-text-centered py-5">
               <!-- Add multiple tags here -->
               <div class="grid">
+                <!-- prettier-ignore -->
                 {% for topic in bill.topics %}
                 <span
                   class="{% if topic == 'Education' %}button-blue {% elif topic == 'Energy/Environment' %}button-green {% elif topic == 'Health' %}button-red {% elif topic == 'Transportation' %}button-purple {% elif topic == 'Housing' %}button-pink {% elif topic == 'LGBTQIA' %}button-yellow {% endif %} tag is-rounded is-medium"
@@ -177,32 +184,45 @@
               {% endif %}
             {% endif %}
 
+            <!-- prettier-ignore -->
             {% for num in results.paginator.page_range %}
+              <!-- prettier-ignore -->
               {% if num >= results.number|add:'-2' and num <= results.number|add:'2' %}
+                <!-- prettier-ignore -->
                 {% if num == results.number %}
                   <li>
                     <a class="pagination-link is-current" aria-label="Page {{ num }}" aria-current="page">{{ num }}</a>
                   </li>
+                <!-- prettier-ignore -->
                 {% else %}
                   <li>
                     <a class="pagination-link" href="?page={{ num }}&query={{ query }}" aria-label="Goto page {{ num }}">{{ num }}</a>
                   </li>
+                <!-- prettier-ignore -->
                 {% endif %}
+              <!-- prettier-ignore -->
               {% endif %}
+            <!-- prettier-ignore -->
             {% endfor %}
 
+            <!-- prettier-ignore -->
             {% if results.number < results.paginator.num_pages|add:'-2' %}
+              <!-- prettier-ignore -->
               {% if results.number < results.paginator.num_pages|add:'-3' %}
                 <li><span class="pagination-ellipsis">&hellip;</span></li>
+              <!-- prettier-ignore -->
               {% endif %}
               <li>
                 <a class="pagination-link" href="?page={{ results.paginator.num_pages }}&query={{ query }}">{{ results.paginator.num_pages }}</a>
               </li>
+            <!-- prettier-ignore -->
             {% endif %}
           </ul>
         </nav>
+        <!-- prettier-ignore -->
         {% else %}
           <p class="has-text-centered custom-text-dark">No results found. Please try a different search term.</p>
+        <!-- prettier-ignore -->
         {% endif %}
       </section>
     <!-- JS for burger menu -->
