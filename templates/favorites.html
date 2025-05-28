@@ -14,163 +14,119 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
     <!-- Link to custom CSS -->
-    <script src="https://unpkg.com/htmx.org"></script>
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
-    <!-- <link rel="stylesheet" href="../static/css/custom.css" /> -->
   </head>
   <body>
+    <!-- Navigation Section -->
     <section class="section">
       <div class="container">
-        <div class="container" id="navigation" style="max-width: 100%">
-          <div class="columns is-vcentered is-mobile" style="margin: 0">
-            <!-- Title Column -->
-            <div class="column is-narrow" style="padding-left: 0; flex-grow: 0">
-              <a href="/" class="title is-1 custom-text-dark">BILLinois </a>
-            </div>
-            <!-- Search Column, for spacing-->
-            <div class="column" style="flex-grow: 1">
-            </div>
-            <!-- Dropdown Menu -->
-            <nav
-              class="navbar"
-              role="navigation"
-              aria-label="dropdown navigation"
-            >
-              <div id="navbarMenu" class="navbar-menu">
-                  <a class="navbar-link is-size-5"> Menu </a>
-                  <div class="navbar-dropdown is-right is-boxed">
-                    <a href="/" class="navbar-item">Home</a>
-                    {% if user.is_authenticated %}
-                    <a href="" class="navbar-item">My Account</a>
-                    <a href="/accounts/logout" class="navbar-item">Sign Out</a>
-                    {% else %}
-                    <a href="/accounts/login" class="navbar-item">Log In</a>
-                    <a href="/accounts/signup/" class="navbar-item">Sign Up</a>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
-              <a
-                role="button"
-                class="navbar-burger"
-                aria-label="menu"
-                aria-expanded="false"
-                data-target="navbarMenu"
-              >
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-              </a>
-            </nav>
+        <div class="columns is-vcentered is-mobile">
+          <!-- Title Column -->
+          <div class="column is-narrow">
+            <a href="/" class="title is-1 custom-text-dark">BILLinois</a>
           </div>
+          <!-- Spacer Column -->
+          <div class="column"></div>
+          <!-- Dropdown Menu -->
+          <nav class="navbar" role="navigation" aria-label="dropdown navigation">
+            <div id="navbarMenu" class="navbar-menu">
+              <a class="navbar-link is-size-5">Menu</a>
+              <div class="navbar-dropdown is-right is-boxed">
+                <a href="/" class="navbar-item">Home</a>
+                {% if user.is_authenticated %}
+                <a href="" class="navbar-item">My Account</a>
+                <a href="/accounts/logout" class="navbar-item">Sign Out</a>
+                {% else %}
+                <a href="/accounts/login" class="navbar-item">Log In</a>
+                <a href="/accounts/signup/" class="navbar-item">Sign Up</a>
+                {% endif %}
+              </div>
+            </div>
+          </nav>
         </div>
       </div>
     </section>
-    <br />
-    <br />
-    <section>
-      <div class="container grid" style="max-width: 100%">
-        <!-- User Information -->
-        <div class="cell">
-          <div class="card">
-            <div class="card-content">
-              {% if user.full_name %}
-              <h2 class="title is-4 m-2 custom-text-dark">
-                {{user.full_name}}
-              </h2>
-              {% else %}
-              <h2 class="title is-4 m-2 custom-text-dark">Hello, User!</h2>
-              {% endif %}
-              <p class="subtitle is-6 m-2 custom-text-dark">{{user.email}}</p>
-              <br />
-              <!-- Alerts Toggle -->
-              <div class="is-flex is-align-items-center">
-                <p class="subtitle is-6 m-2"><strong>Alerts: </strong></p>
-                <form action="{% url 'unsubscribe' %}" method="post">
-                  {% csrf_token %}
-                  <label class="switch">
-                    <!-- prettier-ignore -->
-                    <input type="checkbox" name="is_subscribed" value="true" onchange="this.form.submit()"{% if user.is_subscribed %}checked{% endif %} />
-                    <div class="slider"></div>
-                    <div class="slider-card">
-                      <div class="slider-card-face slider-card-front"></div>
-                      <div class="slider-card-face slider-card-back"></div>
-                    </div>
-                  </label>
-                </form>
-              </div>
-              <br />
-              <!-- Card Footer -->
-              <div class="card-footer has-text-left">
-                <a
-                  href="/accounts/email/"
-                  class="card-footer-item has-text-left has-text-link"
-                  >Edit Email</a
-                >
-              </div>
-              <div class="card-footer has-text-left">
-                <a
-                  href="/accounts/password/change/"
-                  class="card-footer-item has-text-left has-text-link"
-                  >Edit Password</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- User Favorites -->
-        <div class="cell is-col-span-3">
-          <div class="card pb-2">
-            <h1 class="card-content title is-4 custom-text-dark">Favorites</h1>
-            {% for bill in favorited_bills %}
-            <div class="card m-2">
+
+    <!-- User Information Section -->
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-one-quarter">
+            <div class="card">
               <div class="card-content">
-                <div class="columns is-vcentered">
-                  <div class="column is-narrow">
-                    <h2 class="title is-size-6 custom-text-dark">
-                      {{ bill.state }}
-                    </h2>
-                  </div>
-                  <div class="column is-narrow">
-                    <h2 class="title is-size-6 custom-text-dark">
-                      {{ bill.number }}
-                    </h2>
-                  </div>
-                  <div class="column">
-                    <a href="/bill/{{bill.bill_id}}/" class="is-size-6 has-text-link"
-                      >{{ bill.title}}</a
-                    >
-                  </div>
-                  <div class="column is-narrow grid">
-                    {% for topic in bill.topics %}
-                    <span
-                      class="{% if topic == 'Education' %}button-blue {% elif topic == 'Energy/Environment' %}button-green {% elif topic == 'Health' %}button-red {% elif topic == 'Transportation' %}button-purple {% elif topic == 'Housing' %}button-pink {% elif topic == 'LGBTQIA' %}button-yellow {% endif %} tag is-rounded is-medium"
-                      >{{ topic }}
-                    </span>
-                    {% endfor %}
-                  </div>
-                  <div class="column is-narrow">
-                    <!-- prettier-ignore -->
-                    {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}
-                  </div>
+                {% if user.full_name %}
+                <h2 class="title is-4 custom-text-dark">{{ user.full_name }}</h2>
+                {% else %}
+                <h2 class="title is-4 custom-text-dark">Hello, User!</h2>
+                {% endif %}
+                <p class="subtitle is-6 custom-text-dark">{{ user.email }}</p>
+                <!-- Alerts Toggle -->
+                <div class="is-flex is-align-items-center pb-3">
+                  <p class="subtitle is-6 mb-0 mr-3"><strong>Alerts: </strong></p>
+                  <form class = "mb-0" action="{% url 'unsubscribe' %}" method="post">
+                    {% csrf_token %}
+                    <label class="switch">
+                      <input type="checkbox" name="is_subscribed" value="true" onchange="this.form.submit()" {% if user.is_subscribed %}checked{% endif %} />
+                      <div class="slider"></div>
+                      <div class="slider-card">
+                        <div class="slider-card-face slider-card-front"></div>
+                        <div class="slider-card-face slider-card-back"></div>
+                      </div>
+                    </label>
+                  </form>
+                </div>
+                <!-- Card Footer -->
+                <div class="card-footer">
+                  <a href="/accounts/email/" class="card-footer-item has-text-link">Edit Email</a>
+                </div>
+                <div class="card-footer">
+                  <a href="/accounts/password/change/" class="card-footer-item has-text-link">Edit Password</a>
                 </div>
               </div>
             </div>
-            {% empty %}
-            <p class="m-2 card-content custom-text-dark">
-              <em
-                >No favorited bills found. <a href="/search"> Search </a> for
-                bills to add them to your favorites!</em
-              >
-            </p>
-            {% endfor %}
+          </div>
+
+          <!-- User Favorites Section -->
+          <div class="column">
+            <div class="card pb-2">
+              <h1 class="card-content title is-4 custom-text-dark">Favorites</h1>
+              {% for bill in favorited_bills %}
+              <div class="card m-2">
+                <div class="card-content">
+                  <div class="columns is-vcentered">
+                    <div class="column is-narrow">
+                      <h2 class="title is-size-6 custom-text-dark">{{ bill.state }}</h2>
+                    </div>
+                    <div class="column is-narrow">
+                      <h2 class="title is-size-6 custom-text-dark">{{ bill.number }}</h2>
+                    </div>
+                    <div class="column">
+                      <a href="/bill/{{ bill.bill_id }}/" class="is-size-6 has-text-link">{{ bill.title }}</a>
+                    </div>
+                    <div class="column is-narrow">
+                      {% for topic in bill.topics %}
+                      <span class="{% if topic == 'Education' %}button-blue {% elif topic == 'Energy/Environment' %}button-green {% elif topic == 'Health' %}button-red {% elif topic == 'Transportation' %}button-purple {% elif topic == 'Housing' %}button-pink {% elif topic == 'LGBTQIA' %}button-yellow {% endif %} tag is-rounded is-medium">{{ topic }}</span>
+                      {% endfor %}
+                    </div>
+                    <div class="column is-narrow">
+                      {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <p class="card-content">
+                <em>No favorited bills found. <a href="/search">Search</a> for bills to add them to your favorites!</em>
+              </p>
+              {% endfor %}
+            </div>
           </div>
         </div>
       </div>
     </section>
+
     <!-- JS for burger menu -->
     <script src="{% static 'js/burger.js' %}"></script>
-    <!-- <script src="../static/js/burger.js"></script> -->
+    <script src="https://unpkg.com/htmx.org"></script>
   </body>
 </html>
