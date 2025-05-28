@@ -93,7 +93,7 @@ def search(request: HttpRequest) -> HttpResponse:
         "environment": "Energy/Environment",
     }
 
-    raw_topic = request.GET.get("topic", None).lower()
+    raw_topic = request.GET.get("topic", "").lower()
     topic = topic_aliases.get(raw_topic, raw_topic) if raw_topic else None
 
     results = BillsTable.objects
