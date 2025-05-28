@@ -104,6 +104,7 @@
                     {% csrf_token %}
                     <label class="switch">
                       <input type="checkbox" name="is_subscribed" value="true" onchange="this.form.submit()" {% if user.is_subscribed %}checked{% endif %} />
+                      <!-- prettier-ignore -->
                       <div class="slider"></div>
                       <div class="slider-card">
                         <div class="slider-card-face slider-card-front"></div>
@@ -146,6 +147,7 @@
                       <!-- for loop for bill Topics will go here -->
                     </div>
                     <div class="column is-narrow">
+                      <!-- prettier-ignore -->
                       {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}
                     </div>
                   </div>
