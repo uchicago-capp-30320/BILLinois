@@ -122,7 +122,9 @@
         {% for status in bill_data.status %}
         <!-- prettier-ignore -->
         <li>
-          <strong> {{ status.date|date:"M j, Y" }} </strong>: {{ status.status_desc }}
+          <strong> {{ status.date|date:"M j, Y" }} </strong>
+          <!-- prettier-ignore -->
+          : {{ status.status_desc }}
           <br />
           <em></em>
         </li>
