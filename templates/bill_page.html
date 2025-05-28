@@ -66,33 +66,36 @@
             role="navigation"
             aria-label="dropdown navigation"
           >
+            <div class="navbar-brand">
+              <a
+                role="button"
+                class="navbar-burger"
+                aria-label="menu"
+                aria-expanded="false"
+                data-target="navbarMenu"
+              >
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
             <div id="navbarMenu" class="navbar-menu">
-              <div class="navbar-item has-dropdown is-hoverable navbar-end">
-                <a class="navbar-link is-size-5"> Menu </a>
-                <div class="navbar-dropdown is-right is-boxed">
-                  <a href="/" class="navbar-item">Home</a>
-                  {% if user.is_authenticated %}
-                  <a href="/favorites" class="navbar-item">My Account</a>
-                  <a href="/accounts/logout" class="navbar-item">Sign Out</a>
-                  {% else %}
-                  <a href="/accounts/login" class="navbar-item">Log In</a>
-                  <a href="/accounts/signup/" class="navbar-item">Sign Up</a>
-                  {% endif %}
+              <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link"> Menu </a>
+                  <div class="navbar-dropdown is-boxed">
+                    {% if user.is_authenticated %}
+                    <a href="/favorites" class="navbar-item">My Account</a>
+                    <a href="/accounts/logout" class="navbar-item">Sign Out</a>
+                    {% else %}
+                    <a href="/accounts/login" class="navbar-item">Log In</a>
+                    <a href="/accounts/signup/" class="navbar-item">Sign Up</a>
+                    {% endif %}
+                  </div>
                 </div>
               </div>
             </div>
-            <a
-              role="button"
-              class="navbar-burger"
-              aria-label="menu"
-              aria-expanded="false"
-              data-target="navbarMenu"
-            >
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </a>
           </nav>
         </div>
       </div>

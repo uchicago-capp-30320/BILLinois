@@ -19,14 +19,23 @@
   </head>
   <body>
     <section class="section">
-      <!-- Dropdown Menu -->
-      <nav
-        class="navbar is-right is-flex is-justify-content-flex-end"
-        role="navigation"
-        aria-label="dropdown navigation"
-      >
-        <div class="navbar-end">
-          <div id="navbarMenu" class="navbar-menu is-right">
+      <nav class="navbar" role="navigation" aria-label="dropdown navigation">
+        <div class="navbar-brand">
+          <a
+            role="button"
+            class="navbar-burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarMenu"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <div id="navbarMenu" class="navbar-menu">
+          <div class="navbar-end">
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link"> Menu </a>
               <div class="navbar-dropdown is-boxed">
@@ -41,19 +50,11 @@
             </div>
           </div>
         </div>
-        <a
-          role="button"
-          class="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarMenu"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
       </nav>
+    </section>
+
+    <section class="section">
+      <!-- Dropdown Menu -->
     </section>
     <section class="section">
       <div class="container">
