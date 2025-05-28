@@ -176,8 +176,8 @@ class SponsorsMockDjango(models.Model):
 
 class SponsorsTable(models.Model):
     """
-    Stores data for sponsors of bills. Represents a one-to-many relationship:
-    one bill may have many sponsors.
+    Stores data for sponsors of bills. Represents a many-to-many relationship:
+    one bill may have many sponsors, and one sponsor may have many bills.
 
     This table is queried by frontend views that show bill information,
     including sponsor information.
@@ -352,7 +352,7 @@ class UsersTable(models.Model):
 
 class UserNotificationQueue(models.Model):
     """
-    A table to store user notifications.
+    A table to store user notifications in a queue, with all bills to update on bundled in a single notification.
 
     Connects to:
 
