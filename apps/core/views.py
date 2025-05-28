@@ -5,7 +5,6 @@ from django.contrib.postgres.aggregates import ArrayAgg
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator
 from django.db.models import Exists, OuterRef, Subquery, Value, BooleanField
-from django.contrib.postgres.aggregates import ArrayAgg
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -79,7 +78,7 @@ def search(request: HttpRequest) -> HttpResponse:
     # if query provided we look for keyword on filtered (if topic) or unfiltered table
     if query:
         bill_number_pattern = r"^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+"
-        
+
         # If the user has searched by bill number, only search the number field
         # This is to avoid returning unrelated results for bill numbers
         if re.fullmatch(bill_number_pattern, query.upper()):
@@ -109,8 +108,7 @@ def search(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "search.html",
-        {"query": query, "results": page_obj, "states": STATES, "state": state,
-         "topic": topic}
+        {"query": query, "results": page_obj, "states": STATES, "state": state, "topic": topic},
     )
 
 
@@ -217,9 +215,7 @@ def bill_page(
     if request.user.is_authenticated:
         user_id = request.user.id
 
-        favorites_query = FavoritesTable.objects.filter(
-            user_id=user_id, bill_id=bill.bill_id
-        )
+        favorites_query = FavoritesTable.objects.filter(user_id=user_id, bill_id=bill.bill_id)
 
         bill.favorite = favorites_query.exists()
     else:
@@ -251,7 +247,7 @@ def bill_page(
             }
             for a in bill.actionstable_set.exclude(category=None).order_by("date")
         ],
-        "favorite": bill.favorite
+        "favorite": bill.favorite,
     }
 
     return render(request, "bill_page.html", {"bill_data": data, "states": STATES})

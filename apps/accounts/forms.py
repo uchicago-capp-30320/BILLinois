@@ -25,8 +25,6 @@ class CustomSignupForm(SignupForm):
         widget=forms.CheckboxInput(attrs={"checked": "checked"}),
     )
 
-    
-
     def clean_email(self) -> str:
         email = self.cleaned_data.get("email")
         user = get_user_model()
