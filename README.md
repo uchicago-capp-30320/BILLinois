@@ -49,8 +49,13 @@ After cloning the repository:
 
 ## Repository Layout
 
-- `project`: includes main app script (frontend and backend)
 - `data`: contains data files used in project
+- `apps/core`: contains models and views for handling and displaying bills
+- `apps/accounts`: contains models and views for user accounts
+- `docs`: contains architecture diagrams and summaries
+- `templates`: contains HTML templates for website
+- `static`: contains css and js files for website
+- `config`: configuration fies
 - `tests`: contains all tests related to the project
 
 ## Development of BILLinois
