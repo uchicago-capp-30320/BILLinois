@@ -8,6 +8,8 @@
 
 ## /accounts/confirm-email/
 
+Handled by Django's `allauth` module.
+
 Parameters:
 
 - code: `str` a confirmation code sent to the user's email to confirm signup
@@ -15,6 +17,8 @@ Parameters:
 Response: HTML confirmation page
 
 ## /accounts/login/
+
+Handled by Django's `allauth` module.
 
 Parameters:
 
@@ -25,6 +29,8 @@ Response: HTML login page, redirect to confirmation page, failure message upon f
 
 ## /accounts/login/code/confirm/
 
+Handled by Django's `allauth` module.
+
 Parameters:
 
 - code: `str`
@@ -33,11 +39,15 @@ Response: Redirect to home page `/` after successful confirmation, failure messa
 
 ## /accounts/logout
 
+Handled by Django's `allauth` module.
+
 Parameters:
 
 Response: Redirect to home page `/` after successful logout.
 
 ## /accounts/password/reset/
+
+Handled by Django's `allauth` module.
 
 Parameters:
 
