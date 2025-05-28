@@ -1,10 +1,9 @@
 import re
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.aggregates import ArrayAgg
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator
-from django.db.models import Exists, OuterRef, Subquery, Value, BooleanField
+from django.db.models import Exists, OuterRef, Subquery, Value, BooleanField, DateTimeField
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -59,9 +58,16 @@ def search(request: HttpRequest) -> HttpResponse:
     """
 
     query = request.GET.get("query", "")
-    topic = request.GET.get("topic", None)
     state = request.GET.get("state", None)
     session = request.GET.get("session", None)
+
+    topic_aliases = {
+        "energy": "Energy/Environment",
+        "environment": "Energy/Environment",
+    }
+
+    raw_topic = request.GET.get("topic", None).lower()
+    topic = topic_aliases.get(raw_topic, raw_topic) if raw_topic else None
 
     results = BillsTable.objects
 
@@ -79,7 +85,7 @@ def search(request: HttpRequest) -> HttpResponse:
     # if query provided we look for keyword on filtered (if topic) or unfiltered table
     if query:
         bill_number_pattern = r"^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+"
-        
+
         # If the user has searched by bill number, only search the number field
         # This is to avoid returning unrelated results for bill numbers
         if re.fullmatch(bill_number_pattern, query.upper()):
@@ -93,6 +99,13 @@ def search(request: HttpRequest) -> HttpResponse:
 
     results = results.annotate(topics=ArrayAgg("topicstable__topic", distinct=True))
 
+    # add most recent action to results
+    latest_action = ActionsTable.objects.filter(bill_id=OuterRef("bill_id")).order_by("-date")
+
+    results = results.annotate(
+        last_action_date=Subquery(latest_action.values("date")[:1], output_field=DateTimeField()),
+        last_action_description=Subquery(latest_action.values("description")[:1]),
+    )
     # include "favorited" status if the user is logged in
     if request.user.is_authenticated:
         user_id = request.user.id
@@ -109,8 +122,7 @@ def search(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "search.html",
-        {"query": query, "results": page_obj, "states": STATES, "state": state,
-         "topic": topic}
+        {"query": query, "results": page_obj, "states": STATES, "state": state, "topic": topic},
     )
 
 
@@ -217,9 +229,7 @@ def bill_page(
     if request.user.is_authenticated:
         user_id = request.user.id
 
-        favorites_query = FavoritesTable.objects.filter(
-            user_id=user_id, bill_id=bill.bill_id
-        )
+        favorites_query = FavoritesTable.objects.filter(user_id=user_id, bill_id=bill.bill_id)
 
         bill.favorite = favorites_query.exists()
     else:
@@ -251,7 +261,7 @@ def bill_page(
             }
             for a in bill.actionstable_set.exclude(category=None).order_by("date")
         ],
-        "favorite": bill.favorite
+        "favorite": bill.favorite,
     }
 
     return render(request, "bill_page.html", {"bill_data": data, "states": STATES})
@@ -283,7 +293,7 @@ def favorites_page(request):
     favorite_bill_ids = favorite_qs.values("bill_id")
 
     bills_qs = BillsTable.objects.filter(bill_id__in=Subquery(favorite_bill_ids)).prefetch_related(
-        "topicstable_set"
+        "topicstable_set", "actionstable_set"
     )
 
     # Annote bills with a favorite status = true for use with htmx
