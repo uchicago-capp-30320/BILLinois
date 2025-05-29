@@ -352,7 +352,8 @@ class UsersTable(models.Model):
 
 class UserNotificationQueue(models.Model):
     """
-    A table to store user notifications in a queue, with all bills to update on bundled in a single notification.
+    A table to store user notifications in a queue, with all bills to update on
+    bundled in a single notification.
 
     Connects to:
 

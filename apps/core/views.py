@@ -1,12 +1,11 @@
 import re
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.aggregates import ArrayAgg
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator
-from django.db.models import Exists, OuterRef, Subquery, Value, BooleanField
+from django.db.models import Exists, OuterRef, Subquery, Value, BooleanField, DateTimeField
 from django.contrib.postgres.aggregates import ArrayAgg
-from django.http import Http404, HttpRequest, HttpResponse
+from django.http import Http404, HttpRequest, HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 
@@ -38,12 +37,13 @@ def search(request: HttpRequest) -> HttpResponse:
         search for keywords on a specified topic
 
     Args:
-        request (HttpRequest): 
+        request (HttpRequest):
             An HTTP request object containing GET parameters:
 
             - query (str): Search query string.
-            - state (str): 
-                State abbreviation (e.g., 'il' for Illinois) for the state in which legislation was introduced.
+            - state (str):
+                State abbreviation for the state in which legislation was introduced
+                (e.g., 'il' for Illinois).
 
     Returns:
         HttpResponse: The rendered search results page listing all bills matching a search query.
@@ -52,18 +52,20 @@ def search(request: HttpRequest) -> HttpResponse:
             bill information about searched bills.
             The fields correspond to the columns in the database's bills table:
 
-            - bill_id: The unique identifier for the bill.
-            - number: The bill number assigned by the legislative chamber where it was introduced.
-            - title: The bill title.
-            - summary: The bill summary.
-            - status: The bill status, including current and all previous statuses.
-                - dates: Date of the change of status.
-                - description: Description of the change of status.
-            - topics: Pre-determined topics extracted from the summary using keyword match.
-            - sponsors: Any registered sponsor for the bill.
-                - sponsor_id: unique identification number for sponsor
-                - party: the political party the sponsor represents
-                - position: sponsor's role in the legislature
+            - bill_data:
+                - bill_id: Unique identifier for the bill.
+                - number:
+                    Bill number assigned by the legislative chamber where it was introduced.
+                - title: Bill title.
+                - summary: Bill summary.
+                - status: Bill status, including current and all previous statuses.
+                    - dates: Date of the change of status.
+                    - description: Description of the change of status.
+                - topics: Pre-determined topics extracted from the summary using keyword match.
+                - sponsors: Any registered sponsor for the bill.
+                    - sponsor_id: unique identification number for sponsor
+                    - party: the political party the sponsor represents
+                    - position: sponsor's role in the legislature
 
     Example:
 
@@ -86,9 +88,16 @@ def search(request: HttpRequest) -> HttpResponse:
     """
 
     query = request.GET.get("query", "")
-    topic = request.GET.get("topic", None)
     state = request.GET.get("state", None)
     session = request.GET.get("session", None)
+
+    topic_aliases = {
+        "energy": "Energy/Environment",
+        "environment": "Energy/Environment",
+    }
+
+    raw_topic = request.GET.get("topic", "").lower()
+    topic = topic_aliases.get(raw_topic, raw_topic) if raw_topic else None
 
     results = BillsTable.objects
 
@@ -106,7 +115,7 @@ def search(request: HttpRequest) -> HttpResponse:
     # if query provided we look for keyword on filtered (if topic) or unfiltered table
     if query:
         bill_number_pattern = r"^(HB|HR|SJR|HJR|HJRCA|SR|SJRCA|SB|AM|EO|JSR)\s*\d+"
-        
+
         # If the user has searched by bill number, only search the number field
         # This is to avoid returning unrelated results for bill numbers
         if re.fullmatch(bill_number_pattern, query.upper()):
@@ -120,6 +129,13 @@ def search(request: HttpRequest) -> HttpResponse:
 
     results = results.annotate(topics=ArrayAgg("topicstable__topic", distinct=True))
 
+    # add most recent action to results
+    latest_action = ActionsTable.objects.filter(bill_id=OuterRef("bill_id")).order_by("-date")
+
+    results = results.annotate(
+        last_action_date=Subquery(latest_action.values("date")[:1], output_field=DateTimeField()),
+        last_action_description=Subquery(latest_action.values("description")[:1]),
+    )
     # include "favorited" status if the user is logged in
     if request.user.is_authenticated:
         user_id = request.user.id
@@ -133,22 +149,41 @@ def search(request: HttpRequest) -> HttpResponse:
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
+    query_params = QueryDict(mutable=True)
+
+    if query:
+        query_params["query"] = query
+    if state:
+        query_params["state"] = state
+    if topic:
+        query_params["topic"] = topic
+
+    pagination_query = query_params.urlencode()
+
     return render(
         request,
         "search.html",
-        {"query": query, "results": page_obj, "states": STATES, "state": state,
-         "topic": topic}
+        {
+            "query": query,
+            "results": page_obj,
+            "states": STATES,
+            "state": state,
+            "topic": topic,
+            "pagination_query": pagination_query,
+        },
     )
 
 
 @login_required
 def toggle_favorite(request, bill_id):
     """
-    Toggle the favorite status of a bill for the current user. If the bill is already favorited, it will be removed from favorites.
+    Toggle the favorite status of a bill for the current user.
+    If the bill is already favorited, it will be removed from favorites.
 
     Args:
         request (HttpRequest): An HTTP request object.
-        bill_id (str): The unique identifier for the bill (e.g., ocd-bill/12bcc69d-cfa4-4021-974a-5f562297ea34).
+        bill_id (str): The unique identifier for the bill
+        (e.g., ocd-bill/12bcc69d-cfa4-4021-974a-5f562297ea34).
 
     Returns:
         HttpResponse: Rendered partial template containing the updated favorite button HTML.
@@ -189,7 +224,7 @@ def bill_page(
 ) -> HttpResponse:
     """
     Return detailed bill data. At least one of the following must be provided:
-    
+
     - `bill_id`, or
     - All of: `state`, `session`, and `bill_number`.
 
@@ -205,11 +240,12 @@ def bill_page(
         Results: Contains the following columns from database's table:
 
             - bill_data:
-                - bill_id: The unique identifier for the bill.
-                - number: The bill number assigned by the legislative chamber where it was introduced.
-                - title: The bill title.
-                - summary: The bill summary.
-                - status: The bill status, including current and all previous statuses.
+                - bill_id: Unique identifier for the bill.
+                - number:
+                    Bill number assigned by the legislative chamber where it was introduced.
+                - title: Bill title.
+                - summary: Bill summary.
+                - status: Bill status, including current and all previous statuses.
                     - dates: Date of the change of status.
                     - description: Description of the change of status.
                 - topics: Pre-determined topics extracted from the summary using keyword match.
@@ -268,9 +304,7 @@ def bill_page(
     if request.user.is_authenticated:
         user_id = request.user.id
 
-        favorites_query = FavoritesTable.objects.filter(
-            user_id=user_id, bill_id=bill.bill_id
-        )
+        favorites_query = FavoritesTable.objects.filter(user_id=user_id, bill_id=bill.bill_id)
 
         bill.favorite = favorites_query.exists()
     else:
@@ -302,7 +336,7 @@ def bill_page(
             }
             for a in bill.actionstable_set.exclude(category=None).order_by("date")
         ],
-        "favorite": bill.favorite
+        "favorite": bill.favorite,
     }
 
     return render(request, "bill_page.html", {"bill_data": data, "states": STATES})
@@ -323,8 +357,9 @@ def favorites_page(request):
             - sort (str): "action_date" or "favorite_id". Defaults to "favorite_id".
 
     Returns:
-        HttpResponse: A Django context variable with the data from the query. If the user is not logged in, redirect to the `/login/` endpoint.
-        
+        HttpResponse: A Django context variable with the data from the query.
+        If the user is not logged in, redirect to the `/login/` endpoint.
+
             - favorited_bills (QuerySet): Bills favorited by the user.
             - sort_option (str): The current sort option in use ("action_date" or "favorite_id").
 
@@ -354,7 +389,7 @@ def favorites_page(request):
     favorite_bill_ids = favorite_qs.values("bill_id")
 
     bills_qs = BillsTable.objects.filter(bill_id__in=Subquery(favorite_bill_ids)).prefetch_related(
-        "topicstable_set"
+        "topicstable_set", "actionstable_set"
     )
 
     # Annote bills with a favorite status = true for use with htmx

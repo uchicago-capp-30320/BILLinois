@@ -36,7 +36,7 @@ def test_home_exists(page: Page):
 @pytest.mark.parametrize(
     "search_term, expected_results, message",
     [
-        ("", "Please enter a search term.", "Failed to prompt user when no search term entered."),
+        ("", 'Search results for ""', "Failed to prompt user when no search term entered."),
         ("asdf", "No results found.", "Failed to inform user when 0 results are returned."),
         ("environment", "Search results", "Failed to return any results for a valid search term."),
     ],
@@ -44,7 +44,7 @@ def test_home_exists(page: Page):
 def test_search(page: Page, search_term, expected_results, message):
     """
     Test the search functionality of the page for at least two cases:
-    - Empty search case, where the user is prompted to enter a search term.
+    - Empty search case, where all bills will be returned
     - Empty results case, where the user is notified that no results were found.
     - Non-empty results case, where the user should see results.
     """
@@ -63,15 +63,16 @@ def test_search(page: Page, search_term, expected_results, message):
     expect(page.get_by_text(expected_results), message).to_be_visible()
 
 
-# def test_bill_page(page: Page):
-#     """
-#     Test navigating to a specific bill page.
-#     TODO: finish
-#     """
+def test_bill_page(page: Page):
+    """
+    Test navigating to a specific bill page.
+    TODO: finish
+    """
 
-#     page.goto("http://127.0.0.1:8000/search/?query=environment")
+    page.goto("http://127.0.0.1:8000/search/?query=environment")
 
-#     page.get_by_role("link",name="HR 191").click()
+    page.get_by_role("link", name="DCFS-YOUTH INDEPENDENCE GOAL").click()
+
 
 # def test_favorite_bill(page: Page):
 #     """
@@ -131,8 +132,8 @@ def test_sign_in(page: Page, username, password, expected_results, message):
     page.locator("button[type='submit']").first.click()
 
     if expected_results == "Sign Out":  # click menu only if successful login
-        page.pause()
-        page.screenshot(path="debug.png")
+        # page.pause()
+        # page.screenshot(path="debug.png")
         page.get_by_text("Menu").click(timeout=TIMEOUT)
 
     expect(page.get_by_text(expected_results), message).to_be_visible()

@@ -1,7 +1,5 @@
 name: Run all tests with pytest
 on:
-  push:
-    branches: [main, dev]
   pull_request:
     branches: [main, dev]
 
@@ -47,6 +45,9 @@ jobs:
         run: |
           mkdir _logs
           touch _logs/flat.log
+
+      - name: Update static files
+        run: uv run python manage.py collectstatic --no-input
 
       - name: Launch app
         run: uv run python manage.py runserver & # run in background and continue to next step

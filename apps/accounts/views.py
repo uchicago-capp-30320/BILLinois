@@ -42,8 +42,8 @@ def make_account_page(request: HttpRequest) -> HttpResponse:
         request (HttpRequest): The HTTP request object.
 
     Returns:
-        HttpResponse: 
-            HTML sign-up page, success message upon successful registration, 
+        HttpResponse:
+            HTML sign-up page, success message upon successful registration,
             failure message upon failed registration
     """
     return render(request, "signup.html")
