@@ -115,7 +115,7 @@ def test_sign_in(page: Page, username, password, expected_results, message):
 
     page.goto("http://127.0.0.1:8000/")
 
-    # page.locator("#djHideToolBarButton").click(timeout=TIMEOUT)
+    page.locator("#djHideToolBarButton").click(timeout=TIMEOUT)
 
     page.get_by_text("Menu").click(timeout=TIMEOUT)
     page.get_by_text("Log In").click(timeout=TIMEOUT)
@@ -132,8 +132,8 @@ def test_sign_in(page: Page, username, password, expected_results, message):
     page.locator("button[type='submit']").first.click()
 
     if expected_results == "Sign Out":  # click menu only if successful login
-        page.pause()
-        page.screenshot(path="debug.png")
+        # page.pause()
+        # page.screenshot(path="debug.png")
         page.get_by_text("Menu").click(timeout=TIMEOUT)
 
     expect(page.get_by_text(expected_results), message).to_be_visible()
