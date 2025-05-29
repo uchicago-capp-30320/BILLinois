@@ -15,8 +15,9 @@ def normalize_bill_number(number: str) -> str:
     """
     number = number.upper()
 
-    match = re.match(r"^([a-z]+)(\d+[a-z0-9]*)$", number)
+    match = re.match(r"^([A-z]+)(\d+[a-z0-9]*)$", number)
     if match:
+        print("True")
         return f"{match.group(1)} {match.group(2)}"
 
     # Fallback: insert space after first 2 characters
