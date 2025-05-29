@@ -36,7 +36,12 @@ def test_home_exists(page: Page):
 @pytest.mark.parametrize(
     "search_term, expected_results, message",
     [
-        ("", 'Search results for ""', "Failed to prompt user when no search term entered."),        ("asdf", "No results found.", "Failed to inform user when 0 results are returned."),
+        ("", 'Search results for ""', "Failed to prompt user when no search term entered."),
+        (
+            "asdf",
+            "No results found.",
+            "Failed to inform user when 0 results are returned."
+        ),
         ("environment", "Search results", "Failed to return any results for a valid search term."),
     ],
 )

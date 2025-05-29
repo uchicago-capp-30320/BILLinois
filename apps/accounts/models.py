@@ -41,7 +41,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         username (Varchar, unique): User's username, used for login and identification.
         full_name (Varchar): User's full name, used for display purposes.
         is_staff (Boolean): Indicates whether the user can log into the admin site.
-        is_active (Boolean): Indicates whether the user is active. Unselect this instead of deleting accounts.
+        is_active (Boolean):
+            Indicates whether the user is active. Unselect this instead of deleting accounts.
         is_subscribed (Boolean): Indicates whether the user is subscribed to notifications.
         date_joined (DateTime): The date and time when the user joined the platform.
     """

@@ -42,7 +42,8 @@ def search(request: HttpRequest) -> HttpResponse:
 
             - query (str): Search query string.
             - state (str):
-                State abbreviation (e.g., 'il' for Illinois) for the state in which legislation was introduced.
+                State abbreviation for the state in which legislation was introduced
+                (e.g., 'il' for Illinois).
 
     Returns:
         HttpResponse: The rendered search results page listing all bills matching a search query.
@@ -51,18 +52,20 @@ def search(request: HttpRequest) -> HttpResponse:
             bill information about searched bills.
             The fields correspond to the columns in the database's bills table:
 
-            - bill_id: The unique identifier for the bill.
-            - number: The bill number assigned by the legislative chamber where it was introduced.
-            - title: The bill title.
-            - summary: The bill summary.
-            - status: The bill status, including current and all previous statuses.
-                - dates: Date of the change of status.
-                - description: Description of the change of status.
-            - topics: Pre-determined topics extracted from the summary using keyword match.
-            - sponsors: Any registered sponsor for the bill.
-                - sponsor_id: unique identification number for sponsor
-                - party: the political party the sponsor represents
-                - position: sponsor's role in the legislature
+            - bill_data:
+                - bill_id: Unique identifier for the bill.
+                - number:
+                    Bill number assigned by the legislative chamber where it was introduced.
+                - title: Bill title.
+                - summary: Bill summary.
+                - status: Bill status, including current and all previous statuses.
+                    - dates: Date of the change of status.
+                    - description: Description of the change of status.
+                - topics: Pre-determined topics extracted from the summary using keyword match.
+                - sponsors: Any registered sponsor for the bill.
+                    - sponsor_id: unique identification number for sponsor
+                    - party: the political party the sponsor represents
+                    - position: sponsor's role in the legislature
 
     Example:
 
@@ -174,11 +177,13 @@ def search(request: HttpRequest) -> HttpResponse:
 @login_required
 def toggle_favorite(request, bill_id):
     """
-    Toggle the favorite status of a bill for the current user. If the bill is already favorited, it will be removed from favorites.
+    Toggle the favorite status of a bill for the current user.
+    If the bill is already favorited, it will be removed from favorites.
 
     Args:
         request (HttpRequest): An HTTP request object.
-        bill_id (str): The unique identifier for the bill (e.g., ocd-bill/12bcc69d-cfa4-4021-974a-5f562297ea34).
+        bill_id (str): The unique identifier for the bill
+        (e.g., ocd-bill/12bcc69d-cfa4-4021-974a-5f562297ea34).
 
     Returns:
         HttpResponse: Rendered partial template containing the updated favorite button HTML.
@@ -235,11 +240,12 @@ def bill_page(
         Results: Contains the following columns from database's table:
 
             - bill_data:
-                - bill_id: The unique identifier for the bill.
-                - number: The bill number assigned by the legislative chamber where it was introduced.
-                - title: The bill title.
-                - summary: The bill summary.
-                - status: The bill status, including current and all previous statuses.
+                - bill_id: Unique identifier for the bill.
+                - number:
+                    Bill number assigned by the legislative chamber where it was introduced.
+                - title: Bill title.
+                - summary: Bill summary.
+                - status: Bill status, including current and all previous statuses.
                     - dates: Date of the change of status.
                     - description: Description of the change of status.
                 - topics: Pre-determined topics extracted from the summary using keyword match.
@@ -351,7 +357,8 @@ def favorites_page(request):
             - sort (str): "action_date" or "favorite_id". Defaults to "favorite_id".
 
     Returns:
-        HttpResponse: A Django context variable with the data from the query. If the user is not logged in, redirect to the `/login/` endpoint.
+        HttpResponse: A Django context variable with the data from the query.
+        If the user is not logged in, redirect to the `/login/` endpoint.
 
             - favorited_bills (QuerySet): Bills favorited by the user.
             - sort_option (str): The current sort option in use ("action_date" or "favorite_id").
