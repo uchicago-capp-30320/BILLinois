@@ -19,4 +19,3 @@
 ## /privacy_policy/
 
 ::: apps.core.views.privacy_policy
- 

@@ -37,11 +37,7 @@ def test_home_exists(page: Page):
     "search_term, expected_results, message",
     [
         ("", 'Search results for ""', "Failed to prompt user when no search term entered."),
-        (
-            "asdf",
-            "No results found.",
-            "Failed to inform user when 0 results are returned."
-        ),
+        ("asdf", "No results found.", "Failed to inform user when 0 results are returned."),
         ("environment", "Search results", "Failed to return any results for a valid search term."),
     ],
 )
@@ -75,7 +71,8 @@ def test_bill_page(page: Page):
 
     page.goto("http://127.0.0.1:8000/search/?query=environment")
 
-    page.get_by_role("link",name="DCFS-YOUTH INDEPENDENCE GOAL").click()
+    page.get_by_role("link", name="DCFS-YOUTH INDEPENDENCE GOAL").click()
+
 
 # def test_favorite_bill(page: Page):
 #     """

@@ -47,5 +47,5 @@ Note: Django auto-creates an `id` primary key if one does not already exist in t
 ::: apps.core.models.MostRecentUpload
 
 ## User Notification Queue
- 
+
 ::: apps.core.models.UserNotificationQueue

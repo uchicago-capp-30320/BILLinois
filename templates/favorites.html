@@ -92,18 +92,37 @@
             <div class="card">
               <div class="card-content">
                 {% if user.full_name %}
-                <h2 class="title is-4 custom-text-dark">{{ user.full_name }}</h2>
+                <h2 class="title is-4 custom-text-dark">
+                  {{ user.full_name }}
+                </h2>
                 {% else %}
                 <h2 class="title is-4 custom-text-dark">Hello, User!</h2>
                 {% endif %}
                 <p class="subtitle is-6 custom-text-dark">{{ user.email }}</p>
                 <!-- Alerts Toggle -->
                 <div class="is-flex is-align-items-center pb-3">
-                  <p class="subtitle is-6 mb-0 mr-3"><strong>Alerts: </strong></p>
-                  <form class = "mb-0" action="{% url 'unsubscribe' %}" method="post">
+                  <p class="subtitle is-6 mb-0 mr-3">
+                    <strong>Alerts: </strong>
+                  </p>
+                  <form
+                    class="mb-0"
+                    action="{% url 'unsubscribe' %}"
+                    method="post"
+                  >
                     {% csrf_token %}
                     <label class="switch">
-                      <input type="checkbox" name="is_subscribed" value="true" onchange="this.form.submit()" {% if user.is_subscribed %}checked{% endif %} />
+                      <input
+                        type="checkbox"
+                        name="is_subscribed"
+                        value="true"
+                        onchange="this.form.submit()"
+                        {%
+                        if
+                        user.is_subscribed
+                        %}checked{%
+                        endif
+                        %}
+                      />
                       <!-- prettier-ignore -->
                       <div class="slider"></div>
                       <div class="slider-card">
@@ -115,45 +134,61 @@
                 </div>
                 <!-- Card Footer -->
                 <div class="card-footer">
-                  <a href="/accounts/email/" class="card-footer-item has-text-link">Edit Email</a>
+                  <a
+                    href="/accounts/email/"
+                    class="card-footer-item has-text-link"
+                    >Edit Email</a
+                  >
                 </div>
-                </div>
-                <div class="card-footer">
-                  <a href="/accounts/password/change/" class="card-footer-item has-text-link">Edit Password</a>
-                </div>
-                <div class ="card-footer">
-                  <a href="/accounts/delete_account/" class="card-footer-item has-text-link">Delete Account</a>
+              </div>
+              <div class="card-footer">
+                <a
+                  href="/accounts/password/change/"
+                  class="card-footer-item has-text-link"
+                  >Edit Password</a
+                >
+              </div>
+              <div class="card-footer">
+                <a
+                  href="/accounts/delete_account/"
+                  class="card-footer-item has-text-link"
+                  >Delete Account</a
+                >
               </div>
             </div>
           </div>
           <!-- User Favorites Section -->
           <div class="column">
             <div class="card pb-2">
-              <h1 class="card-content title is-4 custom-text-dark">Favorites</h1>
+              <h1 class="card-content title is-4 custom-text-dark">
+                Favorites
+              </h1>
               {% for bill in favorited_bills %}
               <div class="card m-2">
                 <div class="card-content">
                   <div class="columns is-vcentered">
                     <div class="column is-narrow">
-                      <h2 class="title is-size-6 custom-text-dark">{{ bill.state }}</h2>
+                      <h2 class="title is-size-6 custom-text-dark">
+                        {{ bill.state }}
+                      </h2>
                     </div>
                     <div class="column is-narrow">
-                      <h2 class="title is-size-6 custom-text-dark">{{ bill.number }}</h2>
+                      <h2 class="title is-size-6 custom-text-dark">
+                        {{ bill.number }}
+                      </h2>
                     </div>
                     <div class="column">
-                      <a href="/bill/{{ bill.bill_id }}/" class="is-size-6 has-text-link">{{ bill.title }}</a>
+                      <a
+                        href="/bill/{{ bill.bill_id }}/"
+                        class="is-size-6 has-text-link"
+                        >{{ bill.title }}</a
+                      >
                     </div>
                     <div class="column is-narrow">
                       <!-- for loop for bill Topics will go here -->
-                       {% for topic in bill.topicstable_set.all %}
-                       <span
-                        class="{% if topic.topic == 'Education' %}button-blue 
-                               {% elif topic.topic == 'Energy/Environment' %}button-green 
-                               {% elif topic.topic == 'Health' %}button-red 
-                               {% elif topic.topic == 'Transportation' %}button-purple 
-                               {% elif topic.topic == 'Housing' %}button-pink 
-                               {% elif topic.topic == 'LGBTQIA' %}button-yellow 
-                               {% endif %} tag is-rounded is-medium"
+                      {% for topic in bill.topicstable_set.all %}
+                      <span
+                        class="{% if topic.topic == 'Education' %}button-blue {% elif topic.topic == 'Energy/Environment' %}button-green {% elif topic.topic == 'Health' %}button-red {% elif topic.topic == 'Transportation' %}button-purple {% elif topic.topic == 'Housing' %}button-pink {% elif topic.topic == 'LGBTQIA' %}button-yellow {% endif %} tag is-rounded is-medium"
                         >{{ topic.topic }}
                       </span>
                       {% endfor %}
@@ -167,7 +202,10 @@
               </div>
               {% empty %}
               <p class="card-content">
-                <em>No favorited bills found. <a href="/search">Search</a> for bills to add them to your favorites!</em>
+                <em
+                  >No favorited bills found. <a href="/search">Search</a> for
+                  bills to add them to your favorites!</em
+                >
               </p>
               {% endfor %}
             </div>

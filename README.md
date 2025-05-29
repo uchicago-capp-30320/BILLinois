@@ -24,7 +24,7 @@ Once logged in, users can also access a profile page where they will see their p
 
 ## Contributing to BILLinois
 
-This project uses uv to manage dependencies. 
+This project uses uv to manage dependencies.
 
 View [documentation](https://uchicago-capp-30320.github.io/BILLinois/) for this repository.
 

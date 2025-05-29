@@ -13,12 +13,24 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
     />
     <!-- DataTables Customization -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.3/css/bulma.min.css"/>
-    <link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link rel = "stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.bulma.css"/>  
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.3/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.3.1/css/dataTables.bulma.css"
+    />
 
     <!-- Link to custom CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.dataTables.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.3.1/css/dataTables.dataTables.css"
+    />
     <link rel="stylesheet" href="../static/css/custom.css" />
   </head>
   <body>
@@ -111,14 +123,14 @@
           Search results for "{{ query }}" in {{ state }}.
         <!-- prettier-ignore -->
         {% else %}
-          <!-- prettier-ignore -->
-          {% if topic %}
+        <!-- prettier-ignore -->
+        {% if topic %}
             Search results for "{{ topic }}" in all states.
-          <!-- prettier-ignore -->
-          {% else %}
-          Search results for "{{ query }}" in all states. 
-          <!-- prettier-ignore -->
-          {% endif %}
+        <!-- prettier-ignore -->
+        {% else %}
+          Search results for "{{ query }}" in all states.
+        <!-- prettier-ignore -->
+        {% endif %}
         <!-- prettier-ignore -->
         {% endif %}
       </div>
@@ -141,7 +153,9 @@
         <tbody>
           {% for bill in results %}
           <tr>
-            <td class="py-5 custom-text-dark has-text-weight-semibold">{{ bill.number }}</td>
+            <td class="py-5 custom-text-dark has-text-weight-semibold">
+              {{ bill.number }}
+            </td>
             <td class="has-text-centered py-5 custom-text-dark">
               <a href="/bill/{{bill.bill_id}}/">{{bill.title}}</a>
             </td>
@@ -165,77 +179,108 @@
               <!-- prettier-ignore -->
               {% include "partials/favorite_button.html" with bill=bill is_favorite=bill.favorite %}
               {% else %}
-              <a href="/accounts/login" class="icon custom-yellow"><i class="fa-regular fa-star fa-xl"></i></a>
+              <a href="/accounts/login" class="icon custom-yellow"
+                ><i class="fa-regular fa-star fa-xl"></i
+              ></a>
               {% endif %}
             </td>
           </tr>
           {% endfor %}
-          </tbody>
-        </table>
-      </section>
-      <section class="section"> 
-        <!-- Pagination controls -->
-        <nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
-          {% if results.has_previous %}
-            <a class="pagination-previous" href="?page={{ results.previous_page_number }}&{{ pagination_query }}">Previous</a>
-          {% else %}
-            <a class="pagination-previous" disabled>Previous</a>
-          {% endif %}
-
-          {% if results.has_next %}
-            <a class="pagination-next" href="?page={{ results.next_page_number }}&{{ pagination_query }}">Next</a>
-          {% else %}
-          <a class="pagination-next" disabled>Next</a>
-          {% endif %}
-          <ul class="pagination-list">
-            {% if results.number > 3 %}
-              <li><a class="pagination-link" href="?page=1&{{ pagination_query }}">1</a></li>
-              {% if results.number > 4 %}
-                <li><span class="pagination-ellipsis">&hellip;</span></li>
-              {% endif %}
-            {% endif %}
-
-            <!-- prettier-ignore -->
-            {% for num in results.paginator.page_range %}
-              <!-- prettier-ignore -->
-              {% if num >= results.number|add:'-2' and num <= results.number|add:'2' %}
-                <!-- prettier-ignore -->
-                {% if num == results.number %}
-                  <li>
-                    <a class="pagination-link is-current" aria-label="Page {{ num }}" aria-current="page">{{ num }}</a>
-                  </li>
-                <!-- prettier-ignore -->
-                {% else %}
-                  <li>
-                    <a class="pagination-link" href="?page={{ num }}&{{ pagination_query }}" aria-label="Goto page {{ num }}">{{ num }}</a>
-                  </li>
-                <!-- prettier-ignore -->
-                {% endif %}
-              <!-- prettier-ignore -->
-              {% endif %}
-            <!-- prettier-ignore -->
-            {% endfor %}
-
-            <!-- prettier-ignore -->
-            {% if results.number < results.paginator.num_pages|add:'-2' %}
-              <!-- prettier-ignore -->
-              {% if results.number < results.paginator.num_pages|add:'-3' %}
-                <li><span class="pagination-ellipsis">&hellip;</span></li>
-              <!-- prettier-ignore -->
-              {% endif %}
-              <li>
-                <a class="pagination-link" href="?page={{ results.paginator.num_pages }}&{{ pagination_query }}">{{ results.paginator.num_pages }}</a>
-              </li>
-            <!-- prettier-ignore -->
-            {% endif %}
-          </ul>
-        </nav>
-        <!-- prettier-ignore -->
+        </tbody>
+      </table>
+    </section>
+    <section class="section">
+      <!-- Pagination controls -->
+      <nav
+        class="pagination is-centered is-rounded"
+        role="navigation"
+        aria-label="pagination"
+      >
+        {% if results.has_previous %}
+        <a
+          class="pagination-previous"
+          href="?page={{ results.previous_page_number }}&{{ pagination_query }}"
+          >Previous</a
+        >
         {% else %}
-          <p class="has-text-centered custom-text-dark">No results found. Please try a different search term.</p>
-        <!-- prettier-ignore -->
+        <a class="pagination-previous" disabled>Previous</a>
+        {% endif %} {% if results.has_next %}
+        <a
+          class="pagination-next"
+          href="?page={{ results.next_page_number }}&{{ pagination_query }}"
+          >Next</a
+        >
+        {% else %}
+        <a class="pagination-next" disabled>Next</a>
         {% endif %}
-      </section>
+        <ul class="pagination-list">
+          {% if results.number > 3 %}
+          <li>
+            <a class="pagination-link" href="?page=1&{{ pagination_query }}"
+              >1</a
+            >
+          </li>
+          {% if results.number > 4 %}
+          <li><span class="pagination-ellipsis">&hellip;</span></li>
+          {% endif %} {% endif %}
+
+          <!-- prettier-ignore -->
+          {% for num in results.paginator.page_range %}
+          <!-- prettier-ignore -->
+          {% if num >= results.number|add:'-2' and num <= results.number|add:'2' %}
+          <!-- prettier-ignore -->
+          {% if num == results.number %}
+          <li>
+            <a
+              class="pagination-link is-current"
+              aria-label="Page {{ num }}"
+              aria-current="page"
+              >{{ num }}</a
+            >
+          </li>
+          <!-- prettier-ignore -->
+          {% else %}
+          <li>
+            <a
+              class="pagination-link"
+              href="?page={{ num }}&{{ pagination_query }}"
+              aria-label="Goto page {{ num }}"
+              >{{ num }}</a
+            >
+          </li>
+          <!-- prettier-ignore -->
+          {% endif %}
+          <!-- prettier-ignore -->
+          {% endif %}
+          <!-- prettier-ignore -->
+          {% endfor %}
+
+          <!-- prettier-ignore -->
+          {% if results.number < results.paginator.num_pages|add:'-2' %}
+          <!-- prettier-ignore -->
+          {% if results.number < results.paginator.num_pages|add:'-3' %}
+          <li><span class="pagination-ellipsis">&hellip;</span></li>
+          <!-- prettier-ignore -->
+          {% endif %}
+          <li>
+            <a
+              class="pagination-link"
+              href="?page={{ results.paginator.num_pages }}&{{ pagination_query }}"
+              >{{ results.paginator.num_pages }}</a
+            >
+          </li>
+          <!-- prettier-ignore -->
+          {% endif %}
+        </ul>
+      </nav>
+      <!-- prettier-ignore -->
+      {% else %}
+      <p class="has-text-centered custom-text-dark">
+        No results found. Please try a different search term.
+      </p>
+      <!-- prettier-ignore -->
+      {% endif %}
+    </section>
     <!-- JS for burger menu -->
     <script src="../static/js/burger.js"></script>
 
@@ -249,6 +294,5 @@
 
     <!-- HTMX Script -->
     <script src="https://unpkg.com/htmx.org"></script>
-
   </body>
 </html>

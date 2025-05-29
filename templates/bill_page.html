@@ -114,7 +114,9 @@
               <!-- prettier-ignore -->
               {% include "partials/favorite_button.html" with bill=bill_data is_favorite=bill_data.favorite %}
               {% else %}
-              <a href="/accounts/login" class="icon custom-yellow"><i class="fa-regular fa-star fa-xl"></i></a>
+              <a href="/accounts/login" class="icon custom-yellow"
+                ><i class="fa-regular fa-star fa-xl"></i
+              ></a>
               {% endif %}
             </span>
             <span class="has-text-grey">
