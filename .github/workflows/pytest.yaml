@@ -41,13 +41,13 @@ jobs:
       - name: Install playwright
         run: uv run playwright install
 
-      - name: Update static files
-        run: uv run python manage.py collectstatic --no-input
-
       - name: Create necessary log file
         run: |
           mkdir _logs
           touch _logs/flat.log
+
+      - name: Update static files
+        run: uv run python manage.py collectstatic --no-input
 
       - name: Launch app
         run: uv run python manage.py runserver & # run in background and continue to next step
