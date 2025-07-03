@@ -145,13 +145,13 @@ kbd {
 }
 :where(select, textarea),
 input:not(
-  [type="submit"],
-  [type="button"],
-  [type="reset"],
-  [type="checkbox"],
-  [type="radio"],
-  [type="file"]
-) {
+    [type="submit"],
+    [type="button"],
+    [type="reset"],
+    [type="checkbox"],
+    [type="radio"],
+    [type="file"]
+  ) {
   --pico-outline-width: 0.0625rem;
 }
 [type="search"] {
@@ -174,32 +174,32 @@ nav details.dropdown summary:focus-visible {
   --pico-border-radius: 5rem;
 }
 [role="group"]:has(
-  button.secondary:focus,
-  [type="submit"].secondary:focus,
-  [type="button"].secondary:focus,
-  [role="button"].secondary:focus
-),
+    button.secondary:focus,
+    [type="submit"].secondary:focus,
+    [type="button"].secondary:focus,
+    [role="button"].secondary:focus
+  ),
 [role="search"]:has(
-  button.secondary:focus,
-  [type="submit"].secondary:focus,
-  [type="button"].secondary:focus,
-  [role="button"].secondary:focus
-) {
+    button.secondary:focus,
+    [type="submit"].secondary:focus,
+    [type="button"].secondary:focus,
+    [role="button"].secondary:focus
+  ) {
   --pico-group-box-shadow-focus-with-button: 0 0 0 var(--pico-outline-width)
     var(--pico-secondary-focus);
 }
 [role="group"]:has(
-  button.contrast:focus,
-  [type="submit"].contrast:focus,
-  [type="button"].contrast:focus,
-  [role="button"].contrast:focus
-),
+    button.contrast:focus,
+    [type="submit"].contrast:focus,
+    [type="button"].contrast:focus,
+    [role="button"].contrast:focus
+  ),
 [role="search"]:has(
-  button.contrast:focus,
-  [type="submit"].contrast:focus,
-  [type="button"].contrast:focus,
-  [role="button"].contrast:focus
-) {
+    button.contrast:focus,
+    [type="submit"].contrast:focus,
+    [type="button"].contrast:focus,
+    [role="button"].contrast:focus
+  ) {
   --pico-group-box-shadow-focus-with-button: 0 0 0 var(--pico-outline-width)
     var(--pico-contrast-focus);
 }
@@ -938,17 +938,17 @@ del {
     -webkit-text-decoration var(--pico-transition);
 }
 :where(a:not([role="button"])):is(
-  [aria-current]:not([aria-current="false"]),
-  :hover,
-  :active,
-  :focus
-),
+    [aria-current]:not([aria-current="false"]),
+    :hover,
+    :active,
+    :focus
+  ),
 [role="link"]:is(
-  [aria-current]:not([aria-current="false"]),
-  :hover,
-  :active,
-  :focus
-) {
+    [aria-current]:not([aria-current="false"]),
+    :hover,
+    :active,
+    :focus
+  ) {
   --pico-color: var(--pico-primary-hover);
   --pico-underline: var(--pico-primary-hover-underline);
   --pico-text-decoration: underline;
@@ -1111,11 +1111,11 @@ button:is([aria-current]:not([aria-current="false"])):focus {
     :focus
   ),
 [type="reset"]:is(
-  [aria-current]:not([aria-current="false"]),
-  :hover,
-  :active,
-  :focus
-) {
+    [aria-current]:not([aria-current="false"]),
+    :hover,
+    :active,
+    :focus
+  ) {
   --pico-background-color: var(--pico-secondary-hover-background);
   --pico-border-color: var(--pico-secondary-hover-border);
   --pico-color: var(--pico-secondary-inverse);
@@ -1233,12 +1233,12 @@ button:is([aria-current]:not([aria-current="false"])):focus {
   --pico-border-color: var(--pico-contrast-hover);
 }
 :where(
-  button,
-  [type="submit"],
-  [type="reset"],
-  [type="button"],
-  [role="button"]
-)[disabled],
+    button,
+    [type="submit"],
+    [type="reset"],
+    [type="button"],
+    [role="button"]
+  )[disabled],
 :where(fieldset[disabled])
   :is(
     button,
@@ -2447,17 +2447,17 @@ label > details.dropdown {
 }
 @supports selector(:has(*)) {
   [role="group"]:has(
-    button:focus,
-    [type="submit"]:focus,
-    [type="button"]:focus,
-    [role="button"]:focus
-  ),
+      button:focus,
+      [type="submit"]:focus,
+      [type="button"]:focus,
+      [role="button"]:focus
+    ),
   [role="search"]:has(
-    button:focus,
-    [type="submit"]:focus,
-    [type="button"]:focus,
-    [role="button"]:focus
-  ) {
+      button:focus,
+      [type="submit"]:focus,
+      [type="button"]:focus,
+      [role="button"]:focus
+    ) {
     --pico-group-box-shadow: var(--pico-group-box-shadow-focus-with-button);
   }
   [role="group"]:has(
@@ -2491,13 +2491,13 @@ label > details.dropdown {
     border-color: transparent;
   }
   [role="group"]:has(
-    input:not([type="submit"], [type="button"]):focus,
-    select:focus
-  ),
+      input:not([type="submit"], [type="button"]):focus,
+      select:focus
+    ),
   [role="search"]:has(
-    input:not([type="submit"], [type="button"]):focus,
-    select:focus
-  ) {
+      input:not([type="submit"], [type="button"]):focus,
+      select:focus
+    ) {
     --pico-group-box-shadow: var(--pico-group-box-shadow-focus-with-input);
   }
   [role="group"]:has(
