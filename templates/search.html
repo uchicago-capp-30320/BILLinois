@@ -58,6 +58,14 @@
                         <option value="{{ name }}">{{ name }}</option>
                         {% endfor %}
                       </select>
+                      <select name="type">
+                        <option value="" disabled selected>
+                          Type of legislation
+                        </option>
+                        {% for abbr, name in types %}
+                        <option value="{{ name }}">{{ name }}</option>
+                        {% endfor %}
+                      </select>
                     </span>
                   </p>
                   <p class="control is-expanded">
