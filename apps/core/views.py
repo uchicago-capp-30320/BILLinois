@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from .models import ActionsTable, BillsTable, FavoritesTable
 from .utils import bill_number_for_url, normalize_bill_number
 from .states import STATES, STATE_NAME_TO_ABBR, STATE_LINKS
+from .types import TYPES, TYPE_NAME_TO_ABBR
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -44,6 +45,12 @@ def search(request: HttpRequest) -> HttpResponse:
             - state (str):
                 State abbreviation for the state in which legislation was introduced
                 (e.g., 'il' for Illinois).
+            - session (str): Legislative session (not currently implemented?) 
+            - type (str): Type of legislation to include
+                'all' for all legislation
+                'bills' for only bills
+                'house' for only House bills
+                'senate' for only Senate bills
 
     Returns:
         HttpResponse: The rendered search results page listing all bills matching a search query.
@@ -90,6 +97,7 @@ def search(request: HttpRequest) -> HttpResponse:
     query = request.GET.get("query", "")
     state = request.GET.get("state", None)
     session = request.GET.get("session", None)
+    number = request.GET.get("number", None)
 
     topic_aliases = {
         "energy": "Energy/Environment",
@@ -111,6 +119,20 @@ def search(request: HttpRequest) -> HttpResponse:
 
     if session:
         results = results.filter(session__iexact=session)
+
+    # if type is provided, filter results on it
+    # pattern depends on the type being filtered to
+
+    bills_pattern = r"^(HB|SB)\s*\d+"
+    house_pattern = r"^(HB)\s*\d+"
+    senate_pattern = r"^(SB)\s*\d+"
+
+    if type == "bills":
+        results = results.filter(re.fullmatch(bills_pattern, number))
+    if type == "house":
+        results = results.filter(re.fullmatch(house_pattern, number))
+    if type == "senate":
+        results = results.filter(re.fullmatch(senate_pattern, number))
 
     # if query provided we look for keyword on filtered (if topic) or unfiltered table
     if query:
@@ -157,6 +179,8 @@ def search(request: HttpRequest) -> HttpResponse:
         query_params["state"] = state
     if topic:
         query_params["topic"] = topic
+    if type:
+        query_params["type"] = type
 
     pagination_query = query_params.urlencode()
 
@@ -169,6 +193,8 @@ def search(request: HttpRequest) -> HttpResponse:
             "states": STATES,
             "state": state,
             "topic": topic,
+            "types": TYPES,
+            "type": type,
             "pagination_query": pagination_query,
         },
     )
