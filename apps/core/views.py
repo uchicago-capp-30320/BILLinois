@@ -73,6 +73,7 @@ def search(request: HttpRequest) -> HttpResponse:
                     - sponsor_id: unique identification number for sponsor
                     - party: the political party the sponsor represents
                     - position: sponsor's role in the legislature
+                - type (str): Type of legislation to include
 
     Example:
 
