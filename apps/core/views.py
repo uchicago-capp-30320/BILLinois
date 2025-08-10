@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from .models import ActionsTable, BillsTable, FavoritesTable
 from .utils import bill_number_for_url, normalize_bill_number
 from .states import STATES, STATE_NAME_TO_ABBR, STATE_LINKS
+from .sort_options import SORT_OPTIONS
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -44,6 +45,10 @@ def search(request: HttpRequest) -> HttpResponse:
             - state (str):
                 State abbreviation for the state in which legislation was introduced
                 (e.g., 'il' for Illinois).
+            - sort_option (str):
+                Abbreviation for the variable to sort results by
+                'number' for bill number
+                'title' for bill title
 
     Returns:
         HttpResponse: The rendered search results page listing all bills matching a search query.
@@ -66,6 +71,7 @@ def search(request: HttpRequest) -> HttpResponse:
                     - sponsor_id: unique identification number for sponsor
                     - party: the political party the sponsor represents
                     - position: sponsor's role in the legislature
+                - sort_order: Variable the results are sorted by
 
     Example:
 
@@ -90,6 +96,7 @@ def search(request: HttpRequest) -> HttpResponse:
     query = request.GET.get("query", "")
     state = request.GET.get("state", None)
     session = request.GET.get("session", None)
+    sort_option = request.GET.get("sort", None)
 
     topic_aliases = {
         "energy": "Energy/Environment",
@@ -144,6 +151,12 @@ def search(request: HttpRequest) -> HttpResponse:
         )
         results = results.annotate(favorite=Exists(favorites_query))
 
+    # Add sorting if specified
+    if sort_option == "number":
+        results = results.order_by("number")
+    elif sort_option == "title":
+        results = results.order_by("title")
+
     # Paginate the results
     paginator = Paginator(results, 10)
     page_number = request.GET.get("page")
@@ -157,6 +170,8 @@ def search(request: HttpRequest) -> HttpResponse:
         query_params["state"] = state
     if topic:
         query_params["topic"] = topic
+    if sort_option:
+        query_params["sort_option"] = sort_option
 
     pagination_query = query_params.urlencode()
 
@@ -169,6 +184,8 @@ def search(request: HttpRequest) -> HttpResponse:
             "states": STATES,
             "state": state,
             "topic": topic,
+            "sort_options": SORT_OPTIONS,
+            "sort_option": sort_option,
             "pagination_query": pagination_query,
         },
     )
