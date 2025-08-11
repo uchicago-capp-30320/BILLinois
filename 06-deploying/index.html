@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../03-schema-updates/">
+        <link rel="prev" href="../05-models/">
       
       
-        <link rel="next" href="../05-models/">
+        <link rel="next" href="../endpoints/auth/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Signing Up and Logging In - BILLinois</title>
+        <title>Deployment - BILLinois</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#signing-up-and-logging-in" class="md-skip">
+        <a href="#deployment" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Signing Up and Logging In
+              Deployment
             
           </span>
         </div>
@@ -281,32 +281,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Signing Up and Logging In
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../04-signing_up_and_logging_in/" class="md-nav__link">
         
   
   
@@ -317,53 +295,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#to-start-the-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      To start the server:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#currently-in-progress" class="md-nav__link">
-    <span class="md-ellipsis">
-      Currently In Progress:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#signing-up" class="md-nav__link">
-    <span class="md-ellipsis">
-      Signing Up
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -394,10 +325,32 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../06-deploying/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Deployment
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -408,6 +361,35 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-a-custom-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using a custom domain
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -530,27 +512,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#to-start-the-server" class="md-nav__link">
+  <a href="#using-a-custom-domain" class="md-nav__link">
     <span class="md-ellipsis">
-      To start the server:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#currently-in-progress" class="md-nav__link">
-    <span class="md-ellipsis">
-      Currently In Progress:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#signing-up" class="md-nav__link">
-    <span class="md-ellipsis">
-      Signing Up
+      Using a custom domain
     </span>
   </a>
   
@@ -572,21 +536,24 @@
 
 
 
-<h1 id="signing-up-and-logging-in">Signing Up and Logging In</h1>
-<h2 id="to-start-the-server">To start the server:</h2>
-<p><code>uv run python manage.py runserver</code></p>
-<h2 id="currently-in-progress">Currently In Progress:</h2>
-<p>We are currently awaiting our Twilio campaign to be approved in order to send text messages without running into spam filters.
-In the meantime, phone authentication for the app has been disabled.</p>
-<h2 id="signing-up">Signing Up</h2>
-<p>To sign up, you will be asked to provide two things:</p>
-<ul>
-<li>Email Address</li>
-<li>Password</li>
-<li>Phone Number (Optional)</li>
-<li>Full Name (Optional)</li>
-</ul>
-<p>You will then be instructed to authorize your email address. Enter the authorization code sent to your email address. If you can't find it, check your spam folder.</p>
+<h1 id="deployment">Deployment</h1>
+<p>We use Docker and the remote <code>turing</code> server to deploy our app.</p>
+<p>Make sure the most recent <code>Dockerfile</code> and <code>docker-compose.yaml</code> are updated to the remote server.</p>
+<p>Then, from within the server, run:</p>
+<pre><code>docker-compose build
+docker-compose down
+docker-compose up --d
+</code></pre>
+<p>These commands will take the existing machine down and put a newly built one up.</p>
+<h2 id="using-a-custom-domain">Using a custom domain</h2>
+<p>Cite: James Turk</p>
+<p>The person who owns the domain needs to add a DNS record. To do that you login to the interface of the site you bought the domain on, look for DNS and then add a record with these properties this would make it available at yourdomain.org:</p>
+<pre><code>subdomain/host: @
+record type: A
+IP: YOUR_IP_ADDRESS
+TTL: DEFAULT
+</code></pre>
+<p>If you prefer www.yourdomain.org, you could use <code>subdomain/host: www</code>.</p>
 
 
 
