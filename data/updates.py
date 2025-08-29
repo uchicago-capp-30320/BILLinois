@@ -20,7 +20,7 @@ conn = psycopg2.connect(os.getenv("DATABASE_URL"))
 state = sys.argv[1]
 session = sys.argv[2]
 
-# Set up cursor, and clear updates_table/most_recent_upload
+# Set up cursor, and clear updates_table/most_recent_upload because this script runs daily and the updates table only contains daily updates
 cur = conn.cursor()
 cur.execute("DELETE FROM updates_table;")
 cur.execute("DELETE FROM most_recent_upload;")
@@ -85,6 +85,7 @@ for p in range(1, total_pages_updated + 1):
     cur.execute(
         "INSERT INTO bills_table (bill_id, number, title, summary, status, state, session) VALUES "
         + arguments_bills_updated
+        # if bill already exists, update title, summary, and status
         + " ON CONFLICT (bill_id) DO UPDATE SET title=EXCLUDED.title, summary=EXCLUDED.summary, status=EXCLUDED.status;"
     )
     # ruff: noqa: E501
@@ -109,6 +110,7 @@ for p in range(1, total_pages_updated + 1):
         cur.execute("INSERT INTO topics_table (bill_id, topic) VALUES " + arguments_topics)
 
     # Committing at every ~5k inserts
+    # less fail issues because less data than data_reading
     num_updated_inserts += updated_inserts
     if num_updated_inserts >= 5000:
         conn.commit()
@@ -118,6 +120,7 @@ for p in range(1, total_pages_updated + 1):
 
 # Close out
 today_string = str(today_date)
+# keeps track of whether the update succeeded
 date_insert_statement = "INSERT INTO most_recent_upload (last_upload_date) VALUES (%s)"
 cur.execute(date_insert_statement, (today_string,))
 conn.commit()
