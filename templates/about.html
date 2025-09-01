@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Search Results</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <!-- Link to custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+  </head>
+  <body>
+    <section class="section">
+      <nav class="navbar" role="navigation" aria-label="dropdown navigation">
+        <div class="navbar-brand">
+          <a
+            role="button"
+            class="navbar-burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarMenu"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <div id="navbarMenu" class="navbar-menu">
+          <div class="navbar-start">
+            <a href="/"
+              ><h1 class="title is-1 custom-text-dark">BILLinois</h1>
+            </a>
+          </div>
+          <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link"> Menu </a>
+              <div class="navbar-dropdown is-boxed">
+                <a href="/about" class="navbar-item">About</a>
+                {% if user.is_authenticated %}
+                <a href="/favorites" class="navbar-item">My Account</a>
+                <a href="/accounts/logout" class="navbar-item">Sign Out</a>
+                {% else %}
+                <a href="/accounts/login" class="navbar-item">Log In</a>
+                <a href="/accounts/signup/" class="navbar-item">Sign Up</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </section>
+    <section class="section">
+      <div class="container is-max-tablet">
+        <h1 class="title has-text-centered custom-text-dark bigger-title">
+          About BILLinois
+        </h1>
+        <p>
+          The goal of BILLinois is to enable everyone in Illinois to learn about
+          and track legislation they care about.
+        </p>
+        <p>
+          BILLinois was started in 2025 by a group of six graduate students at
+          the University of Chicago as part of Professor James Turk's course,
+          Software Engineering for Civic Technology. The team includes:
+        </p>
+        <ul class="list">
+          <li class="list-item">Livia Mucciolo</li>
+          <li class="list-item">Echo Nattinger</li>
+          <li class="list-item">Joaquin Pinto</li>
+          <li class="list-item">Caitlin Pratt</li>
+          <li class="list-item">David Steffen</li>
+          <li class="list-item">Suchi Tailor</li>
+          <li class="list-item">Karen Yi</li>
+        </ul>
+        <p>
+          View our
+          <a href="https://github.com/uchicago-capp-30320/BILLinois"
+            >GitHub repository</a
+          >.
+        </p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container is-max-tablet">
+        <h2 class="subtitle has-text-centered custom-text-dark">Contact</h2>
+        <p>
+          Questions about this project? Email us at
+          <a href="mailto:billinois.app@gmail.com">billinois.app@gmail.com</a>
+        </p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <footer class="footer">
+          <div class="content has-text-centered">
+            <p>
+              <a href="/">Return Home</a>
+            </p>
+          </div>
+        </footer>
+      </div>
+    </section>
+  </body>
+</html>
