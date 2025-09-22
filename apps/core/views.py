@@ -96,7 +96,7 @@ def search(request: HttpRequest) -> HttpResponse:
     query = request.GET.get("query", "")
     state = request.GET.get("state", None)
     session = request.GET.get("session", None)
-    sort_option = request.GET.get("sort", None)
+    sort_option = request.GET.get("sort_option", None)
 
     topic_aliases = {
         "energy": "Energy/Environment",
@@ -152,9 +152,9 @@ def search(request: HttpRequest) -> HttpResponse:
         results = results.annotate(favorite=Exists(favorites_query))
 
     # Add sorting if specified
-    if sort_option == "number":
+    if sort_option == "Bill Number":
         results = results.order_by("number")
-    elif sort_option == "title":
+    elif sort_option == "Bill Title":
         results = results.order_by("title")
 
     # Paginate the results
