@@ -1,11 +1,11 @@
 TYPES = [
     ("all", "All Legislative Business"),
-    ("bills", "Bills Only"),
-    ("house", "House Bills Only"),
-    ("senate", "Senate Bills Only"),
+    ("bills", "bills only"),
+    ("house", "House bills only"),
+    ("senate", "Senate bills only"),
 ]
 
 TYPE_NAME_TO_ABBR = {"All Legislative Business": "all", 
-                     "Bills Only": "bills",
-                     "House Bills Only": "house",
-                     "Senate Bills Only": "senate"}
+                     "bills only": "bills",
+                     "House bills only": "house",
+                     "Senate bills only": "senate"}

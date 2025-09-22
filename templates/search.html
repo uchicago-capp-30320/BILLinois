@@ -131,19 +131,23 @@
     <section class="section">
       <div class="title is-4 mb-6 custom-text-dark">
         <!-- prettier-ignore -->
-        {% if state %}           
+        {% if state and type %}
+          Search results for "{{ query }}" in {{ state }} among {{ type }}.
+        <!-- prettier-ignore -->
+        {% elif state and not type %}
           Search results for "{{ query }}" in {{ state }}.
         <!-- prettier-ignore -->
-        {% else %}
+        {% elif topic and type %}
+            Search results for "{{ topic }}" in all states among {{ type }}.
         <!-- prettier-ignore -->
-        {% if topic %}
+        {% elif topic and not type %}
             Search results for "{{ topic }}" in all states.
+        <!-- prettier-ignore -->
+        {% elif not topic and type %}
+            Search results for "{{ query }}" in all states among {{ type }}.
         <!-- prettier-ignore -->
         {% else %}
           Search results for "{{ query }}" in all states.
-        <!-- prettier-ignore -->
-        {% endif %}
-        <!-- prettier-ignore -->
         {% endif %}
       </div>
       <table id="search" class="table bg-light is-hoverable">

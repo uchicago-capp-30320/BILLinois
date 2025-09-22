@@ -99,6 +99,7 @@ def search(request: HttpRequest) -> HttpResponse:
     state = request.GET.get("state", None)
     session = request.GET.get("session", None)
     number = request.GET.get("number", None)
+    type = request.GET.get("type", None)
 
     topic_aliases = {
         "energy": "Energy/Environment",
@@ -128,12 +129,12 @@ def search(request: HttpRequest) -> HttpResponse:
     house_pattern = r"^(HB)\s*\d+"
     senate_pattern = r"^(SB)\s*\d+"
 
-    if type == "bills":
-        results = results.filter(re.fullmatch(bills_pattern, number))
-    if type == "house":
-        results = results.filter(re.fullmatch(house_pattern, number))
-    if type == "senate":
-        results = results.filter(re.fullmatch(senate_pattern, number))
+    if type == "bills only":
+        results = results.filter(number__regex=bills_pattern)
+    if type == "House bills only":
+        results = results.filter(number__regex=house_pattern)
+    if type == "Senate bills only":
+        results = results.filter(number__regex=senate_pattern)
 
     # if query provided we look for keyword on filtered (if topic) or unfiltered table
     if query:
