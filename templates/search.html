@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html data-theme="light">
   <head>
     <meta charset="utf-8" />
@@ -100,6 +100,7 @@
                 <div class="navbar-item has-dropdown is-hoverable">
                   <a class="navbar-link"> Menu </a>
                   <div class="navbar-dropdown is-boxed">
+                    <a href="/about" class="navbar-item">About</a>
                     {% if user.is_authenticated %}
                     <a href="/favorites" class="navbar-item">My Account</a>
                     <a href="/accounts/logout" class="navbar-item">Sign Out</a>

@@ -29,6 +29,20 @@ def home(request: HttpRequest) -> HttpResponse:
     return render(request, "home.html", {"states": STATES})
 
 
+def about(request: HttpRequest) -> HttpResponse:
+    """
+    Render the about page.
+
+    Args:
+        request (HttpRequest): An HTTP request object.
+
+    Returns:
+        HttpResponse:
+            The rendered HTML about page.
+    """
+    return render(request, "about.html")
+
+
 def search(request: HttpRequest) -> HttpResponse:
     """
     Handle search requests. Includes options for:
