@@ -77,10 +77,11 @@ INSTALLED_APPS = [
     "apps.core",
     "django.contrib.postgres",
     "anymail",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
+    "djansgo.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -186,7 +187,9 @@ ACCOUNT_FORMS = {"signup": "apps.accounts.forms.CustomSignupForm"}
 if DJOK_USER_TYPE in ("email", "email+username"):
     ACCOUNT_LOGIN_METHODS = {"email"}
     ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
-    ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+    #ACCOUNT_EMAIL_VERIFICATION = "mandatory" -- switch to this
+    # when email is turned back on
+    ACCOUNT_EMAIL_VERIFICATION = "none"
     ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
     if DJOK_USER_TYPE == "email":
         ACCOUNT_USER_MODEL_USERNAME_FIELD = None
