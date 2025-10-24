@@ -187,7 +187,7 @@ ACCOUNT_FORMS = {"signup": "apps.accounts.forms.CustomSignupForm"}
 if DJOK_USER_TYPE in ("email", "email+username"):
     ACCOUNT_LOGIN_METHODS = {"email"}
     ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
-    #ACCOUNT_EMAIL_VERIFICATION = "mandatory" -- switch to this
+    # ACCOUNT_EMAIL_VERIFICATION = "mandatory" -- switch to this
     # when email is turned back on
     ACCOUNT_EMAIL_VERIFICATION = "none"
     ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
