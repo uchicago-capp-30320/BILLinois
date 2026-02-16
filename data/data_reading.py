@@ -46,7 +46,9 @@ for i in range(1, max_pages + 1):
 
     # Mass inserting with lists
     arguments_bills = ",".join(
-        cur.mogrify("(%s, %s, %s, %s, %s, %s, %s)", bill).decode("utf-8") for bill in bills
+        # mogrify to format SQL query
+        cur.mogrify("(%s, %s, %s, %s, %s, %s, %s)", bill).decode("utf-8")
+        for bill in bills
     )
     arguments_sponsors = ",".join(
         cur.mogrify("(%s, %s, %s, %s, %s, %s)", sponsor).decode("utf-8") for sponsor in sponsors
@@ -77,6 +79,8 @@ for i in range(1, max_pages + 1):
         cur.execute("INSERT INTO topics_table (bill_id, topic) VALUES " + arguments_topics)
 
     # Committing after ~5,000 inserts, moving to next page after a sleep
+    # commit every 5,000 inserts for POSTGRES databases
+    # NOTE: if this fails, you have to manually set the page to start at based on number of records in database
     if num_inserts >= 5000:
         conn.commit()
         num_inserts = 0

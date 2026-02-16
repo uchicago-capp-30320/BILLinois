@@ -45,6 +45,7 @@ def pull_page(state: str, session: str, page_num: int, date=None):
     return results, max_pages
 
 
+# TODO: rename to format bills
 def insert_bills(series_of_bills: dict):
     """
     This function creates the lists of bills, sponsors, actions, and updates
@@ -105,6 +106,7 @@ def insert_bills(series_of_bills: dict):
                 sponsor_name_val = s["person"]["name"]
                 sponsor_party_val = s["person"]["party"]
                 sponsor_position_val = s["person"]["current_role"]["title"]
+            # not every sponsor has a person object
             except KeyError:
                 sponsor_id_val = None
                 sponsor_name_val = s["name"]
@@ -121,6 +123,7 @@ def insert_bills(series_of_bills: dict):
                     sponsor_position_val,
                 ]
             )
+            # keep track in order to handle transactions in the database
             page_inserts += 1
 
         # Actions
@@ -137,6 +140,7 @@ def insert_bills(series_of_bills: dict):
                 # If an action is 'significant' (non-null classification), check
                 # if its date is the latest date. If so, users should be updated.
                 # NOTE: This var iteratively replaced until we have latest update
+                # TODO: if tracking time intervals longer than a day, need to refine
                 if date_val == record["latest_action_date"]:
                     something_to_update = True
                     most_recent_significant = [
@@ -162,6 +166,7 @@ def insert_bills(series_of_bills: dict):
         "bills_from_page": page_bills,
         "sponsors_from_page": page_sponsors,
         "actions_from_page": page_actions,
+        # maximum 20 bills
         "inserts_from_page": page_inserts,
         "updates_from_page": page_updates,
         "topics_from_page": page_topics,
